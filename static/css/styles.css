@@ -1,0 +1,280 @@
+/* 引入字体 */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Serif+SC:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
+
+/* 全局样式 */
+body {
+    font-family: 'EB Garamond', 'Noto Serif SC', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    /* 主内容区域占据剩余空间 */
+}
+
+/* 针对语言设置字体 */
+body *:lang(zh),
+body *:lang(zh-CN),
+body *:lang(zh-TW),
+body *:lang(zh-HK) {
+    font-family: 'Noto Serif SC', serif;
+}
+
+body *:lang(en) {
+    font-family: 'EB Garamond', serif;
+}
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #333;
+}
+
+/* 段落样式 */
+p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* 链接样式 */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header 样式 */
+header {
+    background: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+header ul li {
+    margin: 0 10px;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Main 内容区域 */
+main.content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Article 样式 */
+article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: visible;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+article *:lang(zh),
+article *:lang(zh-CN),
+article *:lang(zh-TW),
+article *:lang(zh-HK) {
+    font-size: 14px;
+}
+
+article *:lang(en) {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+article img,
+article pre,
+article table {
+    max-width: 100vw;
+    overflow-x: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+article>h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* 代码块样式 */
+.highlight {
+    background: #ffffff;
+    color: #333333;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.highlight span {
+    background: transparent;
+    color: inherit;
+}
+
+code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 14px;
+    color: #333333;
+}
+
+p code {
+    background: #f8f9fa;
+    color: #d6336c;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 90%;
+}
+
+/* 表格样式 */
+article table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+}
+
+article table th,
+article table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Footer 样式 */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul li {
+    margin: 0 10px;
+}
+
+footer ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 文章列表样式 */
+.article-list {
+    margin: 20px auto;
+    padding: 0;
+    max-width: 800px;
+}
+
+.article-list h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.article-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.article-list li {
+    margin: 3px 0;
+    font-size: 18px;
+}
+
+.article-title {
+    font-size: 18px;
+}
+
+.article-list a {
+    text-decoration: none;
+    color: #000;
+    font-weight: normal;
+}
+
+.article-list a:hover {
+    text-decoration: underline;
+}
+
+.article-title {
+    font-size: 16px;
+    margin-bottom: 0.2rem;
+}

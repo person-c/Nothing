@@ -1,0 +1,14 @@
+baseURL = "http://localhost:1313/"
+languageCode = "en-us"
+title = "Example Site"
+theme = "Nothing"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false       # 使用 CSS 类名，方便自定义样式
+    style = "monokai"       # 设置代码高亮主题（可选：monokai、dracula、github 等）
+    lineNumbers = true      # 显示行号
+    lineNumbersInTable = true # 行号显示在表格中
+    guessSyntax = true      # 自动猜测代码语言

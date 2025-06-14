@@ -1,0 +1,7 @@
+name = "Nothing"
+author = "cw"
+description = "A custom Hugo theme for personal or project use."
+license = "MIT"
+homepage = "https://example.com"
+tags = ["hugo", "theme", "custom"]
+min_hugo_version = "0.80.0"

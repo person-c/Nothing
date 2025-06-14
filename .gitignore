@@ -1,0 +1,4 @@
+# 忽略 Hugo 的生成文件
+public/
+resources/
+.vscode/
