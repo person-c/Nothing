@@ -14,9 +14,6 @@
     --font-mono: 'Fira Code', 'Courier New', monospace;
 }
 
-/* ===== 字体引入 (重要：请从这里移除，并添加到 HTML <head> 中) ===== */
-/* @import url('https://fonts.googleapis.com/css2?family=...'); */
-
 /* ===== 全局样式 ===== */
 html,
 body {
@@ -29,6 +26,8 @@ body {
     font-size: 16px;
     line-height: 1.6;
     min-height: 100vh;
+    background-color: var(--white-color);
+    /* 确保背景色 */
 }
 
 /* ===== 语言特定字体 ===== */
@@ -46,6 +45,10 @@ body {
 /* ===== 布局结构 ===== */
 main {
     flex: 1;
+    width: 100%;
+    max-width: 1400px;
+    /* 为超宽屏设置一个最大宽度，避免内容过散 */
+    margin: 0 auto;
 }
 
 .layout {
@@ -75,7 +78,7 @@ article *:lang(en) {
     line-height: 1.6;
 }
 
-/* ===== 标题样式 ===== */
+/* ===== 标题样式 (优化) ===== */
 h1,
 h2,
 h3,
@@ -83,20 +86,23 @@ h4,
 h5,
 h6 {
     color: var(--text-color);
+    line-height: 1.2;
+    /* 优化标题行高 */
 }
 
+/* 使用 clamp() 实现流畅的字体缩放，提升响应式体验 */
 h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2.25rem, 5vw, 2.75rem);
     margin-bottom: 1rem;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
     margin-bottom: 0.75rem;
 }
 
 h3 {
-    font-size: 1.75rem;
+    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
     margin-bottom: 0.5rem;
 }
 
@@ -114,6 +120,7 @@ p {
 a {
     color: var(--primary-color);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 a:hover {
@@ -147,11 +154,13 @@ p code {
 
 /* ===== 表格样式 ===== */
 article table {
+    display: block;
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
 }
 
+/* 优化表格在移动端的滚动 */
 article table th,
 article table td {
     padding: 10px;
@@ -159,7 +168,7 @@ article table td {
     text-align: left;
 }
 
-/* ===== 页眉页脚 ===== */
+/* ===== 页眉页脚 (清理：合并了重复规则) ===== */
 header,
 footer {
     background: var(--bg-color-light);
@@ -170,38 +179,12 @@ footer {
 header a,
 footer a {
     color: inherit;
-    /* 关键：继承父元素的文字颜色（即普通文本颜色） */
 }
 
-/* (推荐) 同时，可以定义一个不同的悬浮效果，比如移除下划线 */
 header a:hover,
 footer a:hover {
     text-decoration: none;
-    /* 鼠标悬浮时不再显示下划线 */
     color: var(--primary-color);
-    /* 或者在悬浮时才显示主题色，效果更好 */
-}
-
-
-header ul,
-footer ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-}
-
-header li,
-footer li {
-    margin: 0 10px;
-}
-
-footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -2px 5px var(--shadow-color-medium);
 }
 
 header ul,
@@ -219,8 +202,9 @@ footer li {
 }
 
 footer {
+    margin-top: auto;
+    /* 确保页脚在内容不足时也能贴底 */
     position: relative;
-    bottom: 0;
     width: 100%;
     box-shadow: 0 -2px 5px var(--shadow-color-medium);
 }
@@ -256,7 +240,6 @@ footer {
 }
 
 /* ===== 侧边栏 ===== */
-/* 左侧脚注 */
 aside.footnotes {
     position: relative;
     padding: 0 1rem;
@@ -278,7 +261,6 @@ aside.footnotes {
     white-space: normal;
 }
 
-/* 右侧目录 */
 aside.toc {
     position: sticky;
     top: 1rem;
@@ -288,7 +270,7 @@ aside.toc {
     font-size: 0.85rem;
     color: var(--text-color-light);
     height: fit-content;
-    max-height: 80vh;
+    max-height: calc(100vh - 2rem);
     overflow-y: auto;
 }
 
@@ -307,14 +289,12 @@ aside.toc nav li a {
     color: var(--text-color);
     text-decoration: none;
     transition: color 0.2s ease;
-    /* 平滑过渡 */
 }
 
 aside.toc nav li a:hover {
     color: var(--primary-color);
 }
 
-/* 新增：TOC 当前章节高亮样式 */
 aside.toc nav li a.active {
     color: var(--primary-color);
     font-weight: bold;
@@ -361,8 +341,23 @@ div.footnotes p {
 }
 
 /* ===== 响应式设计 ===== */
+
+/* 新增：平板电脑断点，优化中等屏幕布局 */
+@media (max-width: 1024px) {
+    .layout {
+        /* 从三栏变为两栏，去掉左侧脚注，保留目录 */
+        grid-template-columns: auto 25%;
+    }
+
+    aside.footnotes {
+        display: none;
+    }
+}
+
+/* 手机/窄屏设备断点 */
 @media (max-width: 800px) {
     .layout {
+        /* 变为单栏布局 */
         grid-template-columns: 1fr;
     }
 
@@ -373,7 +368,8 @@ div.footnotes p {
 
     /* 插入到正文中的脚注容器样式 */
     .inserted-footnotes-container {
-        margin: 1rem 0 1rem 1.5rem;
+        margin: 1rem 0 1rem 1rem;
+        /* 减少左外边距 */
         padding: 0.75rem 1rem;
         border-left: 3px solid var(--primary-color);
         background-color: var(--bg-color-light);
@@ -381,7 +377,6 @@ div.footnotes p {
         font-size: 0.9em;
         color: var(--text-color-light);
         transition: background-color 0.3s ease;
-        /* 添加平滑过渡 */
     }
 
     .inserted-footnotes-container ol {
@@ -403,17 +398,19 @@ div.footnotes p {
     }
 }
 
+/* 极窄屏幕（大部分手机）的微调 */
 @media (max-width: 600px) {
     body {
-        font-size: 14px;
+        font-size: 15px;
+        /* 稍微增大基础字号，提升可读性 */
+        line-height: 1.7;
+        /* 增大行高，让文本不拥挤 */
     }
 
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.75rem;
+    /* 在小屏幕上减少左右内边距，为内容提供更多空间 */
+    article {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
     }
 
     header,
@@ -424,6 +421,10 @@ div.footnotes p {
     header ul,
     footer ul {
         flex-direction: row;
-        gap: 8px;
+        gap: 15px;
+        /* 增大触摸间距 */
+        flex-wrap: wrap;
+        /* 如果链接过多，允许换行 */
+        justify-content: center;
     }
 }
