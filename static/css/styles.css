@@ -1,3 +1,15 @@
+/* ===== 新增：全局盒模型重置 (最佳实践) ===== */
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+
 /* ===== 变量定义 (方便全局修改) ===== */
 :root {
     --primary-color: #007bff;
@@ -27,8 +39,12 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     background-color: var(--white-color);
-    /* 确保背景色 */
+    overflow-x: hidden;
+    /* <-- 新增这一行，禁止页面产生水平滚动条 */
 }
+
+/* 确保背景色 */
+
 
 /* ===== 语言特定字体 ===== */
 *:lang(zh),
@@ -43,13 +59,12 @@ body {
 }
 
 /* ===== 布局结构 ===== */
+/* 修改后的通用 main 样式 */
 main {
     flex: 1;
     width: 100%;
-    max-width: 1400px;
-    /* 为超宽屏设置一个最大宽度，避免内容过散 */
-    margin: 0 auto;
 }
+
 
 .layout {
     display: grid;
@@ -142,7 +157,10 @@ p code {
     font-size: 90%;
 }
 
+/* ===== 代码块样式 (最终修复) ===== */
 .highlight {
+    box-sizing: border-box;
+    /* 关键修复：强制此元素的盒模型为 border-box */
     background: var(--white-color);
     color: var(--text-color);
     padding: 15px;
@@ -366,10 +384,12 @@ div.footnotes p {
         display: none;
     }
 
-    /* 插入到正文中的脚注容器样式 */
     .inserted-footnotes-container {
-        margin: 1rem 0 1rem 1rem;
-        /* 减少左外边距 */
+        box-sizing: border-box;
+        /* 同样添加，确保行为一致 */
+        width: calc(100% - 1.5rem);
+        /* 关键修复：宽度减去左外边距 */
+        margin: 1rem 0 1rem 1.5rem;
         padding: 0.75rem 1rem;
         border-left: 3px solid var(--primary-color);
         background-color: var(--bg-color-light);
@@ -377,6 +397,7 @@ div.footnotes p {
         font-size: 0.9em;
         color: var(--text-color-light);
         transition: background-color 0.3s ease;
+        overflow-x: auto;
     }
 
     .inserted-footnotes-container ol {
@@ -398,6 +419,15 @@ div.footnotes p {
     }
 }
 
+
+/* 新增：只在超宽屏上应用最大宽度和居中 */
+@media (min-width: 1440px) {
+    main {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
 /* 极窄屏幕（大部分手机）的微调 */
 @media (max-width: 600px) {
     body {
@@ -411,6 +441,7 @@ div.footnotes p {
     article {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
+        width: 100vw;
     }
 
     header,
@@ -428,3 +459,7 @@ div.footnotes p {
         justify-content: center;
     }
 }
+
+/* * {
+    border: 1px solid red;
+} */
