@@ -5,20 +5,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }}</title>
+    
     <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
 </head>
 
 <body>
     {{ partial "header.html" . }}
 
-    <main>
-        <article>
-            <h1>{{ .Title }}</h1>
-            <div>{{ .Content }}</div>
-        </article>
+    <main class="content">
+        <div class="layout">
+            <!-- 左侧脚注区域 -->
+            <aside class="footnotes"></aside>
+
+            <!-- 中间文章内容 -->
+            <article>
+                <h1>{{ .Title }}</h1>
+                <div>
+                    {{ .Content | safeHTML }}
+                </div>
+            </article>
+
+            <!-- 右侧目录区域 -->
+            <aside class="toc">
+                <nav id="toc"></nav>
+            </aside>
+        </div>
     </main>
 
     {{ partial "footer.html" . }}
-</body>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- 元素获取 ---
+            const footnoteRefs = document.querySelectorAll("a.footnote-ref");
+            const leftFootnotesContainer = document.querySelector("aside.footnotes");
+            const originalFootnotesDiv = document.querySelector("div.footnotes");
+            const tocContainer = document.getElementById("toc");
+            const content = document.querySelector("article");
+            
+            let resizeTimer; // 用于防抖的计时器
+
+            // --- 清理函数：移除所有动态添加的脚注，恢复初始状态 ---
+            function cleanupFootnotes() {
+                if (leftFootnotesContainer) {
+                    leftFootnotesContainer.innerHTML = ''; // 清理侧边栏
+                }
+                document.querySelectorAll('.inserted-footnotes-container').forEach(c => c.remove());
+                footnoteRefs.forEach(ref => {
+                    ref.style.pointerEvents = 'auto'; // 恢复链接点击
+                });
+            }
+
+            // --- 核心处理函数：根据窗口大小决定显示哪种脚注 ---
+            function handleFootnotes() {
+                if (footnoteRefs.length === 0) return; // 如果没有脚注，不执行任何操作
+
+                cleanupFootnotes();
+                const isWideScreen = window.innerWidth > 800;
+
+                if (isWideScreen) {
+                    // 宽屏逻辑 (Sidenotes)
+                    if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
+                    
+                    // 为左侧栏创建动态列表
+                    const dynamicList = document.createElement("ul");
+                    dynamicList.id = "dynamic-footnotes";
+                    leftFootnotesContainer.appendChild(dynamicList);
+                    
+                    footnoteRefs.forEach(ref => {
+                        const footnoteId = ref.getAttribute("href").substring(1);
+                        const footnoteElement = document.getElementById(footnoteId);
+                        if (footnoteElement) {
+                            const footnoteContent = document.createElement("li");
+                            footnoteContent.innerHTML = footnoteElement.innerHTML.trim();
+                            const refRect = ref.getBoundingClientRect();
+                            const containerRect = dynamicList.getBoundingClientRect();
+                            const offsetTop = refRect.top - containerRect.top + dynamicList.scrollTop;
+                            footnoteContent.style.position = "absolute";
+                            footnoteContent.style.top = `${offsetTop}px`;
+                            dynamicList.appendChild(footnoteContent);
+                        }
+                    });
+                } else {
+                    // 窄屏逻辑 (将脚注直接插入到段落后)
+                    if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
+                    footnoteRefs.forEach(ref => {
+                        const paragraph = ref.closest('p');
+                        if (!paragraph) return;
+
+                        let container = paragraph.nextElementSibling;
+                        if (!container || !container.matches('.inserted-footnotes-container')) {
+                            container = document.createElement('div');
+                            container.className = 'inserted-footnotes-container';
+                            container.innerHTML = '<ol></ol>';
+                            paragraph.after(container);
+                        }
+
+                        const list = container.querySelector('ol');
+                        const footnoteId = ref.getAttribute("href").substring(1);
+                        const footnoteElement = document.getElementById(footnoteId);
+
+                        if (footnoteElement && list) {
+                            const contentClone = footnoteElement.cloneNode(true);
+                            const backLink = contentClone.querySelector('.footnote-return');
+                            if (backLink) backLink.remove();
+                            
+                            const newLi = document.createElement('li');
+                            newLi.innerHTML = contentClone.innerHTML.trim();
+                            list.appendChild(newLi);
+                            
+                            ref.style.pointerEvents = 'none'; // 禁用链接点击
+                        }
+                    });
+                }
+            }
+
+            // --- 目录生成逻辑 ---
+            function generateToc() {
+                const headings = content.querySelectorAll("h2, h3");
+                if (tocContainer && headings.length > 0) {
+                    const tocList = document.createElement("ul");
+                    headings.forEach(heading => {
+                        const id = heading.id || heading.textContent.trim().toLowerCase().replace(/\s+/g, "-");
+                        heading.id = id;
+                        const listItem = document.createElement("li");
+                        listItem.className = `toc-${heading.tagName.toLowerCase()}`;
+                        const link = document.createElement("a");
+                        link.href = `#${id}`;
+                        link.textContent = heading.textContent;
+                        listItem.appendChild(link);
+tocList.appendChild(listItem);
+                    });
+                    tocContainer.appendChild(tocList);
+                } else if (tocContainer) {
+                    tocContainer.innerHTML = "<em>暂无目录</em>";
+                }
+            }
+
+            // --- TOC 滚动高亮逻辑 ---
+            function activateTocOnScroll() {
+                const headings = document.querySelectorAll("article h2, article h3");
+                const tocLinks = document.querySelectorAll("#toc a");
+
+                if (headings.length === 0 || tocLinks.length === 0) return;
+
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        const id = entry.target.getAttribute('id');
+                        const correspondingLink = document.querySelector(`#toc a[href="#${id}"]`);
+
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                            tocLinks.forEach(link => link.classList.remove('active'));
+                            if (correspondingLink) correspondingLink.classList.add('active');
+                        }
+                    });
+                }, { rootMargin: "0px 0px -75% 0px", threshold: 0.1 });
+
+                headings.forEach(heading => observer.observe(heading));
+            }
+            
+            // --- 初始执行与事件监听 ---
+            generateToc();
+            handleFootnotes();
+            activateTocOnScroll();
+
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(handleFootnotes, 250); // 防抖
+            });
+        });
+    </script>
+</body>
 </html>

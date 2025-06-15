@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://localhost:1313/daily_work/health_statistic/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./health statistic_files/livereload.js.下载" data-no-instant="" defer=""></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>health statistic</title>
+    <link rel="stylesheet" href="./health statistic_files/styles.css">
+</head>
+
+<body>
+    
+
+
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Site</title>
+    <link rel="stylesheet" href="./health statistic_files/styles.css">
+
+
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="http://localhost:1313/">Home</a></li>
+                <li><a href="http://localhost:1313/about/">About</a></li>
+                <li><a href="http://localhost:1313/daily_work/">Daily-Work</a></li>
+                <li><a href="http://localhost:1313/note/">Note</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content">
+        <div class="layout">
+            
+            <aside class="footnotes">
+                <ul id="dynamic-footnotes">
+                    
+                </ul>
+            </aside>
+
+            
+            <article>
+                <h1>health statistic</h1>
+                <div>
+                    <h1 id="this-is-the-first-section">This is the first section</h1>
+<p>The lazy evaluation arguments in <code>eval()</code> function indeed confused me for a few days. I realize that problem when I read the Learning R programming(the Chinese edition); There is a part of  code like this:</p>
+<h2 id="this-is-the-second-section">This is the second section</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">This</span> <span class="n">is</span> <span class="n">some</span> <span class="n">content</span> <span class="n">with</span> <span class="n">a</span> <span class="n">footnote</span> <span class="n">reference[^1].</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Here</span> <span class="n">is</span> <span class="n">another</span> <span class="n">reference[^2].</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">[^1]</span><span class="o">:</span> <span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">footnote.</span>
+</span></span><span class="line"><span class="cl"><span class="n">[^2]</span><span class="o">:</span> <span class="n">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">second</span> <span class="n">footnote.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">```r</span>
+</span></span><span class="line"><span class="cl"><span class="n">qs</span> <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">range</span> <span class="o">&lt;-</span> <span class="nf">substitute</span><span class="p">(</span><span class="n">range</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">selector</span> <span class="o">&lt;-</span><span class="nf">eval</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="nf">list</span><span class="p">(</span><span class="n">. </span><span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x[selector]</span>
+</span></span></code></pre></div><p>Here, we create a function that quotes the range argument; then evaluate the range expression in a list environment that the dot<code>.</code> represents the length of x. A concrete example is as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="nf">qs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="m">3</span><span class="o">:</span><span class="p">(</span><span class="n">. </span><span class="o">-</span> <span class="m">5</span><span class="p">))</span>
+</span></span></code></pre></div><p>Issues occur when we try to wrap this kind of function with quoted arguments.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">trim_margin</span> <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">qs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="m">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="n">. </span><span class="o">-</span> <span class="n">n</span> <span class="o">-</span> <span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="this-is-the-third-section">This is the third section</h2>
+<p>When we try to execute the <code>trim_margin</code> function, we get an error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">The</span> <span class="n">`trim_margin`</span> <span class="kr">function</span> <span class="n">aims</span> <span class="n">to</span> <span class="n">trim</span> <span class="n">n</span> <span class="n">paired</span><span class="o">-</span><span class="n">end</span> <span class="n">elements</span> <span class="kr">in</span> <span class="n">a</span> <span class="n">vector</span><span class="p">;</span> <span class="n">However</span><span class="p">,</span> <span class="n">errors</span> <span class="n">happened</span><span class="o">:</span> <span class="s">'can'</span><span class="n">t</span> <span class="n">find</span> <span class="n">the</span> <span class="n">object</span> <span class="n">n</span><span class="s">';
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">We know that R finds its variable'</span><span class="n">s</span> <span class="n">value</span> <span class="n">through</span> <span class="n">the</span> <span class="n">lexical</span> <span class="n">scope</span><span class="p">;</span> <span class="n">There</span> <span class="n">are</span> <span class="n">three</span> <span class="n">environments</span> <span class="n">related</span> <span class="n">to</span> <span class="kr">function</span><span class="p">;</span> <span class="n">When</span> <span class="n">the</span> <span class="kr">function</span> <span class="n">executes</span><span class="p">,</span> <span class="n">it</span><span class="s">'s executed in a temporary environment; And its parent environment is its closed environment where the function was defined; That'</span><span class="n">s</span> <span class="n">lexical</span> <span class="n">scope.</span> <span class="n">However</span><span class="p">,</span> <span class="kr">in</span> <span class="n">the</span> <span class="n">example</span> <span class="n">above</span><span class="p">,</span> <span class="n">the</span> <span class="n">`qs`</span> <span class="kr">function</span> <span class="kr">in</span> <span class="n">`trim_margin`</span> <span class="kr">function</span> <span class="n">was</span> <span class="n">defined</span> <span class="kr">in</span> <span class="n">the</span> <span class="n">global</span> <span class="n">environment</span> <span class="n">which</span> <span class="n">doesn</span><span class="s">'t contain the variable `n`; The `n` existed in the execution environment of `trim_margin` function; That'</span><span class="n">s</span> <span class="n">the</span> <span class="n">called</span> <span class="n">environment</span> <span class="n">of</span> <span class="n">the</span> <span class="n">`qs`</span> <span class="kr">function</span><span class="p">(</span><span class="n">find</span> <span class="n">variable</span> <span class="n">value</span> <span class="kr">in</span> <span class="n">a</span> <span class="n">caller</span> <span class="n">environment</span> <span class="n">named</span> <span class="n">dynamic</span> <span class="n">scope</span><span class="p">);</span> <span class="n">We</span> <span class="n">can</span> <span class="n">get</span> <span class="n">this</span> <span class="n">environment</span> <span class="n">through</span> <span class="nf">`parent.frame</span><span class="p">()</span><span class="n">`; However, the `</span><span class="nf">eval</span><span class="p">()</span><span class="n">` function uses the `</span><span class="nf">parent.frame</span><span class="p">()</span><span class="n">` as the default enclose environment of the expression when the argument `envir` is a list.
+</span></span></span><span class="line"><span class="cl"><span class="n">
+</span></span></span><span class="line"><span class="cl"><span class="n">Here is another reference[^3].
+</span></span></span><span class="line"><span class="cl"><span class="n">
+</span></span></span><span class="line"><span class="cl"><span class="n">[^3]: This is the third footnote.
+</span></span></span><span class="line"><span class="cl"><span class="n">
+</span></span></span><span class="line"><span class="cl"><span class="n">```r</span>
+</span></span><span class="line"><span class="cl"><span class="n">r</span><span class="o">$&gt;</span> <span class="n">eval</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span> <span class="o">=</span> <span class="nf">parent.frame</span><span class="p">(),</span> <span class="n">enclos</span> <span class="o">=</span> <span class="kr">if</span> <span class="p">(</span><span class="nf">is.list</span><span class="p">(</span><span class="n">envir</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">is.pairlist</span><span class="p">(</span><span class="n">envir</span><span class="p">))</span> <span class="nf">parent.frame</span><span class="p">()</span> <span class="kr">else</span> <span class="nf">baseenv</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="nf">.Internal</span><span class="p">(</span><span class="nf">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">bytecode</span><span class="o">:</span> <span class="mh">0x000001640dd05420</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">environment</span><span class="o">:</span> <span class="n">namespace</span><span class="o">:</span><span class="n">base</span><span class="o">&gt;</span>
+</span></span></code></pre></div><h1 id="second-first-section">Second first section</h1>
+<p>What happens here is lazy evaluation in the function’s argument - the function arguments are only evaluated when needed; A example from <strong>Advanced R</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">z</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">f1</span> <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nf">ls</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="o">&lt;-</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">f1</span><span class="p">()</span> <span class="c1"># ls() evaluated in the function execution environment</span>
+</span></span><span class="line"><span class="cl"><span class="n">[1]</span> <span class="s">"x"</span> <span class="s">"y"</span>
+</span></span><span class="line"><span class="cl"><span class="nf">f1</span><span class="p">(</span><span class="nf">ls</span><span class="p">())</span> <span class="c1"># ls() evaluated in the global environment</span>
+</span></span><span class="line"><span class="cl"><span class="n">[1]</span> <span class="s">"f1"</span> <span class="s">"z"</span>
+</span></span></code></pre></div><p>We can find that the user-supplied <code>ls()</code> executed in the global environment, but the arguments computed as the default value <code>ls()</code> executed in the <code>f1</code> execution environment; That’s why the <code>eval()</code> in the <code>qs</code> can’t find <code>n</code> although its default enclose environment is the <code>parent.frame()</code> function; The parent frame is computed in the eval execution environment; which returns the <code>qs</code> execution environment as an enclosed environment; However, the <code>n</code> existed in the <code>trim_margin</code> execution environment; To achieve this, just user supplied the <code>eval()</code>  <code>enclos</code> argument to <code>parent.frame()</code> which execute in the <code>qs</code> execution environment and returns the caller function of <code>qs</code>- that is the execution environment of <code>trim_margin</code> where variable <code>n</code> existed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">qs</span> <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">range</span> <span class="o">&lt;-</span> <span class="nf">substitute</span><span class="p">(</span><span class="n">range</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">selector</span> <span class="o">&lt;-</span><span class="nf">eval</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="nf">list</span><span class="p">(</span><span class="n">. </span><span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">enclos</span> <span class="o">=</span> <span class="nf">parent.frame</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x[selector]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">trim_margin</span> <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">qs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="m">1</span><span class="p">)</span> <span class="o">:</span> <span class="p">(</span><span class="n">. </span><span class="o">-</span> <span class="n">n</span> <span class="o">-</span> <span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>All perfect!</p>
+
+                </div>
+            </article>
+
+            
+            <aside class="toc">
+                <nav id="toc"><ul><li style="margin-left: 0px;"><a href="http://localhost:1313/daily_work/health_statistic/#this-is-the-second-section">This is the second section</a></li><li style="margin-left: 0px;"><a href="http://localhost:1313/daily_work/health_statistic/#this-is-the-third-section">This is the third section</a></li></ul></nav>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>© 2025 Your Site Name. All rights reserved.</p>
+        <ul class="social-links">
+            <li><a href="https://github.com/person-c/cying.org" target="_blank">GitHub</a></li>
+            <li><a href="mailto:m2c.w@outlook.com" target="_blank">Mail</a></li>
+        </ul>
+    </div>
+</footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            const footnotesContainer = document.querySelector("div.footnotes ol");
+            const footnoteRefs = document.querySelectorAll("a[href^='#fn:']");
+            const header = document.querySelector("header");
+            const headerHeight = header ? header.offsetHeight : 0;
+
+            footnoteRefs.forEach(ref => {
+                const footnoteId = ref.getAttribute("href").replace("#fn:", "fn:");
+                const footnote = document.getElementById(footnoteId);
+
+                if (footnote) {
+                    
+                    const footnoteContent = document.createElement("li");
+                    footnoteContent.className = "footnote-item";
+                    footnoteContent.innerHTML = footnote.innerHTML;
+
+                    const refRect = ref.getBoundingClientRect();
+                    const offsetTop = refRect.top + window.scrollY - headerHeight;
+
+                    footnoteContent.style.position = "absolute";
+                    footnoteContent.style.top = `${offsetTop}px`;
+
+                    document.getElementById("dynamic-footnotes").appendChild(footnoteContent);
+
+                    
+                    const inlineFootnote = document.createElement("span");
+                    inlineFootnote.className = "inline-footnote";
+                    inlineFootnote.innerHTML = footnote.innerHTML;
+                    ref.parentNode.insertBefore(inlineFootnote, ref.nextSibling);
+                }
+            });
+
+            if (footnotesContainer) {
+                footnotesContainer.parentElement.style.display = "none";
+            }
+
+            
+            const tocContainer = document.getElementById("toc");
+            if (tocContainer) {
+                const content = document.querySelector("article > div");
+                if (content) {
+                    const headings = content.querySelectorAll("h2, h3");
+                    if (headings.length > 0) {
+                        const ul = document.createElement("ul");
+                        headings.forEach(h => {
+                            
+                            if (!h.id) {
+                                h.id = "toc-" + h.textContent.trim().replace(/\s+/g, "-").toLowerCase();
+                            }
+                            const li = document.createElement("li");
+                            li.style.marginLeft = h.tagName === "H3" ? "1em" : "0";
+                            const a = document.createElement("a");
+                            a.href = "#" + h.id;
+                            a.textContent = h.textContent;
+                            li.appendChild(a);
+                            ul.appendChild(li);
+                        });
+                        tocContainer.appendChild(ul);
+                    } else {
+                        tocContainer.innerHTML = "<em>暂无目录</em>";
+                    }
+                }
+            }
+        });
+    </script>
+
+
+</body></html>

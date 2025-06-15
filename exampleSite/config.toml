@@ -6,6 +6,8 @@ theme = "Nothing"
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.extensions]
+      footnote = true
   [markup.highlight]
     noClasses = false       # 使用 CSS 类名，方便自定义样式
     style = "monokai"       # 设置代码高亮主题（可选：monokai、dracula、github 等）

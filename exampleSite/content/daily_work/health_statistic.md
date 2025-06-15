@@ -2,8 +2,18 @@
 title: health statistic
 ---
 
+
 The lazy evaluation arguments in `eval()` function indeed confused me for a few days. I realize that problem when I read the Learning R programming(the Chinese edition); There is a part of  code like this:
 
+## Lazy evaluation in `eval()`
+
+
+This is some content with a footnote reference[^1].
+
+Here is another reference[^2].
+
+[^1]: This is the first footnote.
+[^2]: This is the second footnote.
 
 ```r
 qs <- function(x, range) { 
@@ -27,9 +37,18 @@ trim_margin <- function(x, n) {
 }
 ```
 
+## Section 1: The Problem
+
+When we try to execute the `trim_margin` function, we get an error:
+
+
 The `trim_margin` function aims to trim n paired-end elements in a vector; However, errors happened: 'can't find the object n';
 
 We know that R finds its variable's value through the lexical scope; There are three environments related to function; When the function executes, it's executed in a temporary environment; And its parent environment is its closed environment where the function was defined; That's lexical scope. However, in the example above, the `qs` function in `trim_margin` function was defined in the global environment which doesn't contain the variable `n`; The `n` existed in the execution environment of `trim_margin` function; That's the called environment of the `qs` function(find variable value in a caller environment named dynamic scope); We can get this environment through `parent.frame()`; However, the `eval()` function uses the `parent.frame()` as the default enclose environment of the expression when the argument `envir` is a list.
+
+Here is another reference[^3].
+
+[^3]: We know that R finds its variable's value through the lexical scope; There are three environments related to function; 
 
 ```r
 r$> eval
@@ -39,6 +58,7 @@ function (expr, envir = parent.frame(), enclos = if (is.list(envir)
 <bytecode: 0x000001640dd05420>
 <environment: namespace:base>
 ```
+
 
 What happens here is lazy evaluation in the function's argument - the function arguments are only evaluated when needed; A example from **Advanced R**:
 
