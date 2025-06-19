@@ -1,16 +1,23 @@
-/* ===== 新增：全局盒模型重置 (最佳实践) ===== */
-html {
-    box-sizing: border-box;
-}
+/* ==========================================================================
+   TABLE OF CONTENTS
+   ==========================================================================
+   1.  Setup & Global Styles
+   2.  Layout
+   3.  Components
+       - Header & Footer
+       - Article List
+       - Asides (Footnotes & TOC)
+       - Footnotes System
+       - Code & Tables
+   4.  Typography
+   5.  Responsive Design
+   ========================================================================== */
 
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
 
+/* ==========================================================================
+   1. Setup & Global Styles
+   ========================================================================== */
 
-/* ===== 变量定义 (方便全局修改) ===== */
 :root {
     --primary-color: #007bff;
     --text-color: #333;
@@ -26,197 +33,76 @@ html {
     --font-mono: 'Fira Code', 'Courier New', monospace;
 }
 
-/* ===== 全局样式 ===== */
-html,
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
 body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
     font-family: var(--font-serif);
     font-size: 16px;
     line-height: 1.6;
-    min-height: 100vh;
     background-color: var(--white-color);
+    color: var(--text-color);
     overflow-x: hidden;
-    /* <-- 新增这一行，禁止页面产生水平滚动条 */
 }
 
-/* 确保背景色 */
-
-
-/* ===== 语言特定字体 ===== */
-*:lang(zh),
-*:lang(zh-CN),
-*:lang(zh-TW),
-*:lang(zh-HK) {
-    font-family: 'Noto Serif SC', serif;
+/* New wrapper to help with layout and sticky footer */
+.site-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-*:lang(en) {
-    font-family: 'EB Garamond', serif;
-}
+/* ==========================================================================
+   2. Layout
+   ========================================================================== */
 
-/* ===== 布局结构 ===== */
-/* 修改后的通用 main 样式 */
 main {
     flex: 1;
+    /* Allows main content to grow and push footer down */
     width: 100%;
 }
-
 
 .layout {
     display: grid;
     grid-template-columns: 15% auto 20%;
     gap: 1rem;
     align-items: flex-start;
+    max-width: 1400px;
+    /* Constrain max width for very large screens */
+    margin: 0 auto;
 }
 
-/* ===== 内容区域 ===== */
 article {
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    box-sizing: border-box;
 }
 
-article *:lang(zh),
-article *:lang(zh-CN),
-article *:lang(zh-TW),
-article *:lang(zh-HK) {
-    font-size: 14px;
-}
 
-article *:lang(en) {
-    font-size: 18px;
-    line-height: 1.6;
-}
+/* ==========================================================================
+   3. Components
+   ========================================================================== */
 
-/* ===== 标题样式 (优化) ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--text-color);
-    line-height: 1.2;
-    /* 优化标题行高 */
-}
-
-/* 使用 clamp() 实现流畅的字体缩放，提升响应式体验 */
-h1 {
-    font-size: clamp(2.25rem, 5vw, 2.75rem);
-    margin-bottom: 1rem;
-}
-
-h2 {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    margin-bottom: 0.75rem;
-}
-
-h3 {
-    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
-    margin-bottom: 0.5rem;
-}
-
-article>h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.post-date {
-    font-size: 0.4em;
-    color: #777;
-    margin-left: 1em;
-    font-weight: normal;
-}
-
-.last-modified {
-    text-align: right;
-    font-size: 0.8em;
-    color: #666;
-    margin-top: 2em;
-    font-style: italic;
-}
-
-/* ===== 段落与链接 ===== */
-p {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-
-a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* ===== 代码块样式 ===== */
-code {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-p code {
-    background: var(--bg-color-light);
-    color: var(--code-color);
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 90%;
-}
-
-/* ===== 代码块样式 (最终修复) ===== */
-.highlight {
-    box-sizing: border-box;
-    /* 关键修复：强制此元素的盒模型为 border-box */
-    background: var(--white-color);
-    color: var(--text-color);
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px var(--shadow-color-light);
-    overflow-x: auto;
-}
-
-/* ===== 表格样式 ===== */
-article table {
-    display: block;
-    width: 100%;
-    border-collapse: collapse;
-    overflow-x: auto;
-}
-
-/* 优化表格在移动端的滚动 */
-article table th,
-article table td {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    text-align: left;
-}
-
-/* ===== 页眉页脚 (清理：合并了重复规则) ===== */
+/* --- Header & Footer --- */
 header,
 footer {
     background: var(--bg-color-light);
     padding: 20px;
     text-align: center;
+    width: 100%;
 }
 
-header a,
-footer a {
-    color: inherit;
-}
-
-header a:hover,
-footer a:hover {
-    text-decoration: none;
+footer {
+    box-shadow: 0 -2px 5px var(--shadow-color-medium);
 }
 
 header ul,
@@ -233,18 +119,10 @@ footer li {
     margin: 0 10px;
 }
 
-footer {
-    margin-top: auto;
-    /* 确保页脚在内容不足时也能贴底 */
-    position: relative;
-    width: 100%;
-    box-shadow: 0 -2px 5px var(--shadow-color-medium);
-}
-
-/* ===== 文章列表 (通用) ===== */
+/* --- Article List --- */
 .article-list {
     margin: 20px auto;
-    padding: 0;
+    padding: 0 1rem;
     max-width: 800px;
 }
 
@@ -272,7 +150,7 @@ footer {
     margin-bottom: 0.2rem;
 }
 
-/* ===== 侧边栏 ===== */
+/* --- Asides (Footnotes & TOC) --- */
 aside.footnotes {
     position: relative;
     padding: 0 1rem;
@@ -280,31 +158,15 @@ aside.footnotes {
     color: var(--text-color-light);
 }
 
-#dynamic-footnotes {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-}
-
-#dynamic-footnotes li {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    white-space: normal;
-}
-
 aside.toc {
     position: sticky;
     top: 1rem;
-    padding: 1rem;
-    background-color: transparent;
-    border-left: 1px solid var(--border-color);
-    font-size: 0.85rem;
-    color: var(--text-color-light);
     height: fit-content;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
+    padding: 1rem;
+    border-left: 1px solid var(--border-color);
+    font-size: 0.85rem;
 }
 
 aside.toc nav ul {
@@ -318,22 +180,25 @@ aside.toc nav li {
     font-size: 0.95em;
 }
 
-aside.toc nav li a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-aside.toc nav li a:hover {
-    color: var(--primary-color);
-}
-
 aside.toc nav li a.active {
     color: var(--primary-color);
     font-weight: bold;
 }
 
-/* ===== 脚注系统 ===== */
+/* --- Footnotes System --- */
+#dynamic-footnotes {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#dynamic-footnotes li {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: normal;
+}
+
 sup.footnote-ref {
     font-size: 0.8rem;
     vertical-align: super;
@@ -346,6 +211,9 @@ sup.footnote-ref:hover {
 }
 
 div.footnotes {
+    /* The original Hugo generated footnotes */
+    display: none;
+    /* Hidden by JS */
     margin-top: 2rem;
     font-size: 0.9rem;
     color: var(--text-color-light);
@@ -354,109 +222,231 @@ div.footnotes {
 div.footnotes hr {
     border: none;
     border-top: 1px solid var(--border-color);
-    margin: 1rem 0;
 }
 
 div.footnotes ol {
     list-style: decimal;
     padding-left: 1.5rem;
+}
+
+.inserted-footnotes-container {
+    box-sizing: border-box;
+    width: calc(100% - 1.5rem);
+    margin: 1rem 0 1rem 1.5rem;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--primary-color);
+    background-color: var(--bg-color-light);
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    overflow-x: auto;
+}
+
+.inserted-footnotes-container ol {
+    padding-left: 1.2rem;
     margin: 0;
 }
 
-div.footnotes li {
+.inserted-footnotes-container li {
+    margin-bottom: 0.5rem;
+}
+
+.inserted-footnotes-container li:last-child {
+    margin-bottom: 0;
+}
+
+.inserted-footnotes-container p {
+    margin: 0;
+    display: inline;
+}
+
+
+/* --- Code & Tables --- */
+code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+p code {
+    background: var(--bg-color-light);
+    color: var(--code-color);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 90%;
+}
+
+.highlight {
+    background: var(--white-color);
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px var(--shadow-color-light);
+    overflow-x: auto;
+}
+
+article table {
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
     margin-bottom: 1rem;
+}
+
+article table th,
+article table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+
+/* ==========================================================================
+   4. Typography
+   ========================================================================== */
+
+*:lang(zh),
+*:lang(zh-CN) {
+    font-family: 'Noto Serif SC', serif;
+}
+
+*:lang(en) {
+    font-family: 'EB Garamond', serif;
+}
+
+article *:lang(zh),
+article *:lang(zh-CN) {
+    font-size: 14px;
+}
+
+article *:lang(en) {
+    font-size: 18px;
     line-height: 1.6;
 }
 
-div.footnotes p {
-    margin: 0;
-    font-size: 0.9rem;
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
-/* ===== 响应式设计 ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color);
+    line-height: 1.2;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
 
-/* 新增：平板电脑断点，优化中等屏幕布局 */
+h1 {
+    font-size: clamp(2.25rem, 5vw, 2.75rem);
+}
+
+h2 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+h3 {
+    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
+}
+
+article>h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.post-date {
+    font-style: italic;
+    font-size: 0.4em;
+    color: #777;
+    margin-left: 1em;
+    font-weight: normal;
+}
+
+.last-modified {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 2em;
+    font-style: italic;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Links inside main content should be underlined */
+main a {
+    color: var(--text-color);
+    border-bottom: 1px dashed var(--text-color);
+    transition: border-bottom-style 0.2s ease;
+}
+
+main a:hover {
+    border-bottom-style: solid;
+}
+
+/* Header, footer, and TOC links should not be underlined */
+header a,
+footer a,
+aside.toc a {
+    border-bottom: none;
+}
+
+header a:hover,
+footer a:hover {
+    text-decoration: underline;
+}
+
+aside.toc a:hover {
+    color: var(--primary-color);
+}
+
+
+/* ==========================================================================
+   5. Responsive Design
+   ========================================================================== */
+
+/* Tablet and smaller desktops */
 @media (max-width: 1024px) {
     .layout {
-        /* 从三栏变为两栏，去掉左侧脚注，保留目录 */
         grid-template-columns: auto 25%;
+        /* From 3 to 2 columns */
     }
 
     aside.footnotes {
         display: none;
+        /* Hide sidenote area */
     }
 }
 
-/* 手机/窄屏设备断点 */
+/* Mobile / narrow screens */
 @media (max-width: 800px) {
     .layout {
-        /* 变为单栏布局 */
         grid-template-columns: 1fr;
+        /* Single column layout */
     }
 
-    aside.footnotes,
     aside.toc {
         display: none;
-    }
-
-    .inserted-footnotes-container {
-        box-sizing: border-box;
-        /* 同样添加，确保行为一致 */
-        width: calc(100% - 1.5rem);
-        /* 关键修复：宽度减去左外边距 */
-        margin: 1rem 0 1rem 1.5rem;
-        padding: 0.75rem 1rem;
-        border-left: 3px solid var(--primary-color);
-        background-color: var(--bg-color-light);
-        border-radius: 4px;
-        font-size: 0.9em;
-        color: var(--text-color-light);
-        transition: background-color 0.3s ease;
-        overflow-x: auto;
-    }
-
-    .inserted-footnotes-container ol {
-        padding-left: 1.2rem;
-        margin: 0;
-    }
-
-    .inserted-footnotes-container li {
-        margin-bottom: 0.5rem;
-    }
-
-    .inserted-footnotes-container li:last-child {
-        margin-bottom: 0;
-    }
-
-    .inserted-footnotes-container p {
-        margin: 0;
-        display: inline;
+        /* Hide TOC on mobile */
     }
 }
 
-
-/* 新增：只在超宽屏上应用最大宽度和居中 */
-@media (min-width: 1440px) {
-    main {
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-}
-
-/* 极窄屏幕（大部分手机）的微调 */
+/* Small mobile devices */
 @media (max-width: 600px) {
     body {
         font-size: 15px;
-        /* 稍微增大基础字号，提升可读性 */
         line-height: 1.7;
-        /* 增大行高，让文本不拥挤 */
     }
 
-    /* 在小屏幕上减少左右内边距，为内容提供更多空间 */
     article {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
-        width: 100vw;
     }
 
     header,
@@ -466,15 +456,8 @@ div.footnotes p {
 
     header ul,
     footer ul {
-        flex-direction: row;
         gap: 15px;
-        /* 增大触摸间距 */
         flex-wrap: wrap;
-        /* 如果链接过多，允许换行 */
-        justify-content: center;
+        /* Allow nav links to wrap */
     }
 }
-
-/* * {
-    border: 1px solid red;
-} */

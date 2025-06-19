@@ -1,190 +1,232 @@
-<!DOCTYPE html>
-<html lang="{{ .Lang }}">
+{{ define "main" }}
+<div class="layout">
+    <!-- 左侧脚注区域 (Sidenotes) -->
+    <aside class="footnotes"></aside>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-
-    <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
-</head>
-
-<body>
-    {{ partial "header.html" . }}
-
-    <main class="content">
-        <div class="layout">
-            <!-- 左侧脚注区域 -->
-            <aside class="footnotes"></aside>
-
-            <!-- 中间文章内容 -->
-            <article>
-                <h1>
-                    {{ .Title }}
-                    {{ with .Date }}
-                    <span class="post-date">/{{ .Format "2006-01-02" }}</span>
-                    {{ end }}
-                </h1>
-                <div>
-                    {{ .Content | safeHTML }}
-                </div>
-                {{ with .Lastmod }}
-                <div class="last-modified">
-                    Last-modified in {{ .Format "2006-01-02" }}
-                </div>
-                {{ end }}
-            </article>
-
-            <!-- 右侧目录区域 -->
-            <aside class="toc">
-                <nav id="toc"></nav>
-            </aside>
+    <!-- 中间文章内容 -->
+    <article>
+        <h1>
+            {{ .Title }}
+            {{ with .Date }}
+            <span class="post-date">/{{ .Format "2006-01-02" }}</span>
+            {{ end }}
+        </h1>
+        <div>
+            {{ .Content }}
         </div>
-    </main>
+        {{ with .Lastmod }}
+        <div class="last-modified">
+            Last-modified in {{ .Format "2006-01-02" }}
+        </div>
+        {{ end }}
+    </article>
 
-    {{ partial "footer.html" . }}
+    <!-- 右侧目录区域 -->
+    <aside class="toc">
+        <nav id="toc"></nav>
+    </aside>
+</div>
+{{ end }}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // --- 元素获取 ---
-            const footnoteRefs = document.querySelectorAll("a.footnote-ref");
-            const leftFootnotesContainer = document.querySelector("aside.footnotes");
-            const originalFootnotesDiv = document.querySelector("div.footnotes");
-            const tocContainer = document.getElementById("toc");
-            const content = document.querySelector("article");
 
-            let resizeTimer; // 用于防抖的计时器
+{{ define "scripts" }}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // --- 模块化初始化 ---
+        // 将功能分解到独立的初始化函数中，使代码更清晰
+        initResponsiveFootnotes();
+        initTableOfContents();
+        initTOCScrollSpy();
+    });
 
-            // --- 清理函数：移除所有动态添加的脚注，恢复初始状态 ---
-            function cleanupFootnotes() {
-                if (leftFootnotesContainer) {
-                    leftFootnotesContainer.innerHTML = ''; // 清理侧边栏
-                }
-                document.querySelectorAll('.inserted-footnotes-container').forEach(c => c.remove());
-                footnoteRefs.forEach(ref => {
-                    ref.style.pointerEvents = 'auto'; // 恢复链接点击
-                });
+    /**
+     * 模块一：响应式脚注处理
+     * - 宽屏（> 800px）：显示为侧边栏笔记 (Sidenotes)。
+     * - 窄屏（<= 800px）：将脚注内容直接插入到引用段落的下方。
+     */
+    function initResponsiveFootnotes() {
+        const footnoteRefs = document.querySelectorAll("a.footnote-ref");
+        const originalFootnotesDiv = document.querySelector("div.footnotes");
+
+        if (footnoteRefs.length === 0) return; // 如果没有脚注，则不执行任何操作
+
+        let resizeTimer; // 用于resize事件的防抖计时器
+
+        // 核心处理函数
+        function handleFootnotesLayout() {
+            // 隐藏原始的Hugo脚注列表
+            if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
+
+            cleanupDynamicFootnotes(); // 清理之前动态添加的脚注
+
+            if (window.innerWidth > 800) {
+                renderSidenotes(footnoteRefs);
+            } else {
+                renderInlineFootnotes(footnoteRefs);
             }
+        }
 
-            // --- 核心处理函数：根据窗口大小决定显示哪种脚注 ---
-            function handleFootnotes() {
-                if (footnoteRefs.length === 0) return; // 如果没有脚注，不执行任何操作
+        // 首次加载时执行
+        handleFootnotesLayout();
 
-                cleanupFootnotes();
-                const isWideScreen = window.innerWidth > 800;
-
-                if (isWideScreen) {
-                    // 宽屏逻辑 (Sidenotes)
-                    if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
-
-                    // 为左侧栏创建动态列表
-                    const dynamicList = document.createElement("ul");
-                    dynamicList.id = "dynamic-footnotes";
-                    leftFootnotesContainer.appendChild(dynamicList);
-
-                    footnoteRefs.forEach(ref => {
-                        const footnoteId = ref.getAttribute("href").substring(1);
-                        const footnoteElement = document.getElementById(footnoteId);
-                        if (footnoteElement) {
-                            const footnoteContent = document.createElement("li");
-                            footnoteContent.innerHTML = footnoteElement.innerHTML.trim();
-                            const refRect = ref.getBoundingClientRect();
-                            const containerRect = dynamicList.getBoundingClientRect();
-                            const offsetTop = refRect.top - containerRect.top + dynamicList.scrollTop;
-                            footnoteContent.style.position = "absolute";
-                            footnoteContent.style.top = `${offsetTop}px`;
-                            dynamicList.appendChild(footnoteContent);
-                        }
-                    });
-                } else {
-                    // 窄屏逻辑 (将脚注直接插入到段落后)
-                    if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
-                    footnoteRefs.forEach(ref => {
-                        const paragraph = ref.closest('p');
-                        if (!paragraph) return;
-
-                        let container = paragraph.nextElementSibling;
-                        if (!container || !container.matches('.inserted-footnotes-container')) {
-                            container = document.createElement('div');
-                            container.className = 'inserted-footnotes-container';
-                            container.innerHTML = '<ol></ol>';
-                            paragraph.after(container);
-                        }
-
-                        const list = container.querySelector('ol');
-                        const footnoteId = ref.getAttribute("href").substring(1);
-                        const footnoteElement = document.getElementById(footnoteId);
-
-                        if (footnoteElement && list) {
-                            const contentClone = footnoteElement.cloneNode(true);
-                            const backLink = contentClone.querySelector('.footnote-return');
-                            if (backLink) backLink.remove();
-
-                            const newLi = document.createElement('li');
-                            newLi.innerHTML = contentClone.innerHTML.trim();
-                            list.appendChild(newLi);
-
-                            ref.style.pointerEvents = 'none'; // 禁用链接点击
-                        }
-                    });
-                }
-            }
-
-            // --- 目录生成逻辑 ---
-            function generateToc() {
-                const headings = content.querySelectorAll("h2, h3");
-                if (tocContainer && headings.length > 0) {
-                    const tocList = document.createElement("ul");
-                    headings.forEach(heading => {
-                        const id = heading.id || heading.textContent.trim().toLowerCase().replace(/\s+/g, "-");
-                        heading.id = id;
-                        const listItem = document.createElement("li");
-                        listItem.className = `toc-${heading.tagName.toLowerCase()}`;
-                        const link = document.createElement("a");
-                        link.href = `#${id}`;
-                        link.textContent = heading.textContent;
-                        listItem.appendChild(link);
-                        tocList.appendChild(listItem);
-                    });
-                    tocContainer.appendChild(tocList);
-                } else if (tocContainer) {
-                    tocContainer.innerHTML = "<em>暂无目录</em>";
-                }
-            }
-
-            // --- TOC 滚动高亮逻辑 ---
-            function activateTocOnScroll() {
-                const headings = document.querySelectorAll("article h2, article h3");
-                const tocLinks = document.querySelectorAll("#toc a");
-
-                if (headings.length === 0 || tocLinks.length === 0) return;
-
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        const id = entry.target.getAttribute('id');
-                        const correspondingLink = document.querySelector(`#toc a[href="#${id}"]`);
-
-                        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-                            tocLinks.forEach(link => link.classList.remove('active'));
-                            if (correspondingLink) correspondingLink.classList.add('active');
-                        }
-                    });
-                }, { rootMargin: "0px 0px -75% 0px", threshold: 0.1 });
-
-                headings.forEach(heading => observer.observe(heading));
-            }
-
-            // --- 初始执行与事件监听 ---
-            generateToc();
-            handleFootnotes();
-            activateTocOnScroll();
-
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(handleFootnotes, 250); // 防抖
-            });
+        // 监听窗口大小变化，并使用防抖技术优化性能
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(handleFootnotesLayout, 250);
         });
-    </script>
-</body>
+    }
 
-</html>
+    /**
+     * 清理函数：移除所有动态添加的脚注元素，恢复页面到初始状态。
+     */
+    function cleanupDynamicFootnotes() {
+        const leftSidenotesContainer = document.querySelector("aside.footnotes");
+        if (leftSidenotesContainer) {
+            leftSidenotesContainer.innerHTML = ''; // 清理侧边栏
+        }
+        document.querySelectorAll('.inserted-footnotes-container').forEach(c => c.remove()); // 清理内联脚注
+        document.querySelectorAll("a.footnote-ref").forEach(ref => {
+            ref.style.pointerEvents = 'auto'; // 恢复脚注引用的点击事件
+        });
+    }
+
+    /**
+     * 渲染宽屏下的侧边栏笔记 (Sidenotes)
+     * @param {NodeListOf<Element>} footnoteRefs - 所有脚注引用的<a>元素列表
+     */
+    function renderSidenotes(footnoteRefs) {
+        const container = document.querySelector("aside.footnotes");
+        if (!container) return;
+
+        const dynamicList = document.createElement("ul");
+        dynamicList.id = "dynamic-footnotes";
+        container.appendChild(dynamicList);
+
+        footnoteRefs.forEach(ref => {
+            const footnoteId = ref.getAttribute("href").substring(1);
+            const footnoteElement = document.getElementById(footnoteId);
+
+            if (footnoteElement) {
+                const listItem = document.createElement("li");
+                // 克隆内容，移除返回链接
+                const contentClone = footnoteElement.cloneNode(true);
+                const backLink = contentClone.querySelector('.footnote-return');
+                if (backLink) backLink.remove();
+
+                listItem.innerHTML = contentClone.innerHTML.trim();
+
+                // 定位到引用旁
+                const refRect = ref.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                // 计算sidenote的top位置，使其与引用标记对齐
+                const offsetTop = refRect.top - containerRect.top + container.scrollTop;
+                listItem.style.position = "absolute";
+                listItem.style.top = `${offsetTop}px`;
+
+                dynamicList.appendChild(listItem);
+            }
+        });
+    }
+
+    /**
+     * 渲染窄屏下的内联脚注
+     * @param {NodeListOf<Element>} footnoteRefs - 所有脚注引用的<a>元素列表
+     */
+    function renderInlineFootnotes(footnoteRefs) {
+        footnoteRefs.forEach(ref => {
+            const paragraph = ref.closest('p');
+            if (!paragraph) return;
+
+            // 查找或创建用于存放内联脚注的容器
+            let container = paragraph.nextElementSibling;
+            if (!container || !container.matches('.inserted-footnotes-container')) {
+                container = document.createElement('div');
+                container.className = 'inserted-footnotes-container';
+                container.innerHTML = '<ol></ol>';
+                paragraph.after(container);
+            }
+
+            const list = container.querySelector('ol');
+            const footnoteId = ref.getAttribute("href").substring(1);
+            const footnoteElement = document.getElementById(footnoteId);
+
+            if (footnoteElement && list) {
+                const contentClone = footnoteElement.cloneNode(true);
+                const backLink = contentClone.querySelector('.footnote-return');
+                if (backLink) backLink.remove();
+
+                const newLi = document.createElement('li');
+                newLi.innerHTML = contentClone.innerHTML.trim();
+                list.appendChild(newLi);
+
+                // 既然脚注已在下方，禁用原始链接的点击事件
+                ref.style.pointerEvents = 'none';
+            }
+        });
+    }
+
+    /**
+     * 模块二：生成目录 (TOC)
+     */
+    function initTableOfContents() {
+        const tocContainer = document.getElementById("toc");
+        const contentArticle = document.querySelector("article");
+        if (!tocContainer || !contentArticle) return;
+
+        const headings = contentArticle.querySelectorAll("h2, h3");
+        if (headings.length > 0) {
+            const tocList = document.createElement("ul");
+            headings.forEach(heading => {
+                // 确保标题有ID，以便锚链接工作
+                const id = heading.id || heading.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, '');
+                heading.id = id;
+
+                const listItem = document.createElement("li");
+                listItem.className = `toc-${heading.tagName.toLowerCase()}`;
+
+                const link = document.createElement("a");
+                link.href = `#${id}`;
+                link.textContent = heading.textContent;
+
+                listItem.appendChild(link);
+                tocList.appendChild(listItem);
+            });
+            tocContainer.appendChild(tocList);
+        } else {
+            tocContainer.innerHTML = "<em>暂无目录</em>";
+        }
+    }
+
+    /**
+     * 模块三：目录滚动高亮 (Scroll-Spy)
+     * 使用 IntersectionObserver 实现高性能的滚动监听。
+     */
+    function initTOCScrollSpy() {
+        const headings = document.querySelectorAll("article h2, article h3");
+        const tocLinks = document.querySelectorAll("#toc a");
+
+        if (headings.length === 0 || tocLinks.length === 0) return;
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const correspondingLink = document.querySelector(`#toc a[href="#${id}"]`);
+
+                // 当标题进入视口顶部区域时，高亮对应TOC链接
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(link => link.classList.remove('active'));
+                    if (correspondingLink) {
+                        correspondingLink.classList.add('active');
+                    }
+                }
+            });
+        }, {
+            // rootMargin-75%意味着标题需要滚动到屏幕顶部25%的位置才会被视为'intersecting'
+            rootMargin: "0px 0px -75% 0px",
+            threshold: 0.1
+        });
+
+        headings.forEach(heading => observer.observe(heading));
+    }
+</script>
+{{ end }}
