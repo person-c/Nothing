@@ -52,14 +52,13 @@ body {
     background-color: var(--white-color);
     color: var(--text-color);
     overflow-x: hidden;
-}
 
-/* New wrapper to help with layout and sticky footer */
-.site-container {
+    /* --- FOOTER FIX: Re-applying flex layout directly to body --- */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
 
 /* ==========================================================================
    2. Layout
@@ -103,6 +102,7 @@ footer {
 
 footer {
     box-shadow: 0 -2px 5px var(--shadow-color-medium);
+    /* The flex layout on body handles the positioning, so no margin-top needed if main has flex:1 */
 }
 
 header ul,
@@ -304,8 +304,11 @@ article table td {
    4. Typography
    ========================================================================== */
 
+/* --- FONT FIX: Restoring full language selectors --- */
 *:lang(zh),
-*:lang(zh-CN) {
+*:lang(zh-CN),
+*:lang(zh-TW),
+*:lang(zh-HK) {
     font-family: 'Noto Serif SC', serif;
 }
 
@@ -314,7 +317,9 @@ article table td {
 }
 
 article *:lang(zh),
-article *:lang(zh-CN) {
+article *:lang(zh-CN),
+article *:lang(zh-TW),
+article *:lang(zh-HK) {
     font-size: 14px;
 }
 
