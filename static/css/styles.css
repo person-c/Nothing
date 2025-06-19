@@ -25,7 +25,7 @@
     --bg-color-light: #f8f9fa;
     --border-color: #ddd;
     --link-border-color: #ccc;
-    /* NEW: Color for the light dashed link underline */
+    /* Color for the light dashed link underline */
     --code-color: #d6336c;
     --white-color: #ffffff;
     --shadow-color-light: rgba(0, 0, 0, 0.05);
@@ -256,6 +256,87 @@ div.footnotes ol {
 }
 
 
+/* ========================
+   TOC Collapsible Styles
+   ======================== */
+
+/* 为可折叠的列表项设置相对定位，以便按钮可以定位 */
+aside.toc nav li.collapsible {
+    position: relative;
+    padding-left: 20px;
+    /* 为按钮留出空间 */
+}
+
+/* 折叠/展开按钮的样式 */
+.toc-toggle {
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    /* 微调垂直位置，使其与文本对齐 */
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--text-color-light);
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.toc-toggle:hover {
+    color: var(--primary-color);
+}
+
+.toc-toggle svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* 当目录项展开时，旋转按钮图标 */
+aside.toc nav li.is-open>.toc-toggle {
+    transform: rotate(90deg);
+}
+
+/* 嵌套的子目录样式 */
+.toc-sublist {
+    list-style: none;
+    padding-left: 10px;
+    /* 子目录的缩进 */
+    margin-top: 0.5em;
+    overflow: hidden;
+    /* 关键：配合max-height实现动画 */
+
+    /* 默认折叠状态 */
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+/* 当目录项展开时，显示子目录 */
+aside.toc nav li.is-open>.toc-sublist {
+    max-height: 1000px;
+    /* 设置一个足够大的值，确保所有内容都能显示 */
+    opacity: 1;
+}
+
+/* 调整各级目录项的样式 */
+.toc-level-2 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.toc-level-3 {
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.toc-level-4 {
+    font-size: 0.85em;
+    margin-left: 15px;
+    color: var(--text-color-light);
+}
+
+
 /* --- Code & Tables --- */
 code {
     font-family: var(--font-mono);
@@ -299,7 +380,7 @@ article table td {
    4. Typography & Links
    ========================================================================== */
 
-/* --- FONT FIX: Restoring full language selectors --- */
+/* --- Font Settings --- */
 *:lang(zh),
 *:lang(zh-CN),
 *:lang(zh-TW),
@@ -323,9 +404,11 @@ article *:lang(en) {
     line-height: 1.6;
 }
 
+/* --- General Typography --- */
 p {
     margin-top: 0;
     margin-bottom: 1rem;
+    /* 新增：ch 单位约等于一个'0'字符的宽度，非常适合控制行宽 */
 }
 
 h1,
@@ -376,50 +459,55 @@ article>h1 {
 
 /* 
 ================================================
---- LINK STYLES REFACTOR (START) ---
+--- LINK STYLES REFACTOR (FINAL FIX) ---
 ================================================
 */
 
-/* 1. Global Reset: All links inherit text color and have no decoration by default. */
+/* 1. Global Reset: All links inherit color and have no decoration by default. */
 a {
     color: inherit;
     text-decoration: none;
+    /* We don't set borders here to avoid them being inherited by default. */
 }
 
-/* 2. Main Content Links: Apply the dashed underline style. */
-/* This targets links inside the main article, but uses :not() to exclude special links */
-/* like footnote references (class .footnote-ref) or the return links inside footnotes. */
+/* 2. Main Content Links: Apply the dashed underline style specifically. */
 article a:not(.footnote-ref):not(.footnote-return) {
     border-bottom: 1px dashed var(--link-border-color);
     transition: border-bottom-color 0.2s ease, border-bottom-style 0.2s ease;
 }
 
-/* On hover, make the line solid and darker for better feedback. */
 article a:not(.footnote-ref):not(.footnote-return):hover {
     border-bottom-style: solid;
     border-bottom-color: var(--text-color);
 }
 
-/* 3. Exceptions: Explicitly remove any border/underline from other areas. */
-/* This ensures header, footer, and TOC links do not get the dashed line. */
+/* 3. Exceptions: Explicitly define the style for links that should NOT have the dashed underline. */
+/* This now includes links inside both types of footnotes (sidenote and inline). */
 header a,
 footer a,
-aside.toc a {
+aside.toc a,
+aside.footnotes a,
+/* FIX: Target links inside the sidenote container */
+.inserted-footnotes-container a,
+/* FIX: Target links inside the inline footnote container */
+sup.footnote-ref a {
+    /* Ensure the superscript number itself doesn't get a double underline */
     border-bottom: none;
 }
 
 /* 4. Specific Hover Effects for Exceptions */
-/* Keep the interactive hover color for TOC links. */
 aside.toc a:hover {
     color: var(--primary-color);
 }
 
-/* Ensure header and footer links have absolutely no special style on hover. */
-header a:hover,
-footer a:hover {
-    text-decoration: none;
-    /* remove any browser-default hover styles */
+/* For links within any footnote, a simple browser default underline on hover is good for UX. */
+/* This will not conflict with the "no style" rule for header/footer. */
+aside.footnotes a:hover,
+.inserted-footnotes-container a:hover {
+    text-decoration: underline;
 }
+
+/* We don't need a specific hover rule for header/footer as they should have no style change. */
 
 /* 
 ================================================
@@ -432,7 +520,6 @@ footer a:hover {
    5. Responsive Design
    ========================================================================== */
 
-/* Tablet and smaller desktops */
 @media (max-width: 1024px) {
     .layout {
         grid-template-columns: auto 25%;
@@ -443,7 +530,6 @@ footer a:hover {
     }
 }
 
-/* Mobile / narrow screens */
 @media (max-width: 800px) {
     .layout {
         grid-template-columns: 1fr;
@@ -454,7 +540,6 @@ footer a:hover {
     }
 }
 
-/* Small mobile devices */
 @media (max-width: 600px) {
     body {
         font-size: 15px;
