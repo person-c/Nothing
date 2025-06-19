@@ -255,7 +255,6 @@ div.footnotes ol {
     display: inline;
 }
 
-
 /* ========================
    TOC Collapsible Styles
    ======================== */
@@ -408,7 +407,6 @@ article *:lang(en) {
 p {
     margin-top: 0;
     margin-bottom: 1rem;
-    /* 新增：ch 单位约等于一个'0'字符的宽度，非常适合控制行宽 */
 }
 
 h1,
