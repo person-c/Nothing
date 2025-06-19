@@ -9,7 +9,7 @@
        - Asides (Footnotes & TOC)
        - Footnotes System
        - Code & Tables
-   4.  Typography
+   4.  Typography & Links <-- MODIFIED SECTION
    5.  Responsive Design
    ========================================================================== */
 
@@ -24,6 +24,8 @@
     --text-color-light: #555;
     --bg-color-light: #f8f9fa;
     --border-color: #ddd;
+    --link-border-color: #ccc;
+    /* NEW: Color for the light dashed link underline */
     --code-color: #d6336c;
     --white-color: #ffffff;
     --shadow-color-light: rgba(0, 0, 0, 0.05);
@@ -52,8 +54,6 @@ body {
     background-color: var(--white-color);
     color: var(--text-color);
     overflow-x: hidden;
-
-    /* --- FOOTER FIX: Re-applying flex layout directly to body --- */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -66,7 +66,6 @@ body {
 
 main {
     flex: 1;
-    /* Allows main content to grow and push footer down */
     width: 100%;
 }
 
@@ -76,7 +75,6 @@ main {
     gap: 1rem;
     align-items: flex-start;
     max-width: 1400px;
-    /* Constrain max width for very large screens */
     margin: 0 auto;
 }
 
@@ -102,7 +100,6 @@ footer {
 
 footer {
     box-shadow: 0 -2px 5px var(--shadow-color-medium);
-    /* The flex layout on body handles the positioning, so no margin-top needed if main has flex:1 */
 }
 
 header ul,
@@ -211,9 +208,7 @@ sup.footnote-ref:hover {
 }
 
 div.footnotes {
-    /* The original Hugo generated footnotes */
     display: none;
-    /* Hidden by JS */
     margin-top: 2rem;
     font-size: 0.9rem;
     color: var(--text-color-light);
@@ -301,7 +296,7 @@ article table td {
 
 
 /* ==========================================================================
-   4. Typography
+   4. Typography & Links
    ========================================================================== */
 
 /* --- FONT FIX: Restoring full language selectors --- */
@@ -379,37 +374,58 @@ article>h1 {
     font-style: italic;
 }
 
+/* 
+================================================
+--- LINK STYLES REFACTOR (START) ---
+================================================
+*/
+
+/* 1. Global Reset: All links inherit text color and have no decoration by default. */
 a {
     color: inherit;
     text-decoration: none;
 }
 
-/* Links inside main content should be underlined */
-main a {
-    color: var(--text-color);
-    border-bottom: 1px dashed var(--text-color);
-    transition: border-bottom-style 0.2s ease;
+/* 2. Main Content Links: Apply the dashed underline style. */
+/* This targets links inside the main article, but uses :not() to exclude special links */
+/* like footnote references (class .footnote-ref) or the return links inside footnotes. */
+article a:not(.footnote-ref):not(.footnote-return) {
+    border-bottom: 1px dashed var(--link-border-color);
+    transition: border-bottom-color 0.2s ease, border-bottom-style 0.2s ease;
 }
 
-main a:hover {
+/* On hover, make the line solid and darker for better feedback. */
+article a:not(.footnote-ref):not(.footnote-return):hover {
     border-bottom-style: solid;
+    border-bottom-color: var(--text-color);
 }
 
-/* Header, footer, and TOC links should not be underlined */
+/* 3. Exceptions: Explicitly remove any border/underline from other areas. */
+/* This ensures header, footer, and TOC links do not get the dashed line. */
 header a,
 footer a,
 aside.toc a {
     border-bottom: none;
 }
 
-header a:hover,
-footer a:hover {
-    text-decoration: underline;
-}
-
+/* 4. Specific Hover Effects for Exceptions */
+/* Keep the interactive hover color for TOC links. */
 aside.toc a:hover {
     color: var(--primary-color);
 }
+
+/* Ensure header and footer links have absolutely no special style on hover. */
+header a:hover,
+footer a:hover {
+    text-decoration: none;
+    /* remove any browser-default hover styles */
+}
+
+/* 
+================================================
+--- LINK STYLES REFACTOR (END) ---
+================================================
+*/
 
 
 /* ==========================================================================
@@ -420,12 +436,10 @@ aside.toc a:hover {
 @media (max-width: 1024px) {
     .layout {
         grid-template-columns: auto 25%;
-        /* From 3 to 2 columns */
     }
 
     aside.footnotes {
         display: none;
-        /* Hide sidenote area */
     }
 }
 
@@ -433,12 +447,10 @@ aside.toc a:hover {
 @media (max-width: 800px) {
     .layout {
         grid-template-columns: 1fr;
-        /* Single column layout */
     }
 
     aside.toc {
         display: none;
-        /* Hide TOC on mobile */
     }
 }
 
@@ -463,6 +475,5 @@ aside.toc a:hover {
     footer ul {
         gap: 15px;
         flex-wrap: wrap;
-        /* Allow nav links to wrap */
     }
 }

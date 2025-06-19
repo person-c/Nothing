@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Serif+SC:wght@200..900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ " css/styles.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
 
     {{ block "head" . }}{{ end }}
 </head>
@@ -21,13 +21,15 @@
     {{ partial "header.html" . }}
 
     <main>
-        {{ block "main" . }}{{ end }}
+        <article>
+            <div>{{ .Content }}</div>
+        </article>
     </main>
 
     {{ partial "footer.html" . }}
 
     <!-- Global script, loaded on all pages. The 'defer' attribute is a good practice. -->
-    <script src="{{ "js/scripts.js" | relURL }}" defer></script>
+    <script src="{{ " js/scripts.js" | relURL }}" defer></script>
 
     <!-- Block for page-specific scripts, like the one in single.html -->
     {{ block "scripts" . }}{{ end }}
