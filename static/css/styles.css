@@ -127,6 +127,7 @@ article>h1 {
 }
 
 .post-date {
+    font-style: italic;
     font-size: 0.4em;
     color: #777;
     margin-left: 1em;
