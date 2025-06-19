@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }}</title>
-    
+
     <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
 </head>
 
@@ -19,7 +19,12 @@
 
             <!-- 中间文章内容 -->
             <article>
-                <h1>{{ .Title }}</h1>
+                <h1>
+                    {{ .Title }}
+                    {{ with .Date }}
+                    <span class="post-date">/{{ .Format "2006-01-02" }}</span>
+                    {{ end }}
+                </h1>
                 <div>
                     {{ .Content | safeHTML }}
                 </div>
@@ -42,7 +47,7 @@
             const originalFootnotesDiv = document.querySelector("div.footnotes");
             const tocContainer = document.getElementById("toc");
             const content = document.querySelector("article");
-            
+
             let resizeTimer; // 用于防抖的计时器
 
             // --- 清理函数：移除所有动态添加的脚注，恢复初始状态 ---
@@ -66,12 +71,12 @@
                 if (isWideScreen) {
                     // 宽屏逻辑 (Sidenotes)
                     if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
-                    
+
                     // 为左侧栏创建动态列表
                     const dynamicList = document.createElement("ul");
                     dynamicList.id = "dynamic-footnotes";
                     leftFootnotesContainer.appendChild(dynamicList);
-                    
+
                     footnoteRefs.forEach(ref => {
                         const footnoteId = ref.getAttribute("href").substring(1);
                         const footnoteElement = document.getElementById(footnoteId);
@@ -109,11 +114,11 @@
                             const contentClone = footnoteElement.cloneNode(true);
                             const backLink = contentClone.querySelector('.footnote-return');
                             if (backLink) backLink.remove();
-                            
+
                             const newLi = document.createElement('li');
                             newLi.innerHTML = contentClone.innerHTML.trim();
                             list.appendChild(newLi);
-                            
+
                             ref.style.pointerEvents = 'none'; // 禁用链接点击
                         }
                     });
@@ -134,7 +139,7 @@
                         link.href = `#${id}`;
                         link.textContent = heading.textContent;
                         listItem.appendChild(link);
-tocList.appendChild(listItem);
+                        tocList.appendChild(listItem);
                     });
                     tocContainer.appendChild(tocList);
                 } else if (tocContainer) {
@@ -163,7 +168,7 @@ tocList.appendChild(listItem);
 
                 headings.forEach(heading => observer.observe(heading));
             }
-            
+
             // --- 初始执行与事件监听 ---
             generateToc();
             handleFootnotes();
@@ -176,4 +181,5 @@ tocList.appendChild(listItem);
         });
     </script>
 </body>
+
 </html>

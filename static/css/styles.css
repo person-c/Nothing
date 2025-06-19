@@ -126,6 +126,13 @@ article>h1 {
     margin: 20px 0;
 }
 
+.post-date {
+    font-size: 0.4em;
+    color: #777;
+    margin-left: 1em;
+    font-weight: normal;
+}
+
 /* ===== 段落与链接 ===== */
 p {
     font-size: 1rem;
@@ -202,7 +209,6 @@ footer a {
 header a:hover,
 footer a:hover {
     text-decoration: none;
-    color: var(--primary-color);
 }
 
 header ul,
@@ -253,6 +259,7 @@ footer {
 }
 
 .article-title {
+    color: var(--text-color);
     font-size: 16px;
     margin-bottom: 0.2rem;
 }

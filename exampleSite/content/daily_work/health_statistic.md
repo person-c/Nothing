@@ -1,5 +1,6 @@
 ---
 title: health statistic
+date: 2025-06-19
 ---
 
 
