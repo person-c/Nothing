@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ .Lang | default .Site.Language.Lang | default " en" }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Serif+SC:wght@200..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ " css/styles.css" | relURL }}">
+
+    {{ block "head" . }}{{ end }}
 </head>
 
 <body>
     {{ partial "header.html" . }}
 
     <main>
-       <article>
-            <div>{{ .Content }}</div>
-        </article>
+        {{ block "main" . }}{{ end }}
     </main>
 
     {{ partial "footer.html" . }}
-    <script src="{{ " js/scripts.js" | relURL }}"></script>
+
+    <!-- Global script, loaded on all pages. The 'defer' attribute is a good practice. -->
+    <script src="{{ "js/scripts.js" | relURL }}" defer></script>
+
+    <!-- Block for page-specific scripts, like the one in single.html -->
+    {{ block "scripts" . }}{{ end }}
 </body>
 
 </html>
