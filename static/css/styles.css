@@ -133,6 +133,14 @@ article>h1 {
     font-weight: normal;
 }
 
+.last-modified {
+    text-align: right;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 2em;
+    font-style: italic;
+}
+
 /* ===== 段落与链接 ===== */
 p {
     font-size: 1rem;
@@ -140,7 +148,6 @@ p {
 }
 
 a {
-    color: var(--primary-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }

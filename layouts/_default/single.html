@@ -28,6 +28,11 @@
                 <div>
                     {{ .Content | safeHTML }}
                 </div>
+                {{ with .Lastmod }}
+                <div class="last-modified">
+                    Last-modified in {{ .Format "2006-01-02" }}
+                </div>
+                {{ end }}
             </article>
 
             <!-- 右侧目录区域 -->
