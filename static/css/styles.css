@@ -148,6 +148,7 @@ p {
 }
 
 a {
+    color: var(--text-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }
