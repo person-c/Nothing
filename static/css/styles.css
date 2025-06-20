@@ -560,3 +560,110 @@ aside.footnotes a:hover,
         flex-wrap: wrap;
     }
 }
+
+
+/* ===== 响应式设计 ===== */
+
+/* 新增：平板电脑断点，优化中等屏幕布局 */
+@media (max-width: 1024px) {
+    .layout {
+        /* 从三栏变为两栏，去掉左侧脚注，保留目录 */
+        grid-template-columns: auto 25%;
+    }
+
+    aside.footnotes {
+        display: none;
+    }
+}
+
+/* 手机/窄屏设备断点 */
+@media (max-width: 800px) {
+    .layout {
+        /* 变为单栏布局 */
+        grid-template-columns: 1fr;
+    }
+
+    aside.footnotes,
+    aside.toc {
+        display: none;
+    }
+
+    .inserted-footnotes-container {
+        box-sizing: border-box;
+        /* 同样添加，确保行为一致 */
+        width: calc(100% - 1.5rem);
+        /* 关键修复：宽度减去左外边距 */
+        margin: 1rem 0 1rem 1.5rem;
+        padding: 0.75rem 1rem;
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-color-light);
+        border-radius: 4px;
+        font-size: 0.9em;
+        color: var(--text-color-light);
+        transition: background-color 0.3s ease;
+        overflow-x: auto;
+    }
+
+    .inserted-footnotes-container ol {
+        padding-left: 1.2rem;
+        margin: 0;
+    }
+
+    .inserted-footnotes-container li {
+        margin-bottom: 0.5rem;
+    }
+
+    .inserted-footnotes-container li:last-child {
+        margin-bottom: 0;
+    }
+
+    .inserted-footnotes-container p {
+        margin: 0;
+        display: inline;
+    }
+}
+
+
+/* 新增：只在超宽屏上应用最大宽度和居中 */
+@media (min-width: 1440px) {
+    main {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+/* 极窄屏幕（大部分手机）的微调 */
+@media (max-width: 600px) {
+    body {
+        font-size: 15px;
+        /* 稍微增大基础字号，提升可读性 */
+        line-height: 1.7;
+        /* 增大行高，让文本不拥挤 */
+    }
+
+    /* 在小屏幕上减少左右内边距，为内容提供更多空间 */
+    article {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        width: 100vw;
+    }
+
+    header,
+    footer {
+        padding: 15px;
+    }
+
+    header ul,
+    footer ul {
+        flex-direction: row;
+        gap: 15px;
+        /* 增大触摸间距 */
+        flex-wrap: wrap;
+        /* 如果链接过多，允许换行 */
+        justify-content: center;
+    }
+}
+
+/* * {
+    border: 1px solid red;
+} */
