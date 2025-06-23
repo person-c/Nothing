@@ -8,7 +8,7 @@
         {{ range .Pages }}
         <li>
             <a href="{{ .RelPermalink }}">
-                <div class="article-title">{{ .Title | default (.File.BaseFileName) }}</div>
+                {{ .Title | default (.File.BaseFileName) }}
             </a>
         </li>
         {{ end }}
