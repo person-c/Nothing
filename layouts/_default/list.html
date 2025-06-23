@@ -7,8 +7,8 @@
     <ul>
         {{ range .Pages }}
         <li>
-            <a href="{{ .RelPermalink }}">
-                <div class="article-title">{{ .Title }}</div>
+            <a href="{{ .Permalink }}" class="article-title">
+                {{ .Title }}
             </a>
         </li>
         {{ end }}

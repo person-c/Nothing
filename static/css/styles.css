@@ -143,7 +143,7 @@ footer li {
 
 .article-title {
     color: var(--text-color);
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 0.2rem;
 }
 
@@ -469,15 +469,19 @@ a {
 }
 
 /* 2. Main Content Links: Apply the dashed underline style specifically. */
-article a:not(.footnote-ref):not(.footnote-return) {
+article a:not(.footnote-ref):not(.footnote-return),
+.article-list a {
     border-bottom: 1px dashed var(--link-border-color);
     transition: border-bottom-color 0.2s ease, border-bottom-style 0.2s ease;
 }
 
-article a:not(.footnote-ref):not(.footnote-return):hover {
+article a:not(.footnote-ref):not(.footnote-return):hover,
+.article-list a:hover {
     border-bottom-style: solid;
     border-bottom-color: var(--text-color);
 }
+
+
 
 /* 3. Exceptions: Explicitly define the style for links that should NOT have the dashed underline. */
 /* This now includes links inside both types of footnotes (sidenote and inline). */
@@ -517,49 +521,6 @@ aside.footnotes a:hover,
 /* ==========================================================================
    5. Responsive Design
    ========================================================================== */
-
-@media (max-width: 1024px) {
-    .layout {
-        grid-template-columns: auto 25%;
-    }
-
-    aside.footnotes {
-        display: none;
-    }
-}
-
-@media (max-width: 800px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    aside.toc {
-        display: none;
-    }
-}
-
-@media (max-width: 600px) {
-    body {
-        font-size: 15px;
-        line-height: 1.7;
-    }
-
-    article {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-
-    header,
-    footer {
-        padding: 15px;
-    }
-
-    header ul,
-    footer ul {
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-}
 
 
 /* ===== 响应式设计 ===== */
