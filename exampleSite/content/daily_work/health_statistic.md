@@ -16,12 +16,14 @@ Here is another reference[^2].
 [^1]: This is the first footnote.
 [^2]: This is the second footnote.
 
+
 ```r
 qs <- function(x, range) { 
   range <- substitute(range)
   selector <-eval(range, list(. = length(x)))
   x[selector]
 ```
+### Test
 
 Here, we create a function that quotes the range argument; then evaluate the range expression in a list environment that the dot`.` represents the length of x. A concrete example is as follows:
 
@@ -46,6 +48,8 @@ When we try to execute the `trim_margin` function, we get an error:
 The `trim_margin` function aims to trim n paired-end elements in a vector; However, errors happened: 'can't find the object n';
 
 We know that R finds its variable's value through the lexical scope; There are three environments related to function; When the function executes, it's executed in a temporary environment; And its parent environment is its closed environment where the function was defined; That's lexical scope. However, in the example above, the `qs` function in `trim_margin` function was defined in the global environment which doesn't contain the variable `n`; The `n` existed in the execution environment of `trim_margin` function; That's the called environment of the `qs` function(find variable value in a caller environment named dynamic scope); We can get this environment through `parent.frame()`; However, the `eval()` function uses the `parent.frame()` as the default enclose environment of the expression when the argument `envir` is a list.
+
+### Feriour toc
 
 Here is another reference[^3].
 

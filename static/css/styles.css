@@ -1,4 +1,40 @@
-/* ===== 新增：全局盒模型重置 (最佳实践) ===== */
+/* ==========================================================================
+   TABLE OF CONTENTS
+   ==========================================================================
+   1.  Setup & Global Styles
+   2.  Layout
+   3.  Components
+       - Header & Footer
+       - Article List
+       - Asides (Footnotes & TOC)
+       - Footnotes System
+       - Code & Tables
+   4.  Typography & Links <-- MODIFIED SECTION
+   5.  Responsive Design
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. Setup & Global Styles
+   ========================================================================== */
+
+:root {
+    --primary-color: #007bff;
+    --text-color: #333;
+    --text-color-light: #555;
+    --bg-color-light: #f8f9fa;
+    --border-color: #ddd;
+    --link-border-color: #ccc;
+    /* Color for the light dashed link underline */
+    --code-color: #d6336c;
+    --white-color: #ffffff;
+    --shadow-color-light: rgba(0, 0, 0, 0.05);
+    --shadow-color-medium: rgba(0, 0, 0, 0.1);
+
+    --font-serif: 'EB Garamond', 'Noto Serif SC', serif;
+    --font-mono: 'Fira Code', 'Courier New', monospace;
+}
+
 html {
     box-sizing: border-box;
 }
@@ -9,215 +45,61 @@ html {
     box-sizing: inherit;
 }
 
-
-/* ===== 变量定义 (方便全局修改) ===== */
-:root {
-    --primary-color: #007bff;
-    --text-color: #333;
-    --text-color-light: #555;
-    --bg-color-light: #f8f9fa;
-    --border-color: #ddd;
-    --code-color: #d6336c;
-    --white-color: #ffffff;
-    --shadow-color-light: rgba(0, 0, 0, 0.05);
-    --shadow-color-medium: rgba(0, 0, 0, 0.1);
-
-    --font-serif: 'EB Garamond', 'Noto Serif SC', serif;
-    --font-mono: 'Fira Code', 'Courier New', monospace;
-}
-
-/* ===== 全局样式 ===== */
-html,
 body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
     font-family: var(--font-serif);
     font-size: 16px;
     line-height: 1.6;
-    min-height: 100vh;
     background-color: var(--white-color);
+    color: var(--text-color);
     overflow-x: hidden;
-    /* <-- 新增这一行，禁止页面产生水平滚动条 */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* 确保背景色 */
 
+/* ==========================================================================
+   2. Layout
+   ========================================================================== */
 
-/* ===== 语言特定字体 ===== */
-*:lang(zh),
-*:lang(zh-CN),
-*:lang(zh-TW),
-*:lang(zh-HK) {
-    font-family: 'Noto Serif SC', serif;
-}
-
-*:lang(en) {
-    font-family: 'EB Garamond', serif;
-}
-
-/* ===== 布局结构 ===== */
-/* 修改后的通用 main 样式 */
 main {
     flex: 1;
     width: 100%;
 }
-
 
 .layout {
     display: grid;
     grid-template-columns: 15% auto 20%;
     gap: 1rem;
     align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* ===== 内容区域 ===== */
 article {
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    box-sizing: border-box;
 }
 
-article *:lang(zh),
-article *:lang(zh-CN),
-article *:lang(zh-TW),
-article *:lang(zh-HK) {
-    font-size: 14px;
-}
 
-article *:lang(en) {
-    font-size: 18px;
-    line-height: 1.6;
-}
+/* ==========================================================================
+   3. Components
+   ========================================================================== */
 
-/* ===== 标题样式 (优化) ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--text-color);
-    line-height: 1.2;
-    /* 优化标题行高 */
-}
-
-/* 使用 clamp() 实现流畅的字体缩放，提升响应式体验 */
-h1 {
-    font-size: clamp(2.25rem, 5vw, 2.75rem);
-    margin-bottom: 1rem;
-}
-
-h2 {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    margin-bottom: 0.75rem;
-}
-
-h3 {
-    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
-    margin-bottom: 0.5rem;
-}
-
-article>h1 {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.post-date {
-    font-style: italic;
-    font-size: 0.4em;
-    color: #777;
-    margin-left: 1em;
-    font-weight: normal;
-}
-
-.last-modified {
-    text-align: right;
-    font-size: 0.8em;
-    color: #666;
-    margin-top: 2em;
-    font-style: italic;
-}
-
-/* ===== 段落与链接 ===== */
-p {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-
-a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* ===== 代码块样式 ===== */
-code {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-p code {
-    background: var(--bg-color-light);
-    color: var(--code-color);
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 90%;
-}
-
-/* ===== 代码块样式 (最终修复) ===== */
-.highlight {
-    box-sizing: border-box;
-    /* 关键修复：强制此元素的盒模型为 border-box */
-    background: var(--white-color);
-    color: var(--text-color);
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px var(--shadow-color-light);
-    overflow-x: auto;
-}
-
-/* ===== 表格样式 ===== */
-article table {
-    display: block;
-    width: 100%;
-    border-collapse: collapse;
-    overflow-x: auto;
-}
-
-/* 优化表格在移动端的滚动 */
-article table th,
-article table td {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    text-align: left;
-}
-
-/* ===== 页眉页脚 (清理：合并了重复规则) ===== */
+/* --- Header & Footer --- */
 header,
 footer {
     background: var(--bg-color-light);
     padding: 20px;
     text-align: center;
+    width: 100%;
 }
 
-header a,
-footer a {
-    color: inherit;
-}
-
-header a:hover,
-footer a:hover {
-    text-decoration: none;
+footer {
+    box-shadow: 0 -2px 5px var(--shadow-color-medium);
 }
 
 header ul,
@@ -234,18 +116,10 @@ footer li {
     margin: 0 10px;
 }
 
-footer {
-    margin-top: auto;
-    /* 确保页脚在内容不足时也能贴底 */
-    position: relative;
-    width: 100%;
-    box-shadow: 0 -2px 5px var(--shadow-color-medium);
-}
-
-/* ===== 文章列表 (通用) ===== */
+/* --- Article List --- */
 .article-list {
     margin: 20px auto;
-    padding: 0;
+    padding: 0 1rem;
     max-width: 800px;
 }
 
@@ -269,11 +143,11 @@ footer {
 
 .article-title {
     color: var(--text-color);
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 0.2rem;
 }
 
-/* ===== 侧边栏 ===== */
+/* --- Asides (Footnotes & TOC) --- */
 aside.footnotes {
     position: relative;
     padding: 0 1rem;
@@ -281,31 +155,15 @@ aside.footnotes {
     color: var(--text-color-light);
 }
 
-#dynamic-footnotes {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-}
-
-#dynamic-footnotes li {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    white-space: normal;
-}
-
 aside.toc {
     position: sticky;
     top: 1rem;
-    padding: 1rem;
-    background-color: transparent;
-    border-left: 1px solid var(--border-color);
-    font-size: 0.85rem;
-    color: var(--text-color-light);
     height: fit-content;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
+    padding: 1rem;
+    border-left: 1px solid var(--border-color);
+    font-size: 0.85rem;
 }
 
 aside.toc nav ul {
@@ -319,22 +177,25 @@ aside.toc nav li {
     font-size: 0.95em;
 }
 
-aside.toc nav li a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-aside.toc nav li a:hover {
-    color: var(--primary-color);
-}
-
 aside.toc nav li a.active {
     color: var(--primary-color);
     font-weight: bold;
 }
 
-/* ===== 脚注系统 ===== */
+/* --- Footnotes System --- */
+#dynamic-footnotes {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#dynamic-footnotes li {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: normal;
+}
+
 sup.footnote-ref {
     font-size: 0.8rem;
     vertical-align: super;
@@ -347,6 +208,7 @@ sup.footnote-ref:hover {
 }
 
 div.footnotes {
+    display: none;
     margin-top: 2rem;
     font-size: 0.9rem;
     color: var(--text-color-light);
@@ -355,24 +217,311 @@ div.footnotes {
 div.footnotes hr {
     border: none;
     border-top: 1px solid var(--border-color);
-    margin: 1rem 0;
 }
 
 div.footnotes ol {
     list-style: decimal;
     padding-left: 1.5rem;
+}
+
+.inserted-footnotes-container {
+    box-sizing: border-box;
+    width: calc(100% - 1.5rem);
+    margin: 1rem 0 1rem 1.5rem;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--primary-color);
+    background-color: var(--bg-color-light);
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    overflow-x: auto;
+}
+
+.inserted-footnotes-container ol {
+    padding-left: 1.2rem;
     margin: 0;
 }
 
-div.footnotes li {
+.inserted-footnotes-container li {
+    margin-bottom: 0.5rem;
+}
+
+.inserted-footnotes-container li:last-child {
+    margin-bottom: 0;
+}
+
+.inserted-footnotes-container p {
+    margin: 0;
+    display: inline;
+}
+
+/* ========================
+   TOC Collapsible Styles
+   ======================== */
+
+/* 为可折叠的列表项设置相对定位，以便按钮可以定位 */
+aside.toc nav li.collapsible {
+    position: relative;
+    padding-left: 20px;
+    /* 为按钮留出空间 */
+}
+
+/* 折叠/展开按钮的样式 */
+.toc-toggle {
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    /* 微调垂直位置，使其与文本对齐 */
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--text-color-light);
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.toc-toggle:hover {
+    color: var(--primary-color);
+}
+
+.toc-toggle svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* 当目录项展开时，旋转按钮图标 */
+aside.toc nav li.is-open>.toc-toggle {
+    transform: rotate(90deg);
+}
+
+/* 嵌套的子目录样式 */
+.toc-sublist {
+    list-style: none;
+    padding-left: 10px;
+    /* 子目录的缩进 */
+    margin-top: 0.5em;
+    overflow: hidden;
+    /* 关键：配合max-height实现动画 */
+
+    /* 默认折叠状态 */
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+/* 当目录项展开时，显示子目录 */
+aside.toc nav li.is-open>.toc-sublist {
+    max-height: 1000px;
+    /* 设置一个足够大的值，确保所有内容都能显示 */
+    opacity: 1;
+}
+
+/* 调整各级目录项的样式 */
+.toc-level-2 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.toc-level-3 {
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.toc-level-4 {
+    font-size: 0.85em;
+    margin-left: 15px;
+    color: var(--text-color-light);
+}
+
+
+/* --- Code & Tables --- */
+code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+p code {
+    background: var(--bg-color-light);
+    color: var(--code-color);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 90%;
+}
+
+.highlight {
+    background: var(--white-color);
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px var(--shadow-color-light);
+    overflow-x: auto;
+}
+
+article table {
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
     margin-bottom: 1rem;
+}
+
+article table th,
+article table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+
+/* ==========================================================================
+   4. Typography & Links
+   ========================================================================== */
+
+/* --- Font Settings --- */
+*:lang(zh),
+*:lang(zh-CN),
+*:lang(zh-TW),
+*:lang(zh-HK) {
+    font-family: 'Noto Serif SC', serif;
+}
+
+*:lang(en) {
+    font-family: 'EB Garamond', serif;
+}
+
+article *:lang(zh),
+article *:lang(zh-CN),
+article *:lang(zh-TW),
+article *:lang(zh-HK) {
+    font-size: 14px;
+}
+
+article *:lang(en) {
+    font-size: 18px;
     line-height: 1.6;
 }
 
-div.footnotes p {
-    margin: 0;
-    font-size: 0.9rem;
+/* --- General Typography --- */
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color);
+    line-height: 1.2;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: clamp(2.25rem, 5vw, 2.75rem);
+}
+
+h2 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+h3 {
+    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
+}
+
+article>h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.post-date {
+    font-style: italic;
+    font-size: 0.4em;
+    color: #777;
+    margin-left: 1em;
+    font-weight: normal;
+}
+
+.last-modified {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 2em;
+    font-style: italic;
+}
+
+/* 
+================================================
+--- LINK STYLES REFACTOR (FINAL FIX) ---
+================================================
+*/
+
+/* 1. Global Reset: All links inherit color and have no decoration by default. */
+a {
+    color: inherit;
+    text-decoration: none;
+    /* We don't set borders here to avoid them being inherited by default. */
+}
+
+/* 2. Main Content Links: Apply the dashed underline style specifically. */
+article a:not(.footnote-ref):not(.footnote-return),
+.article-list a {
+    border-bottom: 1px dashed var(--link-border-color);
+    transition: border-bottom-color 0.2s ease, border-bottom-style 0.2s ease;
+}
+
+article a:not(.footnote-ref):not(.footnote-return):hover,
+.article-list a:hover {
+    border-bottom-style: solid;
+    border-bottom-color: var(--text-color);
+}
+
+
+
+/* 3. Exceptions: Explicitly define the style for links that should NOT have the dashed underline. */
+/* This now includes links inside both types of footnotes (sidenote and inline). */
+header a,
+footer a,
+aside.toc a,
+aside.footnotes a,
+/* FIX: Target links inside the sidenote container */
+.inserted-footnotes-container a,
+/* FIX: Target links inside the inline footnote container */
+sup.footnote-ref a {
+    /* Ensure the superscript number itself doesn't get a double underline */
+    border-bottom: none;
+}
+
+/* 4. Specific Hover Effects for Exceptions */
+aside.toc a:hover {
+    color: var(--primary-color);
+}
+
+/* For links within any footnote, a simple browser default underline on hover is good for UX. */
+/* This will not conflict with the "no style" rule for header/footer. */
+aside.footnotes a:hover,
+.inserted-footnotes-container a:hover {
+    text-decoration: underline;
+}
+
+/* We don't need a specific hover rule for header/footer as they should have no style change. */
+
+/* 
+================================================
+--- LINK STYLES REFACTOR (END) ---
+================================================
+*/
+
+
+/* ==========================================================================
+   5. Responsive Design
+   ========================================================================== */
+
 
 /* ===== 响应式设计 ===== */
 

@@ -15,4 +15,7 @@ theme = "Nothing"
     lineNumbersInTable = true # 行号显示在表格中
     guessSyntax = true      # 自动猜测代码语言
 
+[server]
+watch = true
+
 enableGitInfo = true
