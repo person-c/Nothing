@@ -2,7 +2,7 @@
 
 ## Overview
 
-个人网站的hugo主题，与Copilot合作开发（copilot做了99%的工作）。
+个人网站的hugo主题，与Claude以及GeminiPro 2.5合作开发。
 
 
 ## License
