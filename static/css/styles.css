@@ -352,11 +352,16 @@ p code {
 
 .highlight {
     background: var(--white-color);
-    padding: 15px;
+    padding: 2px 15px;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
     box-shadow: 0 4px 6px var(--shadow-color-light);
     overflow-x: auto;
+}
+
+.highlight pre {
+    margin: 0;
+    padding: 0;
 }
 
 article table {
@@ -407,6 +412,10 @@ article *:lang(en) {
 p {
     margin-top: 0;
     margin-bottom: 1rem;
+}
+
+.highlight+p {
+    margin-top: 1rem;
 }
 
 h1,
