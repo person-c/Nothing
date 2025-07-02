@@ -1,0 +1,17 @@
+{{ define "main" }}
+<section class="article-list">
+    <h2>{{ .Title }}</h2>
+    {{ with .Content }}
+    <article>{{ . }}</article>
+    {{ end }}
+    <ul>
+        {{ range .Pages }}
+        <li>
+            <a href="{{ .RelPermalink }}">
+                {{ .Title | default (.File.BaseFileName) }}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</section>
+{{ end }}
