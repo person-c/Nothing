@@ -388,7 +388,7 @@ article table td {
 }
 
 *:lang(en) {
-    font-family: 'EB Garamond', serif;
+    font-family: var(--font-serif);
 }
 
 article *:lang(zh),
