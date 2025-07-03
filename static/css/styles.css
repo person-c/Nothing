@@ -418,6 +418,7 @@ p {
     margin-top: 1rem;
 }
 
+
 h1,
 h2,
 h3,
@@ -445,6 +446,13 @@ h3 {
 article>h1 {
     text-align: center;
     margin: 20px 0;
+}
+
+blockquote {
+    color: #666;
+    margin: 0;
+    padding: 1px 1em;
+    border-left: .5em solid #eee;
 }
 
 .post-date {
