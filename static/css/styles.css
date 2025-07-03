@@ -414,10 +414,10 @@ p {
     margin-bottom: 1rem;
 }
 
-.highlight+p {
+.highlight+p,
+.highlight+blockquote {
     margin-top: 1rem;
 }
-
 
 h1,
 h2,
