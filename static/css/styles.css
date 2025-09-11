@@ -29,10 +29,15 @@
     --code-color: #d6336c;
     --white-color: #ffffff;
     --shadow-color-light: rgba(0, 0, 0, 0.05);
-    --shadow-color-medium: rgba(0, 0, 0, 0.1);
 
     --font-serif: 'EB Garamond', 'Noto Serif SC', serif;
     --font-mono: Consolas, Courier, 'Lucida Console', 'Courier New', 'Kai SC', 'Kai TC', monospace;
+
+    /* 添加字体大小变量 */
+    --font-size-zh: 16px;
+    /* 中文默认大小 */
+    --font-size-en: 18px;
+    /* 英文默认大小 */
 }
 
 html {
@@ -49,7 +54,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: var(--font-serif);
-    font-size: 18px;
+    font-size: var(--font-size-en);
     line-height: 1.6;
     background-color: var(--white-color);
     color: var(--text-color);
@@ -57,6 +62,12 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+/* 根据页面语言属性调整基础字体大小 */
+html:lang(zh) body,
+html:lang(zh-CN) body {
+    font-size: var(--font-size-zh);
 }
 
 
@@ -82,6 +93,7 @@ article {
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
+    font-size-adjust: 0.46;
 }
 
 
@@ -122,6 +134,11 @@ header ul,
     gap: 2rem;
 }
 
+/* This is an intentional override for the footer */
+.social-links {
+    gap: 1rem;
+}
+
 header li a,
 .social-links li a {
     color: var(--text-color-light);
@@ -143,45 +160,10 @@ header li a:hover,
     gap: 2rem;
 }
 
-.social-links {
-    list-style: none;
-    display: flex;
-    padding: 0;
-    margin: 0;
-    gap: 1rem;
-}
-
 .copyright {
     font-size: 0.8rem;
     color: var(--text-color-light);
     margin: 0;
-}
-
-@media (max-width: 600px) {
-
-    header,
-    footer {
-        padding: 0.8rem 0;
-    }
-
-    header ul,
-    .social-links {
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-    header li a,
-    .social-links li a {
-        font-size: 0.85rem;
-    }
-
-    .footer-content {
-        gap: 1rem;
-    }
-
-    .social-links {
-        gap: 0.8rem;
-    }
 }
 
 /* --- Article List --- */
@@ -233,18 +215,6 @@ header li a:hover,
 
 .post-link:hover {
     color: var(--primary-color);
-}
-
-@media (max-width: 600px) {
-    .post-item {
-        flex-direction: column;
-        gap: 0.2rem;
-        /* 减小垂直间距 */
-    }
-
-    .post-date {
-        font-size: 0.8rem;
-    }
 }
 
 /* --- Asides (Footnotes & TOC) --- */
@@ -446,10 +416,6 @@ h code {
     font-size: 100%;
 }
 
-/* p code {
-    font-size: 90%;
-} */
-
 .highlight {
     background: var(--white-color);
     padding: 2px 15px;
@@ -491,22 +457,6 @@ article table td {
 *:lang(zh-HK) {
     font-family: 'Noto Serif SC', serif;
 }
-
-/* *:lang(en) {
-    font-family: var(--font-serif);
-} */
-/* 
-article *:lang(zh),
-article *:lang(zh-CN),
-article *:lang(zh-TW),
-article *:lang(zh-HK) {
-    font-size: 14px;
-}
-
-article *:lang(en) {
-    font-size: 18px;
-    line-height: 1.6;
-} */
 
 /* --- General Typography --- */
 p {
@@ -667,37 +617,7 @@ aside.footnotes a:hover,
     }
 
     .inserted-footnotes-container {
-        box-sizing: border-box;
-        /* 同样添加，确保行为一致 */
-        width: calc(100% - 1.5rem);
-        /* 关键修复：宽度减去左外边距 */
-        margin: 1rem 0 1rem 1.5rem;
-        padding: 0.75rem 1rem;
-        border-left: 3px solid var(--primary-color);
-        background-color: var(--bg-color-light);
-        border-radius: 4px;
-        font-size: 0.9em;
-        color: var(--text-color-light);
         transition: background-color 0.3s ease;
-        overflow-x: auto;
-    }
-
-    .inserted-footnotes-container ol {
-        padding-left: 1.2rem;
-        margin: 0;
-    }
-
-    .inserted-footnotes-container li {
-        margin-bottom: 0.5rem;
-    }
-
-    .inserted-footnotes-container li:last-child {
-        margin-bottom: 0;
-    }
-
-    .inserted-footnotes-container p {
-        margin: 0;
-        display: inline;
     }
 }
 
@@ -719,7 +639,6 @@ aside.footnotes a:hover,
         /* 增大行高，让文本不拥挤 */
     }
 
-    /* 在小屏幕上减少左右内边距，为内容提供更多空间 */
     article {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
@@ -740,8 +659,27 @@ aside.footnotes a:hover,
         /* 如果链接过多，允许换行 */
         justify-content: center;
     }
-}
 
-/* * {
-    border: 1px solid red;
-} */
+    header li a,
+    .social-links li a {
+        font-size: 0.85rem;
+    }
+
+    .footer-content {
+        gap: 1rem;
+    }
+
+    .social-links {
+        gap: 0.8rem;
+    }
+
+    .post-item {
+        flex-direction: column;
+        gap: 0.2rem;
+        /* 减小垂直间距 */
+    }
+
+    .post-date {
+        font-size: 0.8rem;
+    }
+}
