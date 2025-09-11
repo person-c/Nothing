@@ -92,32 +92,73 @@ article {
 /* --- Header & Footer --- */
 header,
 footer {
-    background: var(--bg-color-light);
-    padding: 20px;
+    background: var(--white-color);
+    padding: 1rem 0;
     text-align: center;
     width: 100%;
+    border-bottom: 1px solid var(--border-color);
 }
 
 footer {
-    box-shadow: 0 -2px 5px var(--shadow-color-medium);
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
+    margin-top: 2rem;
+}
+
+.nav-container,
+.footer-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 header ul,
-footer ul {
+.social-links {
     list-style: none;
     display: flex;
     justify-content: center;
     padding: 0;
     margin: 0;
+    gap: 2rem;
 }
 
-header li,
-footer li {
-    margin: 0 10px;
+header li a,
+.social-links li a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    padding: 0.2rem 0;
 }
 
-footer p {
-    margin-bottom: 0px;
+header li a:hover,
+.social-links li a:hover {
+    color: var(--primary-color);
+}
+
+.copyright {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+}
+
+@media (max-width: 600px) {
+
+    header,
+    footer {
+        padding: 0.8rem 0;
+    }
+
+    header ul,
+    .social-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    header li a,
+    .social-links li a {
+        font-size: 0.85rem;
+    }
 }
 
 /* --- Article List --- */
