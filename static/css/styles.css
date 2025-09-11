@@ -136,10 +136,25 @@ header li a:hover,
     color: var(--primary-color);
 }
 
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-links {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+}
+
 .copyright {
-    margin-top: 0.5rem;
     font-size: 0.8rem;
     color: var(--text-color-light);
+    margin: 0;
 }
 
 @media (max-width: 600px) {
@@ -158,6 +173,14 @@ header li a:hover,
     header li a,
     .social-links li a {
         font-size: 0.85rem;
+    }
+
+    .footer-content {
+        gap: 1rem;
+    }
+
+    .social-links {
+        gap: 0.8rem;
     }
 }
 
