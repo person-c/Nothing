@@ -116,6 +116,10 @@ footer li {
     margin: 0 10px;
 }
 
+footer p {
+    margin-bottom: 0px;
+}
+
 /* --- Article List --- */
 .article-list {
     margin: 20px auto;
