@@ -1,15 +1,14 @@
 {{ define "main" }}
 <section class="article-list">
-    <h2>{{ .Title }}</h2>
+    <h2 class="list-title">{{ .Title }}</h2>
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}
-    <ul>
+    <ul class="post-list">
         {{ range .Pages }}
-        <li>
-            <a href="{{ .Permalink }}" class="article-title">
-                {{ .Title }}
-            </a>
+        <li class="post-item">
+            <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+            <a href="{{ .Permalink }}" class="post-link">{{ .Title }}</a>
         </li>
         {{ end }}
     </ul>
