@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Lang | default .Site.Language.Lang | default " en" }}">
+<html lang="{{ .Lang | default .Site.Language.Lang | default "en" }}">
 
 <head>
     <meta charset="UTF-8">
@@ -20,18 +20,20 @@
 <body>
     {{ partial "header.html" . }}
 
-    <main>
-        <article>
-            <div>{{ .Content }}</div>
+    <main class="home-main">
+        <article class="home-content">
+            {{ .Content }}
         </article>
+
+        <div class="home-footer">
+            <a href="https://github.com/person-c/myBlog" target="_blank">GitHub</a>
+            <span class="separator">·</span>
+            <a href="mailto:m2c.w@outlook.com">Mail</a>
+            <span class="separator">·</span>
+            <span class="copyright">&copy; {{ now.Format "2006" }}</span>
+        </div>
     </main>
 
-    {{ partial "footer.html" . }}
-
-    <!-- Global script, loaded on all pages. The 'defer' attribute is a good practice. -->
-    <script src="{{ " js/scripts.js" | relURL }}" defer></script>
-
-    <!-- Block for page-specific scripts, like the one in single.html -->
     {{ block "scripts" . }}{{ end }}
 </body>
 

@@ -704,9 +704,7 @@ header {
 
 .nav-bar {
     width: 2px;
-    /* 改为竖线 */
     height: 80px;
-    /* 增加高度 */
     background-color: rgba(128, 128, 128, 0.4);
     margin: 8px 8px 0 0;
     transition: background-color 0.3s ease;
@@ -719,7 +717,6 @@ header {
     list-style: none;
     background-color: var(--white-color);
     padding: 0.2rem 0;
-    /* 减小上下内边距 */
     margin: 0;
     border-radius: 3px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -730,20 +727,17 @@ header {
     display: flex;
     flex-direction: column;
     min-width: 120px;
-    /* 设置最小宽度 */
 }
 
 .nav-menu li {
     padding: 0;
     margin: 0;
     text-align: left;
-    /* 改为左对齐 */
 }
 
 .nav-menu li a {
     display: block;
     padding: 0.25rem 1rem;
-    /* 减小内边距 */
     color: var(--text-color);
     font-size: 0.85rem;
     transition: all 0.2s ease;
@@ -754,31 +748,118 @@ header {
     color: var(--primary-color);
     background-color: var(--bg-color-light);
     padding-left: 1.3rem;
-    /* 悬浮时增加左侧内边距 */
 }
 
-/* Show menu on hover */
 .nav-container:hover .nav-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
-    /* 改为水平方向的位移 */
 }
 
 .nav-container:hover .nav-bar {
     background-color: rgba(128, 128, 128, 0.6);
 }
 
-/* Mobile adjustments */
 @media (max-width: 600px) {
     .nav-bar {
         width: 2px;
         height: 60px;
-        /* 移动端略短一些 */
     }
 
     .nav-menu {
         width: 140px;
-        /* 减小菜单宽度 */
+    }
+}
+
+/* --- Home Page Styles --- */
+.home-main {
+    max-width: 800px;
+    margin: 0.5rem auto;
+    /* 从 1rem 改为 0.5rem */
+    padding: 0 1.5rem;
+}
+
+.home-content {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* 首段文字特殊样式 */
+.home-content>p:first-of-type {
+    margin: 1rem 0;
+    /* 从 2rem 改为 1rem */
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.home-content>p:first-of-type::before,
+.home-content>p:first-of-type::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: var(--border-color);
+    margin: 1.5rem auto;
+    /* 从 2rem 改为 1.5rem */
+}
+
+/* 英文部分特殊样式 */
+.home-content>p:last-of-type {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .home-main {
+        margin: 1rem auto;
+        padding: 0 1rem;
+    }
+
+    .home-content>p:first-of-type {
+        margin: 2rem 0;
+        font-size: 1rem;
+    }
+}
+
+/* --- Home Footer Styles --- */
+.home-footer {
+    max-width: 800px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    color: var(--text-color-light);
+    font-size: 0.85rem;
+}
+
+.home-footer a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.home-footer a:hover {
+    color: var(--primary-color);
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: var(--border-color);
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+}
+
+@media (max-width: 600px) {
+    .home-footer {
+        margin: 0px;
+        padding: 0px;
     }
 }
