@@ -404,6 +404,17 @@ sup.footnote-ref:hover {
     text-decoration: underline;
 }
 
+a.footnote-return {
+    font-size: 0.85em;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-left: 0.2em;
+}
+
+a.footnote-return:hover {
+    text-decoration: underline;
+}
+
 div.footnotes {
     display: none;
     margin-top: 2rem;
