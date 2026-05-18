@@ -1,4 +1,6 @@
 {{ define "main" }}
+{{ if and hugo.IsProduction (eq .Section "daily_life") }}
+{{ else }}
 <section class="article-list">
     <h2 class="list-title">{{ .Title }}</h2>
     {{ with .Content }}
@@ -13,4 +15,5 @@
         {{ end }}
     </ul>
 </section>
+{{ end }}
 {{ end }}

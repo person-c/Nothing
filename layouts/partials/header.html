@@ -7,6 +7,9 @@
             <li><a href="{{ "/daily_work/" | relURL }}">Daily-Work</a></li>
             <li><a href="{{ "/note/" | relURL }}">Note</a></li>
             <li><a href="{{ "/slides/" | relURL }}">Slides</a></li>
+            {{ if not hugo.IsProduction }}
+            <li><a href="{{ "/daily_life/" | relURL }}">Daily-Life</a></li>
+            {{ end }}
         </ul>
     </nav>
 </header>

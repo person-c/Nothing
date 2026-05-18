@@ -1,4 +1,6 @@
 {{ define "main" }}
+{{ if and hugo.IsProduction (eq .Section "daily_life") }}
+{{ else }}
 <div class="layout">
     <!-- 左侧脚注区域 (Sidenotes) -->
     <aside class="footnotes"></aside>
@@ -26,6 +28,7 @@
         <nav id="toc"></nav>
     </aside>
 </div>
+{{ end }}
 {{ end }}
 
 
