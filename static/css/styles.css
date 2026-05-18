@@ -958,3 +958,63 @@ aside.footnotes a:hover,
         padding: 0;
     }
 }
+
+/* ==========================================================================
+   6. Print Styles
+   ========================================================================== */
+
+@media print {
+    header,
+    aside.footnotes,
+    aside.toc,
+    .nav-container,
+    .nav-bar,
+    .nav-menu {
+        display: none !important;
+    }
+
+    .layout {
+        display: block;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    article {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+
+    article .fullwidth {
+        max-width: none;
+        width: auto;
+        margin-left: 0;
+    }
+
+    .highlight {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    article table {
+        break-inside: avoid;
+    }
+
+    article img {
+        max-width: 100% !important;
+        break-inside: avoid;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    a {
+        color: inherit;
+    }
+}
