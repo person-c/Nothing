@@ -762,6 +762,25 @@ blockquote {
     border-left: .2em solid #eee;
 }
 
+/* --- List Styles --- */
+article ul,
+article ol {
+    padding-left: 1.5em;
+    margin: 0.5rem 0 1rem 0;
+}
+
+article li {
+    margin-bottom: 0.3rem;
+}
+
+article ul ul,
+article ol ol,
+article ul ol,
+article ol ul {
+    margin: 0.25rem 0;
+}
+
+/* --- Last Modified --- */
 .last-modified {
     display: flex;
     justify-content: flex-end;
