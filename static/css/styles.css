@@ -82,7 +82,7 @@ main {
 
 .layout {
     display: grid;
-    grid-template-columns: 15% auto 20%;
+    grid-template-columns: 20% auto 15%;
     gap: 1rem;
     align-items: flex-start;
     max-width: 1400px;
