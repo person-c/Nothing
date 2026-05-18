@@ -2,10 +2,8 @@
 {{ if and hugo.IsProduction (eq .Section "daily_life") }}
 {{ else }}
 <div class="layout">
-    <!-- 左侧脚注区域 (Sidenotes) -->
     <aside class="footnotes"></aside>
 
-    <!-- 中间文章内容 -->
     <article>
         <h1>
             {{ .Title }}
@@ -13,7 +11,7 @@
             <span class="post-date">/{{ .Format "2006-01-02" }}</span>
             {{ end }}
         </h1>
-        <div>
+        <div class="content-wrapper">
             {{ .Content }}
         </div>
         {{ with .Lastmod }}
@@ -23,7 +21,6 @@
         {{ end }}
     </article>
 
-    <!-- 右侧目录区域 -->
     <aside class="toc">
         <nav id="toc"></nav>
     </aside>
@@ -38,4 +35,5 @@
 */}}
 {{ define "scripts" }}
 <script src="{{ "js/article-page.js" | relURL }}" defer></script>
+<script src="{{ "js/fullwidth.js" | relURL }}" defer></script>
 {{ end }}

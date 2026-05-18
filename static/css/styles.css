@@ -94,6 +94,7 @@ article {
     margin: 0 auto;
     padding: 1rem;
     font-size-adjust: 0.46;
+    min-width: 0;
 }
 
 .home-main {
@@ -221,20 +222,26 @@ header li a:hover,
 }
 
 /* --- Asides (Footnotes & TOC) --- */
-aside.footnotes,
-aside.toc {
+aside.footnotes {
     position: relative;
+    z-index: 1;
     padding: 0 1rem;
     font-size: 0.85rem;
     color: var(--text-color-light);
+    background: var(--white-color);
 }
 
 aside.toc {
     position: sticky;
+    z-index: 1;
     top: 1rem;
     height: fit-content;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
+    padding: 0 1rem;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
     border-left: 1px solid var(--border-color);
 }
 
@@ -480,7 +487,7 @@ h code {
 
 .highlight {
     background: var(--white-color);
-    padding: 2px 15px;
+    padding: 2px 20px;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
     box-shadow: 0 4px 6px var(--shadow-color-light);
@@ -493,11 +500,12 @@ h code {
 }
 
 article table {
-    display: block;
-    width: 100%;
+    display: table;
+    width: auto;
+    max-width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem auto;
 }
 
 article table th,
@@ -505,6 +513,52 @@ article table td {
     padding: 10px;
     border: 1px solid var(--border-color);
     text-align: left;
+}
+
+/* --- Full-width Elements --- */
+/* JS sets width and margin-left as inline styles with !important priority. */
+
+article .fullwidth {
+    max-width: none;
+}
+
+/* Content fits layout → no scrollbar needed, add breathing room */
+article .highlight.fullwidth:not(.fullwidth-scroll) {
+    overflow-x: visible;
+    padding-right: 30px;
+}
+article .highlight.fullwidth:not(.fullwidth-scroll) pre {
+    overflow-x: visible;
+}
+article table.fullwidth:not(.fullwidth-scroll) {
+    overflow-x: visible;
+}
+
+/* Content exceeds layout → keep scrollbar for scrolling within expanded area */
+article .highlight.fullwidth-scroll,
+article table.fullwidth-scroll {
+    overflow-x: auto;
+}
+
+/* Tables: remove constraints, prevent re-wrapping */
+article table.fullwidth {
+    width: auto !important;
+    max-width: none !important;
+}
+article table.fullwidth th,
+article table.fullwidth td {
+    white-space: nowrap;
+}
+
+/* Images: don't force-stretch */
+article img.fullwidth {
+    width: auto !important;
+}
+
+/* Iframes and widgets */
+article iframe.fullwidth,
+article .html-widget.fullwidth {
+    max-width: none;
 }
 
 /* --- Home Page Styles --- */
@@ -781,7 +835,6 @@ aside.footnotes a:hover,
     article {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
-        width: 100vw;
     }
 
     header,
