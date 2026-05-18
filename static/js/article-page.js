@@ -26,6 +26,13 @@ function initResponsiveFootnotes() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(handleFootnotesLayout, 250);
     });
+    const article = document.querySelector("article");
+    if (article) {
+        new ResizeObserver(() => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(handleFootnotesLayout, 250);
+        }).observe(article);
+    }
 }
 function cleanupDynamicFootnotes() {
     const leftSidenotesContainer = document.querySelector("aside.footnotes");
@@ -39,6 +46,9 @@ function renderSidenotes(footnoteRefs) {
     const dynamicList = document.createElement("ul");
     dynamicList.id = "dynamic-footnotes";
     container.appendChild(dynamicList);
+
+    // First pass: create all items with their natural positions
+    const items = [];
     footnoteRefs.forEach(ref => {
         const footnoteId = ref.getAttribute("href").substring(1);
         const footnoteElement = document.getElementById(footnoteId);
@@ -48,13 +58,26 @@ function renderSidenotes(footnoteRefs) {
             const backLink = contentClone.querySelector('.footnote-return');
             if (backLink) backLink.remove();
             listItem.innerHTML = contentClone.innerHTML.trim();
+            listItem.style.position = "absolute";
+            dynamicList.appendChild(listItem);
             const refRect = ref.getBoundingClientRect();
             const containerRect = container.getBoundingClientRect();
-            const offsetTop = refRect.top - containerRect.top + container.scrollTop;
-            listItem.style.position = "absolute";
-            listItem.style.top = `${offsetTop}px`;
-            dynamicList.appendChild(listItem);
+            const desiredTop = refRect.top - containerRect.top + container.scrollTop;
+            items.push({ li: listItem, desiredTop: desiredTop });
         }
+    });
+
+    // Second pass: enforce minimum gap to prevent overlap
+    const minGap = 12;
+    let prevBottom = -Infinity;
+    items.forEach(item => {
+        const height = item.li.getBoundingClientRect().height;
+        let top = item.desiredTop;
+        if (top < prevBottom + minGap) {
+            top = prevBottom + minGap;
+        }
+        item.li.style.top = `${top}px`;
+        prevBottom = top + height;
     });
 }
 function renderInlineFootnotes(footnoteRefs) {

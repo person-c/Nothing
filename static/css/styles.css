@@ -327,9 +327,62 @@ aside.toc nav li.is-open>.toc-sublist {
 }
 
 #dynamic-footnotes li {
-    font-size: 0.85rem;
-    line-height: 1.6;
+    font-size: 0.92em;
+    line-height: 1.5;
     white-space: normal;
+}
+
+/* Scale down nested elements inside sidenotes */
+#dynamic-footnotes li p {
+    margin-bottom: 0.3rem;
+}
+
+#dynamic-footnotes li code {
+    font-size: 0.88em;
+}
+
+#dynamic-footnotes li .highlight {
+    font-size: 0.82em;
+    padding: 1px 8px;
+    border-radius: 3px;
+}
+
+#dynamic-footnotes li .highlight pre {
+    line-height: 1.4;
+}
+
+#dynamic-footnotes li table {
+    font-size: 0.9em;
+}
+
+#dynamic-footnotes li blockquote {
+    font-size: 0.95em;
+    margin: 0.3rem 0;
+    padding: 0 0.5em;
+}
+
+/* Scale down nested elements inside inline footnotes */
+.inserted-footnotes-container code {
+    font-size: 0.9em;
+}
+
+.inserted-footnotes-container .highlight {
+    font-size: 0.85em;
+    padding: 1px 8px;
+    border-radius: 3px;
+}
+
+.inserted-footnotes-container .highlight pre {
+    line-height: 1.4;
+}
+
+.inserted-footnotes-container table {
+    font-size: 0.9em;
+}
+
+.inserted-footnotes-container blockquote {
+    font-size: 0.95em;
+    margin: 0.3rem 0;
 }
 
 sup.footnote-ref {
@@ -389,6 +442,30 @@ div.footnotes ol {
 .inserted-footnotes-container p {
     margin: 0;
     display: inline;
+}
+
+/* --- Images & Figures --- */
+article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+}
+
+article figure {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+article figure img {
+    margin-bottom: 0.5rem;
+}
+
+article figcaption {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    font-style: italic;
+    margin-top: 0.25rem;
 }
 
 /* --- Code & Tables --- */
