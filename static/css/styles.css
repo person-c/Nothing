@@ -762,6 +762,14 @@ blockquote {
     border-left: .2em solid #eee;
 }
 
+/* --- Horizontal Rule --- */
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem auto;
+    width: 30%;
+}
+
 /* --- List Styles --- */
 article ul,
 article ol {
