@@ -504,6 +504,7 @@ h code {
     border-radius: 5px;
     box-shadow: 0 4px 6px var(--shadow-color-light);
     overflow-x: auto;
+    margin: 1.2rem 0;
 }
 
 .highlight pre {
