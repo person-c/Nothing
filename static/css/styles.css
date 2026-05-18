@@ -826,6 +826,12 @@ aside.footnotes a:hover,
     text-decoration: underline;
 }
 
+/* --- Selection --- */
+::selection {
+    background: var(--primary-color);
+    color: var(--white-color);
+}
+
 /* ==========================================================================
    5. Responsive Design
    ========================================================================== */
