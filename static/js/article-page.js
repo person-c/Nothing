@@ -15,7 +15,7 @@ function initResponsiveFootnotes() {
     function handleFootnotesLayout() {
         if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
         cleanupDynamicFootnotes();
-        if (window.innerWidth > 800) {
+        if (window.innerWidth > 1024) {
             renderSidenotes(footnoteRefs);
         } else {
             renderInlineFootnotes(footnoteRefs);
