@@ -37,6 +37,7 @@
 
 html {
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 *,
@@ -563,13 +564,20 @@ article table.fullwidth:not(.fullwidth-scroll) {
 
 /* Content exceeds layout → keep scrollbar for scrolling within expanded area */
 article .highlight.fullwidth-scroll,
-article table.fullwidth-scroll {
+article table.fullwidth-scroll,
+article iframe.fullwidth-scroll,
+article .html-widget.fullwidth-scroll {
     overflow-x: auto;
 }
 
-/* Tables: remove constraints, prevent re-wrapping */
+/* display:block needed on table for overflow-x to work reliably cross-browser */
+article table.fullwidth-scroll {
+    display: block;
+}
+
+/* Tables: remove constraints so JS can set explicit width */
 article table.fullwidth {
-    width: auto !important;
+    width: auto;
     max-width: none !important;
 }
 article table.fullwidth th,
@@ -992,6 +1000,10 @@ aside.footnotes a:hover,
         max-width: none;
         width: auto;
         margin-left: 0;
+    }
+
+    article table.fullwidth-scroll {
+        display: table;
     }
 
     .highlight {

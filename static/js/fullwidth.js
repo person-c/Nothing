@@ -6,19 +6,21 @@ function initFullwidth() {
     function detectFullwidthElements() {
         const layoutWidth = layout.clientWidth;
 
-        // 1. Code blocks
+        // 1. Code blocks: measure and save natural content width
         article.querySelectorAll('.highlight').forEach(el => {
             if (el.closest('.fullwidth')) return;
-            const needsSpace = el.scrollWidth > el.clientWidth + 2;
+            const natWidth = el.scrollWidth;
+            const needsSpace = natWidth > el.clientWidth + 2;
             if (needsSpace) {
                 el.classList.add('fullwidth');
-                if (el.scrollWidth > layoutWidth) {
+                el.dataset.natWidth = natWidth;
+                if (natWidth > layoutWidth) {
                     el.classList.add('fullwidth-scroll');
                 }
             }
         });
 
-        // 2. Tables: measure unwrapped content width
+        // 2. Tables: measure unwrapped content width, save it
         article.querySelectorAll('table').forEach(table => {
             if (table.closest('.fullwidth')) return;
             const cells = table.querySelectorAll('th, td');
@@ -41,13 +43,14 @@ function initFullwidth() {
             const needsSpace = naturalWidth > parentWidth + 2;
             if (needsSpace) {
                 table.classList.add('fullwidth');
+                table.dataset.natWidth = naturalWidth;
                 if (naturalWidth > layoutWidth) {
                     table.classList.add('fullwidth-scroll');
                 }
             }
         });
 
-        // 3. Images: only expand if natural width fits within layout (can't scroll images)
+        // 3. Images: only expand if natural width fits within layout
         article.querySelectorAll('img').forEach(img => {
             if (img.closest('.fullwidth')) return;
             checkImage(img, layoutWidth);
@@ -57,10 +60,14 @@ function initFullwidth() {
         article.querySelectorAll('iframe, .html-widget, .plotly, .leaflet, [id*="htmlwidget"]').forEach(el => {
             if (el.closest('.fullwidth')) return;
             const parentWidth = el.parentElement.clientWidth;
-            const elWidth = el.offsetWidth || parseInt(el.getAttribute('width')) || 0;
+            // Use max: offsetWidth may be constrained by parent, but width attribute
+            // declares the real intended size. The larger one is the natural width.
+            const attrWidth = parseInt(el.getAttribute('width')) || 0;
+            const elWidth = Math.max(el.offsetWidth || 0, attrWidth);
             const needsSpace = elWidth > parentWidth + 10;
             if (needsSpace) {
                 el.classList.add('fullwidth');
+                el.dataset.natWidth = elWidth;
                 if (elWidth > layoutWidth) {
                     el.classList.add('fullwidth-scroll');
                 }
@@ -75,6 +82,7 @@ function initFullwidth() {
             const fitsLayout = img.naturalWidth <= layout.clientWidth;
             if (needsSpace && fitsLayout) {
                 img.classList.add('fullwidth');
+                img.dataset.natWidth = img.naturalWidth;
                 applyAllOffsets();
             }
         }
@@ -87,9 +95,8 @@ function initFullwidth() {
     }
 
     function getNaturalWidth(el) {
+        if (el.dataset.natWidth) return parseFloat(el.dataset.natWidth);
         if (el.tagName === 'IMG') return el.naturalWidth;
-        if (el.tagName === 'TABLE') return el.scrollWidth;
-        if (el.classList.contains('highlight')) return el.scrollWidth;
         return el.offsetWidth || parseInt(el.getAttribute('width')) || layout.clientWidth;
     }
 
@@ -98,29 +105,77 @@ function initFullwidth() {
         const articleRect = article.getBoundingClientRect();
         const artStyle = getComputedStyle(article);
         const padLeft = parseFloat(artStyle.paddingLeft);
+        const padRight = parseFloat(artStyle.paddingRight);
         const contentLeft = articleRect.left + padLeft;
+        const contentRight = articleRect.right - padRight;
+        const contentWidth = contentRight - contentLeft;
         const layoutCenterX = layoutRect.left + layoutRect.width / 2;
+        const viewportWidth = document.documentElement.clientWidth;
 
         article.querySelectorAll('.fullwidth').forEach(el => {
-            el.style.setProperty('max-width', 'none', 'important');
-
-            const isScroll = el.classList.contains('fullwidth-scroll');
             const natWidth = getNaturalWidth(el);
-            let useWidth = isScroll ? layoutRect.width : natWidth;
 
-            // Code blocks get extra right padding; compensate width
-            if (el.classList.contains('highlight') && !isScroll) {
-                useWidth += 10;
+            // Determine whether this element needs internal scrolling
+            // at the current viewport (not just at load time).
+            const needsScroll = natWidth > layoutRect.width + 2;
+
+            // Keep CSS class in sync so existing stylesheet rules apply cleanly.
+            if (needsScroll) {
+                el.classList.add('fullwidth-scroll');
+            } else {
+                el.classList.remove('fullwidth-scroll');
             }
 
+            // Calculate width
+            let useWidth;
+            if (needsScroll) {
+                // Fill layout width (capped at viewport), content scrolls inside
+                useWidth = Math.min(layoutRect.width, viewportWidth);
+            } else {
+                // Expand to natural width (into sidebars on wide layouts)
+                useWidth = natWidth;
+                // Compensate for padding-right added by CSS on non-scroll highlights
+                if (el.classList.contains('highlight')) {
+                    useWidth += 10;
+                }
+            }
+
+            // Hard cap: never wider than the viewport
+            useWidth = Math.min(useWidth, viewportWidth);
+
+            // Set width
             if (el.tagName === 'IMG') {
                 el.style.setProperty('width', 'auto', 'important');
+                el.style.removeProperty('max-width');
             } else {
-                el.style.setProperty('width', useWidth + 'px', 'important');
+                el.style.setProperty('width', Math.floor(useWidth) + 'px', 'important');
+                el.style.setProperty('max-width', 'none', 'important');
+                // Remove HTML width attribute so it doesn't fight inline style
+                if (el.hasAttribute('width')) {
+                    el.removeAttribute('width');
+                }
             }
 
-            const targetLeft = layoutCenterX - useWidth / 2;
-            el.style.setProperty('margin-left', (targetLeft - contentLeft) + 'px', 'important');
+            // Center in layout, then clamp to viewport bounds
+            let marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
+
+            // Don't push past left edge of viewport
+            if (marginLeft < -contentLeft) {
+                marginLeft = -contentLeft;
+            }
+
+            // Don't let right edge exceed viewport
+            const rightEdge = contentLeft + marginLeft + useWidth;
+            if (rightEdge > viewportWidth) {
+                marginLeft -= (rightEdge - viewportWidth);
+            }
+
+            // Re-check left edge
+            if (marginLeft < -contentLeft) {
+                marginLeft = -contentLeft;
+            }
+
+            el.style.setProperty('margin-left', Math.floor(marginLeft) + 'px', 'important');
         });
     }
 
