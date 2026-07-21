@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // --- 模块化初始化 ---
     initResponsiveFootnotes();
-    initTableOfContents(); // Now generates a nested structure
-    initTocInteractivity(); // New: handles collapse/expand
+    initTableOfContents();
+    initTocInteractivity();
     initTOCScrollSpy();
+    initMobileToc();
 });
 
 // ... (initResponsiveFootnotes 和其辅助函数保持不变) ...
@@ -177,6 +177,12 @@ function initTableOfContents() {
     });
 
     tocContainer.appendChild(tocList);
+
+    tocContainer.querySelectorAll('.collapsible').forEach(function (li) {
+        li.classList.add('is-open');
+        var btn = li.querySelector('.toc-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    });
 }
 
 /**
@@ -186,7 +192,8 @@ function createToggleButton() {
     const button = document.createElement('button');
     button.className = 'toc-toggle';
     button.setAttribute('aria-expanded', 'false');
-    button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+    button.setAttribute('aria-label', 'Toggle section');
+    button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
     return button;
 }
 
@@ -230,4 +237,17 @@ function initTOCScrollSpy() {
         });
     }, { rootMargin: "0px 0px -75% 0px", threshold: 0.1 });
     headings.forEach(heading => observer.observe(heading));
+}
+
+/* ---------------------------- Mobile TOC Toggle ----------------------------- */
+function initMobileToc() {
+    var toggle = document.querySelector('.toc-mobile-toggle');
+    var toc = document.querySelector('aside.toc');
+    if (!toggle || !toc) return;
+
+    toggle.addEventListener('click', function () {
+        var isOpen = toc.classList.toggle('mobile-visible');
+        toggle.classList.toggle('is-open', isOpen);
+        toggle.setAttribute('aria-expanded', isOpen);
+    });
 }
