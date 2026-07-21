@@ -18,5 +18,13 @@
     {{ $css := resources.Get "css/styles.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
+    <script>
+        (function() {
+            var t = localStorage.getItem('theme');
+            if (t === 'dark') document.documentElement.classList.add('dark');
+            else if (t === 'light') document.documentElement.classList.add('light');
+        })();
+    </script>
+
     {{ block "head" . }}{{ end }}
 </head>

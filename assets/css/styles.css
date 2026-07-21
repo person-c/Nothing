@@ -1112,8 +1112,9 @@ aside.footnotes a:hover,
    6. Dark Mode
    ========================================================================== */
 
+/* System dark mode preference (respects manual light override) */
 @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not(.light) {
         --primary-color: #4da6ff;
         --text-color: #d4d4d4;
         --text-color-light: #a0a0a0;
@@ -1125,80 +1126,158 @@ aside.footnotes a:hover,
         --shadow-color-light: rgba(0, 0, 0, 0.3);
     }
 
-    body {
+    :root:not(.light) body {
         background-color: #1a1a1e;
     }
 
-    header,
-    footer {
+    :root:not(.light) header,
+    :root:not(.light) footer {
         background: #1a1a1e;
     }
 
-    aside.footnotes,
-    aside.toc {
+    :root:not(.light) aside.footnotes,
+    :root:not(.light) aside.toc {
         background: #1a1a1e;
     }
 
-    .nav-menu {
+    :root:not(.light) .nav-menu {
         background-color: #2a2a2e;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
-    .nav-bar {
+    :root:not(.light) .nav-bar::after {
         background-color: rgba(180, 180, 180, 0.4);
     }
 
-    .nav-container:hover .nav-bar,
-    .nav-container:focus-within .nav-bar,
-    .nav-container.is-open .nav-bar {
+    :root:not(.light) .nav-container:hover .nav-bar::after,
+    :root:not(.light) .nav-container:focus-within .nav-bar::after,
+    :root:not(.light) .nav-container.is-open .nav-bar::after {
         background-color: rgba(180, 180, 180, 0.6);
     }
 
-    blockquote {
+    :root:not(.light) blockquote {
         color: #a0a0a0;
         border-left-color: #3a3a3e;
     }
 
-    .highlight {
+    :root:not(.light) .highlight {
         background: #1e1e22;
         border-color: #3a3a3e;
     }
 
-    article table thead th {
+    :root:not(.light) article table thead th {
         background: #252529;
     }
 
-    article table tbody tr:nth-child(even) {
+    :root:not(.light) article table tbody tr:nth-child(even) {
         background: rgba(255, 255, 255, 0.03);
     }
 
-    article table tbody tr:hover {
+    :root:not(.light) article table tbody tr:hover {
         background: rgba(77, 166, 255, 0.08);
     }
 
-    .inserted-footnotes-container {
+    :root:not(.light) .inserted-footnotes-container {
         background-color: #252529;
     }
 
-    .home-content>p:first-of-type,
-    .home-content>p:last-of-type,
-    .last-modified {
+    :root:not(.light) .home-content>p:first-of-type,
+    :root:not(.light) .home-content>p:last-of-type,
+    :root:not(.light) .last-modified {
         color: #a0a0a0;
     }
 
-    .home-content>p:first-of-type::before,
-    .home-content>p:first-of-type::after {
+    :root:not(.light) .home-content>p:first-of-type::before,
+    :root:not(.light) .home-content>p:first-of-type::after {
         background: #3a3a3e;
     }
 
-    .home-content>p:last-of-type {
+    :root:not(.light) .home-content>p:last-of-type {
         border-top-color: #3a3a3e;
     }
 
-    ::selection {
+    :root:not(.light) ::selection {
         background: #4da6ff;
         color: #1a1a1e;
     }
+}
+
+/* Manual dark mode override (takes precedence over media query) */
+:root.dark {
+    --primary-color: #4da6ff;
+    --text-color: #d4d4d4;
+    --text-color-light: #a0a0a0;
+    --bg-color-light: #252529;
+    --border-color: #3a3a3e;
+    --link-border-color: #555;
+    --code-color: #e083a8;
+    --white-color: #1a1a1e;
+    --shadow-color-light: rgba(0, 0, 0, 0.3);
+}
+
+:root.dark body {
+    background-color: #1a1a1e;
+}
+
+:root.dark header,
+:root.dark footer {
+    background: #1a1a1e;
+}
+
+:root.dark aside.footnotes,
+:root.dark aside.toc {
+    background: #1a1a1e;
+}
+
+:root.dark .nav-menu {
+    background-color: #2a2a2e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:root.dark blockquote {
+    color: #a0a0a0;
+    border-left-color: #3a3a3e;
+}
+
+:root.dark .highlight {
+    background: #1e1e22;
+    border-color: #3a3a3e;
+}
+
+:root.dark article table thead th {
+    background: #252529;
+}
+
+:root.dark article table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+:root.dark article table tbody tr:hover {
+    background: rgba(77, 166, 255, 0.08);
+}
+
+:root.dark .inserted-footnotes-container {
+    background-color: #252529;
+}
+
+:root.dark .home-content>p:first-of-type,
+:root.dark .home-content>p:last-of-type,
+:root.dark .last-modified {
+    color: #a0a0a0;
+}
+
+:root.dark .home-content>p:first-of-type::before,
+:root.dark .home-content>p:first-of-type::after {
+    background: #3a3a3e;
+}
+
+:root.dark .home-content>p:last-of-type {
+    border-top-color: #3a3a3e;
+}
+
+:root.dark ::selection {
+    background: #4da6ff;
+    color: #1a1a1e;
 }
 
 /* ==========================================================================
