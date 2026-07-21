@@ -714,41 +714,12 @@ header {
     padding: 0;
 }
 
-.header-controls {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    padding: 8px 8px 0 0;
-}
-
-.nav-container {
-    position: relative;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-bar {
-    width: 44px;
-    height: 80px;
-    background-color: transparent;
-    cursor: pointer;
-    position: relative;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.nav-bar::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background-color: rgba(128, 128, 128, 0.4);
-    transition: background-color 0.3s ease;
-}
-
+/* Theme toggle — fixed at top-left */
 .theme-toggle {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 1001;
     width: 28px;
     height: 28px;
     border: none;
@@ -770,44 +741,83 @@ header {
     background-color: var(--bg-color-light);
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+}
+
+.nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 0 0;
+}
+
+/* Horizontal bar trigger */
+.nav-bar {
+    width: 80px;
+    height: 44px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: rgba(128, 128, 128, 0.4);
+    transition: background-color 0.3s ease;
+}
+
+/* Horizontal nav menu — slides out to the left of the trigger */
 .nav-menu {
     position: absolute;
-    top: 0;
-    right: 20px;
+    right: 88px;
+    top: 50%;
+    transform: translateY(-50%);
     list-style: none;
     background-color: var(--white-color);
-    padding: 0.2rem 0;
+    padding: 4px 6px;
     margin: 0;
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     display: flex;
-    flex-direction: column;
-    min-width: 120px;
+    flex-direction: row;
+    gap: 2px;
+    white-space: nowrap;
 }
 
 .nav-menu li {
     padding: 0;
     margin: 0;
-    text-align: left;
 }
 
 .nav-menu li a {
     display: block;
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.6rem;
     color: var(--text-color);
     font-size: 0.85rem;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .nav-menu li a:hover {
     color: var(--primary-color);
     background-color: var(--bg-color-light);
-    padding-left: 1.3rem;
 }
 
 .nav-menu li a.active {
@@ -820,13 +830,12 @@ header {
 .nav-container.is-open .nav-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
 }
 
 .nav-container:hover .nav-bar::after,
 .nav-container:focus-within .nav-bar::after,
 .nav-container.is-open .nav-bar::after {
-    background-color: rgba(128, 128, 128, 0.6);
+    background-color: rgba(128, 128, 128, 0.7);
 }
 
 :root.dark .nav-bar::after {
@@ -836,7 +845,7 @@ header {
 :root.dark .nav-container:hover .nav-bar::after,
 :root.dark .nav-container:focus-within .nav-bar::after,
 :root.dark .nav-container.is-open .nav-bar::after {
-    background-color: rgba(180, 180, 180, 0.6);
+    background-color: rgba(180, 180, 180, 0.7);
 }
 
 .nav-bar:focus {
@@ -1142,18 +1151,25 @@ aside.footnotes a:hover,
     }
 
     .nav-bar {
-        width: 44px;
-        height: 60px;
+        width: 56px;
+        height: 36px;
     }
 
     .theme-toggle {
+        top: 6px;
+        left: 6px;
         width: 24px;
         height: 24px;
         font-size: 14px;
     }
 
+    /* Fall back to vertical dropdown on small screens */
     .nav-menu {
-        width: 140px;
+        right: 0;
+        top: 44px;
+        transform: none;
+        flex-direction: column;
+        min-width: 130px;
     }
 
     .home-main {
