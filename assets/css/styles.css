@@ -1209,6 +1209,10 @@ aside.footnotes a:hover,
     :root:not(.light) .article-footer {
         border-top-color: #3a3a3e;
     }
+
+    :root:not(.light) .pagination a {
+        border-color: #3a3a3e;
+    }
 }
 
 /* Manual dark mode override (takes precedence over media query) */
@@ -1298,6 +1302,10 @@ aside.footnotes a:hover,
     border-top-color: #3a3a3e;
 }
 
+:root.dark .pagination a {
+    border-color: #3a3a3e;
+}
+
 /* --- Code Copy Button --- */
 .code-block-wrapper {
     position: relative;
@@ -1365,6 +1373,40 @@ aside.footnotes a:hover,
     gap: 1rem;
     margin-bottom: 0.5rem;
     flex-wrap: wrap;
+}
+
+/* --- Pagination --- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-size: 0.9rem;
+}
+
+.pagination a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: 4px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pagination .page-info {
+    color: var(--text-color-light);
+    font-size: 0.85rem;
 }
 
 .article-footer .copyright {

@@ -19,3 +19,5 @@ theme = "Nothing"
 watch = true
 
 enableGitInfo = true
+
+paginate = 10
