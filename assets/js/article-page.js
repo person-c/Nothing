@@ -198,6 +198,42 @@ function initTableOfContents() {
         var btn = li.querySelector('.toc-toggle');
         if (btn) btn.setAttribute('aria-expanded', 'true');
     });
+
+    // Add TOC collapse/expand toggle button
+    var tocAside = document.querySelector('aside.toc');
+    var layout = document.querySelector('.layout');
+    if (tocAside && layout) {
+        var collapseBtn = document.createElement('button');
+        collapseBtn.className = 'toc-collapse-toggle';
+        collapseBtn.title = 'Collapse table of contents';
+        collapseBtn.innerHTML = '◀';
+        collapseBtn.setAttribute('aria-label', 'Collapse table of contents');
+        tocAside.insertBefore(collapseBtn, tocContainer);
+
+        // Restore persisted state
+        if (localStorage.getItem('toc-collapsed') === 'true') {
+            layout.classList.add('toc-collapsed');
+            tocAside.classList.add('collapsed');
+            collapseBtn.innerHTML = '☰';
+            collapseBtn.title = 'Expand table of contents';
+            collapseBtn.setAttribute('aria-label', 'Expand table of contents');
+        }
+
+        collapseBtn.addEventListener('click', function () {
+            var isCollapsed = layout.classList.toggle('toc-collapsed');
+            tocAside.classList.toggle('collapsed', isCollapsed);
+            localStorage.setItem('toc-collapsed', isCollapsed);
+            if (isCollapsed) {
+                collapseBtn.innerHTML = '☰';
+                collapseBtn.title = 'Expand table of contents';
+                collapseBtn.setAttribute('aria-label', 'Expand table of contents');
+            } else {
+                collapseBtn.innerHTML = '◀';
+                collapseBtn.title = 'Collapse table of contents';
+                collapseBtn.setAttribute('aria-label', 'Collapse table of contents');
+            }
+        });
+    }
 }
 
 /**
@@ -264,6 +300,12 @@ function initMobileToc() {
         var isOpen = toc.classList.toggle('mobile-visible');
         toggle.classList.toggle('is-open', isOpen);
         toggle.setAttribute('aria-expanded', isOpen);
+        // Override desktop collapsed state when opening on mobile
+        if (isOpen) {
+            toc.classList.remove('collapsed');
+            var layout = document.querySelector('.layout');
+            if (layout) layout.classList.remove('toc-collapsed');
+        }
     });
 }
 

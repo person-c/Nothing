@@ -228,11 +228,49 @@ aside.toc {
     height: fit-content;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 1rem;
     font-size: 0.85rem;
     color: var(--text-color-light);
     background: var(--white-color);
     border-left: 1px solid var(--border-color);
+}
+
+/* TOC collapse toggle */
+.toc-collapse-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.toc-collapse-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+aside.toc.collapsed {
+    padding: 0 6px;
+    overflow-y: hidden;
+}
+
+aside.toc.collapsed #toc {
+    display: none;
+}
+
+aside.toc.collapsed .toc-collapse-toggle {
+    margin: 0 auto;
 }
 
 aside.toc nav ul {
@@ -990,6 +1028,10 @@ aside.footnotes a:hover,
         padding: 1rem;
         margin-bottom: 1rem;
     }
+
+    aside.toc.mobile-visible #toc {
+        display: block;
+    }
 }
 
 /* Mobile TOC toggle button */
@@ -1105,6 +1147,23 @@ aside.footnotes a:hover,
     .home-footer {
         margin: 0;
         padding: 0;
+    }
+}
+
+/* --- Collapsed TOC layout overrides (after responsive so they win) --- */
+.layout.toc-collapsed {
+    grid-template-columns: 20% auto 32px;
+}
+
+@media (max-width: 1024px) {
+    .layout.toc-collapsed {
+        grid-template-columns: auto 32px;
+    }
+}
+
+@media (max-width: 800px) {
+    .layout.toc-collapsed {
+        grid-template-columns: 1fr;
     }
 }
 
