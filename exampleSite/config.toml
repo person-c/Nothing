@@ -3,6 +3,8 @@ languageCode = "en-us"
 title = "Nightingale"
 theme = "Nothing"
 
+ignoreFiles = ["\\.Rmd$"]
+
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
