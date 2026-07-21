@@ -21,18 +21,23 @@ function initResponsiveFootnotes() {
             renderInlineFootnotes(footnoteRefs);
         }
     }
-    handleFootnotesLayout();
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(handleFootnotesLayout, 250);
     });
     const article = document.querySelector("article");
     if (article) {
+        let observerInitialized = false;
         new ResizeObserver(() => {
+            if (!observerInitialized) {
+                observerInitialized = true;
+                return;
+            }
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(handleFootnotesLayout, 250);
         }).observe(article);
     }
+    handleFootnotesLayout();
 }
 function cleanupDynamicFootnotes() {
     const leftSidenotesContainer = document.querySelector("aside.footnotes");

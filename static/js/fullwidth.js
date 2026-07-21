@@ -183,15 +183,20 @@ function initFullwidth() {
     applyAllOffsets();
 
     let resizeTimer;
-    window.addEventListener('resize', () => {
+    function debouncedApply() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(applyAllOffsets, 150);
-    });
+    }
+    window.addEventListener('resize', debouncedApply);
 
     const resizeObserver = new ResizeObserver(() => {
-        applyAllOffsets();
+        debouncedApply();
     });
     resizeObserver.observe(article);
 }
 
-document.addEventListener("DOMContentLoaded", initFullwidth);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFullwidth);
+} else {
+    initFullwidth();
+}
