@@ -14,9 +14,9 @@
         <div class="content-wrapper">
             {{ .Content }}
         </div>
-        {{ with .Lastmod }}
+        {{ if and .Lastmod .Date (gt .Lastmod .Date) }}
         <div class="last-modified">
-            Last-modified in {{ .Format "2006-01-02" }}
+            Last-modified in {{ .Lastmod.Format "2006-01-02" }}
         </div>
         {{ end }}
     </article>
