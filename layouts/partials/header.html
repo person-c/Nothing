@@ -20,41 +20,33 @@
         var navMenu = document.querySelector('.nav-menu');
         if (!navBar || !navMenu) return;
 
-        // Build overlay wrapper
-        var overlay = document.createElement('div');
-        overlay.className = 'nav-overlay';
-        document.body.appendChild(overlay);
-
         function openMenu() {
-            overlay.appendChild(navMenu);
-            overlay.classList.add('is-open');
+            navMenu.classList.add('is-open');
             navContainer.classList.add('is-open');
-            navBar.focus();
         }
 
         function closeMenu() {
-            navContainer.appendChild(navMenu);
-            overlay.classList.remove('is-open');
+            navMenu.classList.remove('is-open');
             navContainer.classList.remove('is-open');
         }
 
         navBar.addEventListener('click', function(e) {
             e.stopPropagation();
-            if (overlay.classList.contains('is-open')) {
+            if (navMenu.classList.contains('is-open')) {
                 closeMenu();
             } else {
                 openMenu();
             }
         });
 
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) closeMenu();
+        document.addEventListener('click', function(e) {
+            if (!navMenu.contains(e.target) && e.target !== navBar) {
+                closeMenu();
+            }
         });
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
-                closeMenu();
-            }
+            if (e.key === 'Escape') closeMenu();
         });
     })();
     </script>
