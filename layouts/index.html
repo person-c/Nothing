@@ -1,27 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ .Lang | default .Site.Language.Lang | default "en" }}">
-
-{{ partial "head.html" . }}
-
-<body>
-    <a href="#main-content" class="skip-to-content">Skip to content</a>
-    {{ partial "header.html" . }}
-
-    <main id="main-content" class="home-main">
-        <article class="home-content">
-            {{ .Content }}
-        </article>
-
-        <div class="home-footer">
-            <a href="https://github.com/person-c/myBlog" target="_blank">GitHub</a>
-            <span class="separator">·</span>
-            <a href="mailto:m2c.w@outlook.com">Mail</a>
-            <span class="separator">·</span>
-            <span class="copyright">&copy; {{ now.Format "2006" }}</span>
-        </div>
-    </main>
-
-    {{ block "scripts" . }}{{ end }}
-</body>
-
-</html>
+{{ define "main" }}
+<div class="home-main">
+    <article class="home-content">
+        {{ .Content }}
+    </article>
+</div>
+{{ end }}
