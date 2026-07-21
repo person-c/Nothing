@@ -1,7 +1,6 @@
 ---
 title: Theme Feature Test
 date: 2026-05-18
-lastmod: 2026-05-19
 ---
 
 This post tests all theme features: footnotes, table of contents, images, figures, code blocks, tables, and blockquotes.
