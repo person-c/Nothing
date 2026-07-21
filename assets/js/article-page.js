@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initMobileToc();
     initThemeToggle();
     initCodeCopyButtons();
+    initSidenoteReflow();
 });
 
 /* -------------------------------- Theme Toggle ------------------------------- */
@@ -83,8 +84,15 @@ function renderSidenotes(footnoteRefs) {
     dynamicList.id = "dynamic-footnotes";
     container.appendChild(dynamicList);
 
+    // Assign IDs to refs for back-linking
+    footnoteRefs.forEach(function (ref, index) {
+        if (!ref.id) ref.id = 'fnref-' + (index + 1);
+    });
+
     // First pass: create all items with their natural positions
     const items = [];
+    const containerRect = container.getBoundingClientRect();
+    var containerTop = containerRect.top + container.scrollTop;
     footnoteRefs.forEach(ref => {
         const footnoteId = ref.getAttribute("href").substring(1);
         const footnoteElement = document.getElementById(footnoteId);
@@ -96,9 +104,16 @@ function renderSidenotes(footnoteRefs) {
             listItem.innerHTML = contentClone.innerHTML.trim();
             listItem.style.position = "absolute";
             dynamicList.appendChild(listItem);
+
+            var backToRef = document.createElement('a');
+            backToRef.href = '#' + ref.id;
+            backToRef.className = 'sidenote-backlink';
+            backToRef.textContent = '↩';
+            backToRef.title = 'Back to reference';
+            listItem.appendChild(backToRef);
+
             const refRect = ref.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-            const desiredTop = refRect.top - containerRect.top + container.scrollTop;
+            const desiredTop = refRect.top - containerTop;
             items.push({ li: listItem, desiredTop: desiredTop });
         }
     });
@@ -310,4 +325,38 @@ function initCodeCopyButtons() {
             });
         });
     });
+}
+
+/* --------------------------- Sidenote Reflow ---------------------------- */
+function initSidenoteReflow() {
+    var fnRefs = document.querySelectorAll("a.footnote-ref");
+    if (fnRefs.length === 0) return;
+
+    function reflow() {
+        if (window.innerWidth > 1024) {
+            cleanupDynamicFootnotes();
+            renderSidenotes(fnRefs);
+        }
+    }
+
+    var reflowTimer;
+    var debouncedReflow = function () {
+        clearTimeout(reflowTimer);
+        reflowTimer = setTimeout(reflow, 250);
+    };
+
+    document.querySelectorAll('article img').forEach(function (img) {
+        if (img.complete) return;
+        img.addEventListener('load', debouncedReflow);
+    });
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+            setTimeout(reflow, 100);
+        });
+    }
+
+    new ResizeObserver(function () {
+        debouncedReflow();
+    }).observe(document.querySelector('article'));
 }
