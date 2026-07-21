@@ -846,14 +846,18 @@ a {
 
 article a:not(.footnote-ref):not(.footnote-return),
 .article-list a {
-    border-bottom: 1px dashed var(--link-border-color);
-    transition: border-bottom-color 0.2s ease, border-bottom-style 0.2s ease;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: var(--link-border-color);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s ease, text-decoration-style 0.2s ease;
 }
 
 article a:not(.footnote-ref):not(.footnote-return):hover,
 .article-list a:hover {
-    border-bottom-style: solid;
-    border-bottom-color: var(--text-color);
+    text-decoration-style: solid;
+    text-decoration-color: var(--text-color);
 }
 
 header a,
@@ -862,7 +866,7 @@ aside.toc a,
 aside.footnotes a,
 .inserted-footnotes-container a,
 sup.footnote-ref a {
-    border-bottom: none;
+    text-decoration: none;
 }
 
 aside.toc a:hover {
