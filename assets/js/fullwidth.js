@@ -182,6 +182,13 @@ function initFullwidth() {
     detectFullwidthElements();
     applyAllOffsets();
 
+    // Expose for TOC toggle to trigger recalculation
+    layout._fullwidthRecalc = function () {
+        requestAnimationFrame(function () {
+            requestAnimationFrame(applyAllOffsets);
+        });
+    };
+
     var rafId = null;
     function scheduleApply() {
         if (rafId) return;

@@ -219,11 +219,16 @@ function initTableOfContents() {
         floatBtn.setAttribute('aria-label', 'Show table of contents');
         document.body.appendChild(floatBtn);
 
+        function recalcFullwidth() {
+            if (layout._fullwidthRecalc) layout._fullwidthRecalc();
+        }
+
         function hideToc() {
             layout.classList.add('toc-hidden');
             tocAside.classList.add('hidden');
             floatBtn.classList.add('visible');
             localStorage.setItem('toc-hidden', 'true');
+            recalcFullwidth();
         }
 
         function showToc() {
@@ -231,6 +236,7 @@ function initTableOfContents() {
             tocAside.classList.remove('hidden');
             floatBtn.classList.remove('visible');
             localStorage.setItem('toc-hidden', 'false');
+            recalcFullwidth();
         }
 
         collapseBtn.addEventListener('click', hideToc);
@@ -311,7 +317,10 @@ function initMobileToc() {
         if (isOpen) {
             toc.classList.remove('hidden');
             var layout = document.querySelector('.layout');
-            if (layout) layout.classList.remove('toc-hidden');
+            if (layout) {
+                layout.classList.remove('toc-hidden');
+                if (layout._fullwidthRecalc) layout._fullwidthRecalc();
+            }
             var floatBtn = document.querySelector('.toc-float-toggle');
             if (floatBtn) floatBtn.classList.remove('visible');
         }
