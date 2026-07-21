@@ -13,6 +13,8 @@
        - Header Styles
    4.  Typography & Links
    5.  Responsive Design
+   6.  Dark Mode
+   7.  Print Styles
    ========================================================================== */
 
 /* ==========================================================================
@@ -981,7 +983,100 @@ aside.footnotes a:hover,
 }
 
 /* ==========================================================================
-   6. Print Styles
+   6. Dark Mode
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #4da6ff;
+        --text-color: #d4d4d4;
+        --text-color-light: #a0a0a0;
+        --bg-color-light: #252529;
+        --border-color: #3a3a3e;
+        --link-border-color: #555;
+        --code-color: #e083a8;
+        --white-color: #1a1a1e;
+        --shadow-color-light: rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+        background-color: #1a1a1e;
+    }
+
+    header,
+    footer {
+        background: #1a1a1e;
+    }
+
+    aside.footnotes,
+    aside.toc {
+        background: #1a1a1e;
+    }
+
+    .nav-menu {
+        background-color: #2a2a2e;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-bar {
+        background-color: rgba(180, 180, 180, 0.4);
+    }
+
+    .nav-container:hover .nav-bar,
+    .nav-container:focus-within .nav-bar,
+    .nav-container.is-open .nav-bar {
+        background-color: rgba(180, 180, 180, 0.6);
+    }
+
+    blockquote {
+        color: #a0a0a0;
+        border-left-color: #3a3a3e;
+    }
+
+    .highlight {
+        background: #1e1e22;
+        border-color: #3a3a3e;
+    }
+
+    article table thead th {
+        background: #252529;
+    }
+
+    article table tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    article table tbody tr:hover {
+        background: rgba(77, 166, 255, 0.08);
+    }
+
+    .inserted-footnotes-container {
+        background-color: #252529;
+    }
+
+    .home-content>p:first-of-type,
+    .home-content>p:last-of-type,
+    .last-modified {
+        color: #a0a0a0;
+    }
+
+    .home-content>p:first-of-type::before,
+    .home-content>p:first-of-type::after {
+        background: #3a3a3e;
+    }
+
+    .home-content>p:last-of-type {
+        border-top-color: #3a3a3e;
+    }
+
+    ::selection {
+        background: #4da6ff;
+        color: #1a1a1e;
+    }
+}
+
+/* ==========================================================================
+   7. Print Styles
    ========================================================================== */
 
 @media print {
