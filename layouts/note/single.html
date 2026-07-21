@@ -1,11 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-</head>
+<html lang="{{ .Lang | default .Site.Language.Lang | default "en" }}">
+
+{{ partial "head.html" . }}
+
 <body>
-    {{ .Content }}
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    {{ partial "header.html" . }}
+
+    <main id="main-content">
+        <div class="layout">
+            <article>
+                {{ .Content }}
+            </article>
+        </div>
+    </main>
+
+    {{ partial "footer.html" . }}
+
+    <script>
+    document.querySelector('.back-to-top')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    </script>
 </body>
 </html>
