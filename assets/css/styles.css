@@ -1205,6 +1205,10 @@ aside.footnotes a:hover,
         background: #1e1e22;
         border-color: #3a3a3e;
     }
+
+    :root:not(.light) .article-footer {
+        border-top-color: #3a3a3e;
+    }
 }
 
 /* Manual dark mode override (takes precedence over media query) */
@@ -1290,6 +1294,10 @@ aside.footnotes a:hover,
     border-color: #3a3a3e;
 }
 
+:root.dark .article-footer {
+    border-top-color: #3a3a3e;
+}
+
 /* --- Code Copy Button --- */
 .code-block-wrapper {
     position: relative;
@@ -1329,6 +1337,40 @@ aside.footnotes a:hover,
     height: 14px;
 }
 
+/* --- Article Footer --- */
+.article-footer {
+    max-width: 800px;
+    margin: 3rem auto 1rem;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+}
+
+.article-footer a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.article-footer a:hover {
+    color: var(--primary-color);
+}
+
+.article-footer .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.article-footer .copyright {
+    font-size: 0.8rem;
+}
+
 /* ==========================================================================
    7. Print Styles
    ========================================================================== */
@@ -1343,7 +1385,9 @@ aside.footnotes a:hover,
     .header-controls,
     .theme-toggle,
     .copy-button,
-    .toc-mobile-toggle {
+    .toc-mobile-toggle,
+    .pagination,
+    .article-footer {
         display: none !important;
     }
 
