@@ -722,6 +722,11 @@ header {
     padding-left: 1.3rem;
 }
 
+.nav-menu li a.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
 .nav-container:hover .nav-menu,
 .nav-container:focus-within .nav-menu,
 .nav-container.is-open .nav-menu {
