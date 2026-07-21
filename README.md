@@ -24,38 +24,37 @@ hugo server --noHTTPCache --disableFastRender --themesDir ../..
 Nothing/
 ├── theme.toml              # Theme metadata (name, author, Hugo version, etc.)
 ├── assets/
-│   ├── css/styles.css      # Placeholder (actual CSS lives in static/)
-│   └── js/scripts.js       # Placeholder
-├── static/
-│   ├── css/styles.css      # Core stylesheet (~1030 lines)
-│   ├── js/article-page.js  # Footnotes, TOC generation, ScrollSpy
-│   └── js/fullwidth.js     # Full-width element detection and offset calculation
+│   ├── css/styles.css      # Core stylesheet, processed via Hugo Pipes
+│   └── js/
+│       ├── article-page.js # Footnotes, TOC, ScrollSpy, dark mode, code copy
+│       └── fullwidth.js    # Full-width element detection and offset calculation
 ├── layouts/
 │   ├── _default/
-│   │   ├── baseof.html     # Base HTML frame (head, fonts, header partial)
-│   │   ├── single.html     # Single post template (3-column layout)
-│   │   └── list.html       # List page template
-│   ├── index.html          # Homepage (standalone, not inheriting baseof)
-│   ├── note/               # Minimal templates (raw .Content output, no chrome)
-│   ├── slides/             # Minimal templates (same as note)
+│   │   ├── baseof.html     # Base HTML frame (head, fonts, header, footer)
+│   │   ├── single.html     # Single post template (3-column layout + mobile TOC)
+│   │   └── list.html       # Section list template with pagination
+│   ├── index.html          # Homepage (inherits baseof via "main" block)
+│   ├── note/               # Templates for rendered R Markdown notes
+│   ├── slides/             # Templates for rendered presentations
 │   └── partials/
-│       ├── header.html     # Navigation bar (fixed, top-right, hover-triggered menu)
-│       └── footer.html     # Footer (unused — not referenced in baseof)
+│       ├── head.html       # <head> with SEO meta, OG tags, dark mode prevention
+│       ├── header.html     # Fixed nav bar (top-right) + theme toggle
+│       └── footer.html     # Article footer with copyright and links
 └── exampleSite/            # Demo site for theme development
 ```
 
 ### Template Inheritance
 
 ```
-baseof.html  (global <head>, fonts, CSS, includes header partial)
-├── index.html              → Homepage, defines "main" block
+baseof.html  (global <head>, fonts, CSS, includes header + footer partials)
+├── index.html              → Homepage, defines "main" block only
 ├── _default/single.html    → Posts, defines "main" and "scripts" blocks
-├── _default/list.html      → Section lists, defines "main" block
-├── note/single.html        → Standalone HTML (does NOT inherit baseof)
-└── slides/single.html      → Standalone HTML (does NOT inherit baseof)
+├── _default/list.html      → Section lists with pagination, defines "main" block
+├── note/single.html        → Standalone HTML with full styling + navigation
+└── slides/single.html      → Standalone HTML with full styling + navigation
 ```
 
-Note: `footer.html` exists but is **not included** by any template. Footer content is hardcoded in `index.html` for the homepage.
+All pages share a consistent footer via `layouts/partials/footer.html`. Dark mode preference is persisted in localStorage and applied before first paint via an inline script in `<head>`.
 
 ### Three-Column Layout (single.html)
 
@@ -267,7 +266,7 @@ The `<footer>` partial is **not used** — footer content is hardcoded inline in
 
 ### `note/` and `slides/` Sections
 
-These have completely standalone templates — they do **not** inherit from `baseof.html`. Their `single.html` is a bare HTML document containing only `{{ .Content }}`. This means: no styles, no JS, no footnote/TOC processing, no navigation. They are intended for raw content output (e.g., rendered R Markdown / Quarto HTML).
+These have standalone templates with full styling, navigation, and footer support. They include the same CSS, header, and footer as the rest of the site, making rendered R Markdown / Quarto HTML content feel integrated.
 
 ## License
 
