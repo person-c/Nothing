@@ -236,7 +236,7 @@ aside.toc {
     border-left: 1px solid var(--border-color);
 }
 
-/* TOC collapse toggle */
+/* TOC inline close button */
 .toc-collapse-toggle {
     display: flex;
     align-items: center;
@@ -252,7 +252,6 @@ aside.toc {
     padding: 0;
     margin-bottom: 0.6rem;
     transition: color 0.2s ease, border-color 0.2s ease;
-    flex-shrink: 0;
 }
 
 .toc-collapse-toggle:hover {
@@ -260,17 +259,40 @@ aside.toc {
     border-color: var(--primary-color);
 }
 
-aside.toc.collapsed {
-    padding: 0 6px;
-    overflow-y: hidden;
-}
-
-aside.toc.collapsed #toc {
+/* TOC floating toggle (visible only when TOC is hidden) */
+.toc-float-toggle {
     display: none;
+    position: fixed;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    width: 34px;
+    height: 34px;
+    background: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    align-items: center;
+    justify-content: center;
 }
 
-aside.toc.collapsed .toc-collapse-toggle {
-    margin: 0 auto;
+.toc-float-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toc-float-toggle.visible {
+    display: flex;
+}
+
+aside.toc.hidden {
+    display: none;
 }
 
 aside.toc nav ul {
@@ -1150,20 +1172,14 @@ aside.footnotes a:hover,
     }
 }
 
-/* --- Collapsed TOC layout overrides (after responsive so they win) --- */
-.layout.toc-collapsed {
-    grid-template-columns: 20% auto 32px;
+/* --- Hidden TOC layout overrides (after responsive so they win) --- */
+.layout.toc-hidden {
+    grid-template-columns: 20% auto;
 }
 
 @media (max-width: 1024px) {
-    .layout.toc-collapsed {
-        grid-template-columns: auto 32px;
-    }
-}
-
-@media (max-width: 800px) {
-    .layout.toc-collapsed {
-        grid-template-columns: 1fr;
+    .layout.toc-hidden {
+        grid-template-columns: auto;
     }
 }
 
@@ -1272,6 +1288,14 @@ aside.footnotes a:hover,
     :root:not(.light) .pagination a {
         border-color: #3a3a3e;
     }
+
+    :root:not(.light) .toc-float-toggle {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    :root:not(.light) .toc-float-toggle:hover {
+        box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    }
 }
 
 /* Manual dark mode override (takes precedence over media query) */
@@ -1363,6 +1387,14 @@ aside.footnotes a:hover,
 
 :root.dark .pagination a {
     border-color: #3a3a3e;
+}
+
+:root.dark .toc-float-toggle {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:root.dark .toc-float-toggle:hover {
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
 }
 
 /* --- Code Copy Button --- */
@@ -1501,6 +1533,8 @@ aside.footnotes a:hover,
     .theme-toggle,
     .copy-button,
     .toc-mobile-toggle,
+    .toc-float-toggle,
+    .toc-collapse-toggle,
     .pagination,
     .article-footer {
         display: none !important;
