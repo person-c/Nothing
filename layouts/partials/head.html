@@ -15,7 +15,8 @@
             rel="stylesheet">
     </noscript>
 
-    <link rel="stylesheet" href="{{ "css/styles.css" | relURL }}">
+    {{ $css := resources.Get "css/styles.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
     {{ block "head" . }}{{ end }}
 </head>

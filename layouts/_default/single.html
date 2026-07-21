@@ -34,6 +34,8 @@
 它只会在 single 页面被加载，而不会影响 list 或 index 页面。
 */}}
 {{ define "scripts" }}
-<script src="{{ "js/article-page.js" | relURL }}" defer></script>
-<script src="{{ "js/fullwidth.js" | relURL }}" defer></script>
+{{ $articleJs := resources.Get "js/article-page.js" | resources.Minify | resources.Fingerprint }}
+{{ $fullwidthJs := resources.Get "js/fullwidth.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $articleJs.RelPermalink }}" defer></script>
+<script src="{{ $fullwidthJs.RelPermalink }}" defer></script>
 {{ end }}
