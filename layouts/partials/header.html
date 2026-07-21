@@ -1,6 +1,6 @@
 <header>
     <nav class="nav-container">
-        <div class="nav-bar"></div>
+        <div class="nav-bar" tabindex="0" role="button" aria-label="Toggle navigation menu"></div>
         <ul class="nav-menu">
             <li><a href="{{ "/" | relURL }}">Home</a></li>
             <li><a href="{{ "/about/" | relURL }}">About</a></li>
@@ -12,4 +12,13 @@
             {{ end }}
         </ul>
     </nav>
+    <script>
+    document.querySelector('.nav-bar').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelector('.nav-container').classList.toggle('is-open');
+    });
+    document.addEventListener('click', function() {
+        document.querySelector('.nav-container').classList.remove('is-open');
+    });
+    </script>
 </header>

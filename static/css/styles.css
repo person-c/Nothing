@@ -720,14 +720,27 @@ header {
     padding-left: 1.3rem;
 }
 
-.nav-container:hover .nav-menu {
+.nav-container:hover .nav-menu,
+.nav-container:focus-within .nav-menu,
+.nav-container.is-open .nav-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
 
-.nav-container:hover .nav-bar {
+.nav-container:hover .nav-bar,
+.nav-container:focus-within .nav-bar,
+.nav-container.is-open .nav-bar {
     background-color: rgba(128, 128, 128, 0.6);
+}
+
+/* Make nav-bar focusable for keyboard access */
+.nav-bar:focus {
+    outline: none;
+}
+.nav-container:focus-within .nav-bar {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 /* ==========================================================================
