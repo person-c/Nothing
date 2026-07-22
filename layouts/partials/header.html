@@ -5,7 +5,7 @@
         <ul class="nav-menu">
             <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
             <li><a href="{{ "/about/" | relURL }}"{{ if eq .Section "about" }} class="active"{{ end }}>About</a></li>
-            <li><a href="{{ "/daily_work/" | relURL }}"{{ if eq .Section "daily_work" }} class="active"{{ end }}>Daily-Work</a></li>
+            <li><a href="{{ "/blog/" | relURL }}"{{ if eq .Section "blog" }} class="active"{{ end }}>Blog</a></li>
             <li><a href="{{ "/note/" | relURL }}"{{ if eq .Section "note" }} class="active"{{ end }}>Note</a></li>
             <li><a href="{{ "/slides/" | relURL }}"{{ if eq .Section "slides" }} class="active"{{ end }}>Slides</a></li>
             {{ if not hugo.IsProduction }}

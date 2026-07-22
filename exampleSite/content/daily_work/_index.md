@@ -1,4 +1,0 @@
----
-layout: daily_work
----
-
