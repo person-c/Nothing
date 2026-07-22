@@ -50,45 +50,33 @@ baseof.html  (global <head>, fonts, CSS, includes header + footer partials)
 ├── index.html              → Homepage, defines "main" block only
 ├── _default/single.html    → Posts, defines "main" and "scripts" blocks
 ├── _default/list.html      → Section lists with pagination, defines "main" block
-├── note/single.html        → Standalone HTML with full styling + navigation
-└── slides/single.html      → Standalone HTML with full styling + navigation
+├── note/single.html        → Bare HTML output (pre-rendered R Markdown content)
+└── slides/single.html      → Bare HTML output (pre-rendered R Markdown content)
 ```
 
-All pages share a consistent footer via `layouts/partials/footer.html`. Dark mode preference is persisted in localStorage and applied before first paint via an inline script in `<head>`.
+Dark mode preference is persisted in localStorage and applied before first paint via an inline script in `<head>`. The TOC sidebar can be hidden (× button) with a floating ☰ restore button.
 
 ### Three-Column Layout (single.html)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  <html>   overflow-x: hidden                                             │
+│  <body>   display: flex, min-height: 100vh                               │
 │  ┌────────────────────────────────────────────────────────────────────┐  │
-│  │  <body>   overflow-x: hidden, display: flex, min-height: 100vh     │  │
-│  │  ┌──────────────────────────────────────────────────────────────┐   │  │
-│  │  │  <header>  (partial)   nav, social links                     │   │  │
-│  │  └──────────────────────────────────────────────────────────────┘   │  │
-│  │  ┌──────────────────────────────────────────────────────────────┐   │  │
-│  │  │  <main>                                                      │   │  │
-│  │  │  ┌─────────────────────────────────────────────────────────┐ │   │  │
-│  │  │  │  <div class="layout">   grid: 20% auto 15%              │ │   │  │
-│  │  │  │  ┌──────────┐  ┌──────────────┐  ┌───────────────────┐ │ │   │  │
-│  │  │  │  │ <aside>  │  │  <article>   │  │  <aside>          │ │ │   │  │
-│  │  │  │  │footnotes │  │ max-w:800px  │  │  toc              │ │ │   │  │
-│  │  │  │  │          │  │              │  │  sticky, z:1      │ │ │   │  │
-│  │  │  │  │ z-index:1│  │              │  │                   │ │ │   │  │
-│  │  │  │  │          │  │              │  │  (>800px)         │ │ │   │  │
-│  │  │  │  │(>1024px) │  │              │  │                   │ │ │   │  │
-│  │  │  │  └──────────┘  └──────────────┘  └───────────────────┘ │ │   │  │
-│  │  │  │    20%              auto                  15%           │ │   │  │
-│  │  │  │                                                         │ │   │  │
-│  │  │  │    fullwidth element (non-scroll, expands from center): │ │   │  │
-│  │  │  │    ◄──────────────────┬──────────────────────────►      │ │   │  │
-│  │  │  │    ◄── into left ────┼──── into right ──────────►      │ │   │  │
-│  │  │  │              layoutCenterX                              │ │   │  │
-│  │  │  └─────────────────────────────────────────────────────────┘ │   │  │
-│  │  └──────────────────────────────────────────────────────────────┘   │  │
-│  │  ┌──────────────────────────────────────────────────────────────┐   │  │
-│  │  │  <footer>                                                    │   │  │
-│  │  └──────────────────────────────────────────────────────────────┘   │  │
+│  │  <header>  (partial)   nav trigger + theme toggle                 │  │
+│  │  ☀ (top-left)                                    ─── (top-right)  │  │
+│  ├────────────────────────────────────────────────────────────────────┤  │
+│  │  <main>                                                           │  │
+│  │  ┌─────────────────────────────────────────────────────────────┐  │  │
+│  │  │  <div class="layout">   grid: 20% auto 15%                  │  │  │
+│  │  │  ┌──────────┐  ┌──────────────┐  ┌───────────────────┐     │  │  │
+│  │  │  │ <aside>  │  │  <article>   │  │  <aside>          │     │  │  │
+│  │  │  │footnotes │  │ max-w:800px  │  │  toc              │     │  │  │
+│  │  │  │(>1024px) │  │              │  │  sticky, z:1      │     │  │  │
+│  │  │  └──────────┘  └──────────────┘  └───────────────────┘     │  │  │
+│  │  │    20%              auto                  15%               │  │  │
+│  │  └─────────────────────────────────────────────────────────────┘  │  │
+│  ├────────────────────────────────────────────────────────────────────┤  │
+│  │  <footer>  (partial)  copyright, links, back-to-top               │  │
 │  └────────────────────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
@@ -121,12 +109,13 @@ article {
 ```
 
 **Breakpoints:**
-| Viewport | Columns | Hidden |
-|----------|---------|--------|
-| > 1024px | `20% auto 15%` | — |
-| 801–1024px | `auto 25%` | `aside.footnotes` (footnotes go inline) |
-| ≤ 800px | `1fr` | both asides |
-| Print | `display: block` | all sidebars, nav |
+| Viewport | Columns | Behavior |
+|----------|---------|----------|
+| > 1024px | `20% auto 15%` | Full 3-column: sidenotes + article + TOC |
+| 801–1024px | `auto 28%` | Footnotes go inline, TOC remains in sidebar |
+| ≤ 800px | `1fr` | Both asides hidden; mobile TOC toggle button appears |
+| TOC hidden | `1fr auto 1fr` | Symmetric centering, floating ☰ restore button |
+| Print | `display: block` | All sidebars, nav, buttons hidden |
 
 ### Footnote System
 
@@ -184,7 +173,6 @@ The center `article` column is narrow (max 800px). Code blocks, tables, iframes,
 **Design principle:**
 - Content wider than article column but narrower than layout → expand to natural width, centered in layout (extends into sidebars).
 - Content wider than layout/viewport → capped at viewport width, element gets internal `overflow-x: auto` scrollbar.
-- Page-level horizontal scroll is prevented by `overflow-x: hidden` on both `<html>` and `<body>`.
 
 **Detection (`detectFullwidthElements` — runs once at load):**
 
@@ -243,19 +231,13 @@ article table.fullwidth td                        { white-space: nowrap; }
 
 ### Navigation
 
-The header is a fixed-position vertical bar (2px × 80px) in the top-right corner. On hover, a dropdown menu appears with a fade+slide animation:
+A horizontal bar trigger (80px × 2px, 44px tap area) sits at the top-right. Clicking it reveals a horizontal nav bar centered at the top of the page with a subtle slide-down animation. Click outside or press Escape to dismiss.
 
-```css
-.nav-container:hover .nav-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-}
-```
+The theme toggle (☀/☾) is fixed at the top-left corner, cycling through auto/dark/light modes with localStorage persistence.
 
 The "Ramblings" link only renders when `hugo.IsProduction` is false.
 
-The `<footer>` partial is **not used** — footer content is hardcoded inline in `index.html` and `list.html` pages do not include a footer.
+All pages share a consistent footer via `layouts/partials/footer.html` (Home, GitHub, Mail, copyright, back-to-top).
 
 ### Typography
 
@@ -266,7 +248,7 @@ The `<footer>` partial is **not used** — footer content is hardcoded inline in
 
 ### `note/` and `slides/` Sections
 
-These have standalone templates with full styling, navigation, and footer support. They include the same CSS, header, and footer as the rest of the site, making rendered R Markdown / Quarto HTML content feel integrated.
+These use minimal bare HTML templates (no site chrome). Since the content is pre-rendered R Markdown HTML output, the templates output only `{{ .Content }}` — no styles, navigation, or footer. `.Rmd` source files are excluded from Hugo processing via `ignoreFiles`.
 
 ## License
 
