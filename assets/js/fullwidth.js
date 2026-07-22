@@ -158,21 +158,22 @@ function initFullwidth() {
 
             // Center in layout, then clamp to viewport bounds
             let marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
+            const minGap = 12;
 
-            // Don't push past left edge of viewport
-            if (marginLeft < -contentLeft) {
-                marginLeft = -contentLeft;
+            // Don't push past left edge of viewport (keep minimum gap)
+            if (marginLeft < -contentLeft + minGap) {
+                marginLeft = -contentLeft + minGap;
             }
 
-            // Don't let right edge exceed viewport
+            // Don't let right edge exceed viewport (keep minimum gap)
             const rightEdge = contentLeft + marginLeft + useWidth;
-            if (rightEdge > viewportWidth) {
-                marginLeft -= (rightEdge - viewportWidth);
+            if (rightEdge > viewportWidth - minGap) {
+                marginLeft -= (rightEdge - (viewportWidth - minGap));
             }
 
             // Re-check left edge
-            if (marginLeft < -contentLeft) {
-                marginLeft = -contentLeft;
+            if (marginLeft < -contentLeft + minGap) {
+                marginLeft = -contentLeft + minGap;
             }
 
             el.style.setProperty('margin-left', Math.floor(marginLeft) + 'px', 'important');
