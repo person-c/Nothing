@@ -1,4 +1,0 @@
----
-title: Ramblings
-layout: ramblings
----
