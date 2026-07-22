@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ if and hugo.IsProduction (eq .Section "ramblings") }}
+{{ if and hugo.IsProduction (eq .Section "daily_life") }}
 {{ else }}
 {{ $paginator := .Paginate .Pages }}
 <section class="article-list">

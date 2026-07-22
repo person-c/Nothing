@@ -253,7 +253,7 @@ The header is a fixed-position vertical bar (2px × 80px) in the top-right corne
 }
 ```
 
-The "Ramblings" link only renders when `hugo.IsProduction` is false.
+The "Daily-Life" link only renders when `hugo.IsProduction` is false.
 
 The `<footer>` partial is **not used** — footer content is hardcoded inline in `index.html` and `list.html` pages do not include a footer.
 
