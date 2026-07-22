@@ -1019,7 +1019,7 @@ aside.footnotes a:hover,
 
 @media (max-width: 800px) {
     .layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     aside.footnotes {
@@ -1187,6 +1187,12 @@ aside.footnotes a:hover,
 @media (max-width: 1024px) {
     .layout.toc-hidden {
         grid-template-columns: auto;
+    }
+}
+
+@media (max-width: 800px) {
+    .layout.toc-hidden {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 

@@ -3,7 +3,12 @@ function initFullwidth() {
     const article = document.querySelector('article');
     if (!layout || !article) return;
 
+    function isNarrow() {
+        return window.innerWidth <= 800;
+    }
+
     function detectFullwidthElements() {
+        if (isNarrow()) return;
         const layoutWidth = layout.clientWidth;
 
         // 1. Code blocks: measure and save natural content width
@@ -101,6 +106,17 @@ function initFullwidth() {
     }
 
     function applyAllOffsets() {
+        if (isNarrow()) {
+            // Clean up: remove fullwidth classes and inline styles on narrow screens
+            article.querySelectorAll('.fullwidth').forEach(function (el) {
+                el.classList.remove('fullwidth', 'fullwidth-scroll');
+                el.style.removeProperty('width');
+                el.style.removeProperty('max-width');
+                el.style.removeProperty('margin-left');
+            });
+            return;
+        }
+
         const layoutRect = layout.getBoundingClientRect();
         const articleRect = article.getBoundingClientRect();
         const artStyle = getComputedStyle(article);
