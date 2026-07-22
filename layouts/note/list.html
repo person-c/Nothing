@@ -8,7 +8,13 @@
     <ul class="post-list">
         {{ range $paginator.Pages }}
         <li class="post-item">
-            {{ $date := .Date }}{{ if eq .Date.Year 1 }}{{ $date = .Lastmod }}{{ end }}<span class="post-date">{{ $date.Format "2006-01-02" }}</span>
+            {{ $date := .Date }}
+            {{- if eq $date.Year 1 }}
+              {{- $fn := .File.ContentBaseName }}
+              {{- if gt (len $fn) 10 }}
+                {{- $date = time (substr $fn 0 10) }}
+              {{- end }}
+            {{- end }}<span class="post-date">{{ $date.Format "2006-01-02" }}</span>
             <a href="{{ .RelPermalink }}" class="post-link">
                 {{ .Title | default (.File.BaseFileName) }}
             </a>
