@@ -140,7 +140,14 @@ function initTableOfContents() {
     // 支持h2, h3, h4，你可以按需增减
     const headings = contentArticle.querySelectorAll("h2, h3, h4");
     if (headings.length === 0) {
-        tocContainer.innerHTML = "<em>暂无目录</em>";
+        var tocAside = document.querySelector('aside.toc');
+        var layout = document.querySelector('.layout');
+        var mobileBtn = document.querySelector('.toc-mobile-toggle');
+        var floatBtn = document.querySelector('.toc-float-toggle');
+        if (tocAside) tocAside.style.display = 'none';
+        if (layout) layout.classList.add('toc-hidden');
+        if (mobileBtn) mobileBtn.style.display = 'none';
+        if (floatBtn) floatBtn.style.display = 'none';
         return;
     }
 
