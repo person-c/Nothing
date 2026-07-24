@@ -1,87 +1,59 @@
-<!DOCTYPE html>
-<html lang="{{ .Lang | default "en" }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | {{ .Site.Title }}</title>
-
-    {{ $critical := resources.Get "css/modules/critical.css" }}
-    {{ $header := resources.Get "css/modules/header.css" }}
-    {{ $headerBadge := resources.Get "css/modules/header-badge.css" }}
-    {{ $articleList := resources.Get "css/modules/article-list.css" }}
-    {{ $toc := resources.Get "css/modules/toc.css" }}
-    {{ $footnotes := resources.Get "css/modules/footnotes.css" }}
-    {{ $article := resources.Get "css/modules/article.css" }}
-    {{ $typography := resources.Get "css/modules/typography.css" }}
-    {{ $codeTables := resources.Get "css/modules/code-tables.css" }}
-    {{ $home := resources.Get "css/modules/home.css" }}
-    {{ $copyFooter := resources.Get "css/modules/copy-footer.css" }}
-    {{ $bookshelf := resources.Get "css/modules/bookshelf.css" }}
-    {{ $darkMode := resources.Get "css/modules/dark-mode.css" }}
-    {{ $responsive := resources.Get "css/modules/responsive.css" }}
-    {{ $print := resources.Get "css/modules/print.css" }}
-    {{ $css := slice $critical $header $headerBadge $articleList $toc $footnotes $article $typography $codeTables $home $copyFooter $bookshelf $darkMode $responsive $print | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ define "head" }}
     {{ $readerCss := resources.Get "css/ebook-reader.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $readerCss.RelPermalink }}">
+{{ end }}
 
-    <script>
-        (function() {
-            var t = localStorage.getItem('theme');
-            if (t === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (t === 'light') {
-                document.documentElement.classList.add('light');
-            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-</head>
-<body class="ebook-reader-body">
-    <div class="ebook-toolbar">
-        <div class="toolbar-left">
-            <a href="{{ "/books/" | relURL }}" class="toolbar-btn" title="Back to shelf">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Shelf
-            </a>
+{{ define "body_attrs" }} class="ebook-reader-body"{{ end }}
+
+{{ define "body_content" }}
+<div class="ebook-toolbar">
+    <div class="toolbar-left">
+        <a href="{{ "/books/" | relURL }}" class="toolbar-btn" title="Back to shelf">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Shelf
+        </a>
+    </div>
+    <div class="toolbar-center">
+        <span class="book-title-label">{{ .Title }}</span>
+    </div>
+    <div class="toolbar-right">
+        <button id="btn-toc" class="toolbar-btn" title="Table of contents">TOC</button>
+        <button id="btn-font-minus" class="toolbar-btn" title="Smaller font">A-</button>
+        <button id="btn-font-plus" class="toolbar-btn" title="Larger font">A+</button>
+        <button id="btn-theme" class="toolbar-btn" title="Toggle theme">☀</button>
+    </div>
+</div>
+
+<div class="ebook-container">
+    <aside id="toc-sidebar" class="toc-sidebar hidden">
+        <div class="toc-sidebar-header">
+            <span>Contents</span>
+            <button id="btn-toc-close" class="toc-close-btn" title="Close">×</button>
         </div>
-        <div class="toolbar-center">
-            <span class="book-title-label">{{ .Title }}</span>
-        </div>
-        <div class="toolbar-right">
-            <button id="btn-toc" class="toolbar-btn" title="Table of contents">TOC</button>
-            <button id="btn-font-minus" class="toolbar-btn" title="Smaller font">A-</button>
-            <button id="btn-font-plus" class="toolbar-btn" title="Larger font">A+</button>
-            <button id="btn-theme" class="toolbar-btn" title="Toggle theme">☀</button>
-        </div>
+        <nav id="toc-list" class="toc-list"></nav>
+    </aside>
+
+    <div id="viewer" class="ebook-viewer"></div>
+
+    <div class="ebook-nav-overlay">
+        <button id="btn-prev" class="nav-area nav-left" title="Previous page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button id="btn-next" class="nav-area nav-right" title="Next page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
     </div>
 
-    <div class="ebook-container">
-        <aside id="toc-sidebar" class="toc-sidebar hidden">
-            <div class="toc-sidebar-header">
-                <span>Contents</span>
-                <button id="btn-toc-close" class="toc-close-btn" title="Close">×</button>
-            </div>
-            <nav id="toc-list" class="toc-list"></nav>
-        </aside>
-
-        <div id="viewer" class="ebook-viewer"></div>
-
-        <div class="ebook-nav-overlay">
-            <button id="btn-prev" class="nav-area nav-left" title="Previous page">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button id="btn-next" class="nav-area nav-right" title="Next page">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-        </div>
-
-        <div id="progress-bar" class="ebook-progress">
-            <div class="progress-fill"></div>
-        </div>
+    <div id="progress-bar" class="ebook-progress">
+        <div class="progress-fill"></div>
     </div>
+</div>
+{{ end }}
 
+{{ define "main" }}{{ end }}
+{{ define "footer" }}{{ end }}
+
+{{ define "scripts" }}
     {{ $readerJs := resources.Get "js/ebook-reader.js" | resources.Minify | resources.Fingerprint }}
     <script type="module" src="{{ $readerJs.RelPermalink }}"></script>
     <script>
@@ -89,5 +61,4 @@
         window.__BOOK_SLUG = "{{ .File.ContentBaseName }}";
         window.__BOOK_TITLE = {{ .Title | jsonify }};
     </script>
-</body>
-</html>
+{{ end }}

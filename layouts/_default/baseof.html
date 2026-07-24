@@ -3,7 +3,8 @@
 
 {{ partial "head.html" . }}
 
-<body>
+<body{{ block "body_attrs" . }}{{ end }}>
+    {{ block "body_content" . }}
     <a href="#main-content" class="skip-to-content">Skip to content</a>
     {{ partial "header.html" . }}
 
@@ -14,9 +15,9 @@
     {{ block "footer" . }}
     {{ partial "footer.html" . }}
     {{ end }}
+    {{ end }}
 
     {{ block "scripts" . }}{{ end }}
-
 </body>
 
 </html>
