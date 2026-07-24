@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ .Lang | default .Site.Language.Lang | default "en" }}">
-
+<head>
 {{ partial "head.html" . }}
+    {{ block "head_extras" . }}{{ end }}
+</head>
 
 <body{{ block "body_attrs" . }}{{ end }}>
     {{ block "body_content" . }}

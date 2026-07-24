@@ -1,5 +1,4 @@
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 
@@ -68,5 +67,3 @@
     {{ $commonJs := slice $navJs $themeJs $backToTopJs | resources.Concat "js/common.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $commonJs.RelPermalink }}" defer></script>
 
-    {{ block "head" . }}{{ end }}
-</head>

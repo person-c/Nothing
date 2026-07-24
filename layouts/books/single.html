@@ -1,4 +1,4 @@
-{{ define "head" }}
+{{ define "head_extras" }}
     {{ $readerCss := resources.Get "css/ebook-reader.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $readerCss.RelPermalink }}">
 {{ end }}
