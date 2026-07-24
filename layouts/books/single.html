@@ -65,7 +65,7 @@
     {{ $readerJs := resources.Get "js/ebook-reader.js" | resources.Minify | resources.Fingerprint }}
     <script type="module" src="{{ $readerJs.RelPermalink }}"></script>
     <script>
-        window.__BOOK_URL = "{{ (path.Join .RelPermalink .Params.file) | absURL }}";
+        window.__BOOK_URL = "{{ path.Join .RelPermalink .Params.file }}";
         window.__BOOK_SLUG = "{{ .File.ContentBaseName }}";
         window.__BOOK_TITLE = {{ .Title | jsonify }};
     </script>
