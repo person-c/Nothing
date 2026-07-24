@@ -186,13 +186,36 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Click or tap on viewer edges for navigation
+// Click or tap on viewer edges for navigation (capture phase to fire before foliate)
 document.getElementById('viewer').addEventListener('click', (e) => {
     if (e.target.closest('button, a, #toc-sidebar, .toc-sidebar')) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     if (x < rect.width * 0.2) view?.goLeft();
     else if (x > rect.width * 0.8) view?.goRight();
-});
+}, true);
+
+// Touch swipe for mobile
+(function() {
+    const viewer = document.getElementById('viewer');
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    viewer.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    viewer.addEventListener('touchend', (e) => {
+        if (e.target.closest('button, a, #toc-sidebar, .toc-sidebar')) return;
+        const dx = (e.changedTouches[0]?.clientX || 0) - touchStartX;
+        const dy = (e.changedTouches[0]?.clientY || 0) - touchStartY;
+        // Only trigger if horizontal swipe dominates
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+        if (dx < 0) view?.goRight();
+        else view?.goLeft();
+    });
+})();
 
 initReader();
