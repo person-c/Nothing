@@ -62,5 +62,11 @@
         })();
     </script>
 
+    {{ $navJs := resources.Get "js/nav.js" }}
+    {{ $themeJs := resources.Get "js/theme.js" }}
+    {{ $backToTopJs := resources.Get "js/back-to-top.js" }}
+    {{ $commonJs := slice $navJs $themeJs $backToTopJs | resources.Concat "js/common.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $commonJs.RelPermalink }}" defer></script>
+
     {{ block "head" . }}{{ end }}
 </head>
