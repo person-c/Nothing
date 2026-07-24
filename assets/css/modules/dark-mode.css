@@ -1,0 +1,103 @@
+/* dark-mode */
+/* ==========================================================================
+   6. Dark Mode
+   ========================================================================== */
+
+/* Dark mode (applied via JS based on localStorage or system preference) */
+:root.dark {
+    --primary-color: #4da6ff;
+    --text-color: #d4d4d4;
+    --text-color-light: #a0a0a0;
+    --bg-color-light: #252529;
+    --border-color: #3a3a3e;
+    --link-border-color: #555;
+    --code-color: #e083a8;
+    --white-color: #1a1a1e;
+    --shadow-color-light: rgba(0, 0, 0, 0.3);
+}
+
+:root.dark body {
+    background-color: #1a1a1e;
+}
+
+:root.dark header,
+:root.dark footer {
+    background: #1a1a1e;
+}
+
+:root.dark aside.footnotes,
+:root.dark aside.toc {
+    background: #1a1a1e;
+}
+
+:root.dark .nav-menu {
+    background-color: #2a2a2e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:root.dark blockquote {
+    color: #a0a0a0;
+    border-left-color: #3a3a3e;
+}
+
+:root.dark .highlight {
+    background: #1e1e22;
+    border-color: #3a3a3e;
+}
+
+:root.dark article table thead th {
+    background: #252529;
+}
+
+:root.dark article table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+:root.dark article table tbody tr:hover {
+    background: rgba(77, 166, 255, 0.08);
+}
+
+:root.dark .inserted-footnotes-container {
+    background-color: #252529;
+}
+
+:root.dark .home-content>p:first-of-type,
+:root.dark .home-content>p:last-of-type,
+:root.dark .last-modified {
+    color: #a0a0a0;
+}
+
+:root.dark .home-content>p:first-of-type::before,
+:root.dark .home-content>p:first-of-type::after {
+    background: #3a3a3e;
+}
+
+:root.dark .home-content>p:last-of-type {
+    border-top-color: #3a3a3e;
+}
+
+:root.dark ::selection {
+    background: #4da6ff;
+    color: #1a1a1e;
+}
+
+:root.dark .copy-button {
+    background: #1e1e22;
+    border-color: #3a3a3e;
+}
+
+:root.dark .article-footer {
+    border-top-color: #3a3a3e;
+}
+
+:root.dark .pagination a {
+    border-color: #3a3a3e;
+}
+
+:root.dark .toc-float-toggle {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:root.dark .toc-float-toggle:hover {
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}

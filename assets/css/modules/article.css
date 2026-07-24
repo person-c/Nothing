@@ -1,0 +1,24 @@
+/* article */
+/* --- Images & Figures --- */
+article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+}
+
+article figure {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+article figure img {
+    margin-bottom: 0.5rem;
+}
+
+article figcaption {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    font-style: italic;
+    margin-top: 0.25rem;
+}

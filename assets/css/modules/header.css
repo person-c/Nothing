@@ -1,0 +1,68 @@
+/* header */
+/* --- Header & Footer --- */
+header,
+footer {
+    background: var(--white-color);
+    padding: 1rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+footer {
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
+    margin-top: 2rem;
+}
+
+.nav-container,
+.footer-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+header ul,
+.social-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    gap: 2rem;
+}
+
+.social-links {
+    gap: 1rem;
+}
+
+header li a,
+.social-links li a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    padding: 0.2rem 0;
+}
+
+header li a:hover,
+.social-links li a:hover {
+    color: var(--primary-color);
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    margin: 0;
+}
+

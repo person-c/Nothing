@@ -1,0 +1,48 @@
+/* article-list */
+/* --- Article List --- */
+.article-list {
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    max-width: 800px;
+}
+
+.list-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.post-item {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.post-date {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    min-width: 90px;
+    margin-right: 1rem;
+    font-style: italic;
+}
+
+.post-link {
+    color: var(--text-color);
+    flex: 1;
+    transition: color 0.2s ease;
+    font-style: italic;
+}
+
+.post-link:hover {
+    color: var(--primary-color);
+}
+

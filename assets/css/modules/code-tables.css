@@ -1,0 +1,109 @@
+/* code-tables */
+/* --- Code & Tables --- */
+code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+h code {
+    font-size: 100%;
+}
+
+.highlight {
+    background: var(--white-color);
+    padding: 2px 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px var(--shadow-color-light);
+    overflow-x: auto;
+    margin: 1.2rem 0;
+}
+
+.highlight pre {
+    margin: 0;
+    padding: 0;
+}
+
+article table {
+    display: table;
+    width: auto;
+    max-width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    margin: 0 auto 1rem auto;
+}
+
+article table th,
+article table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+article table thead th {
+    background: var(--bg-color-light);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+}
+
+article table tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+article table tbody tr:hover {
+    background: rgba(0, 123, 255, 0.04);
+}
+
+/* --- Full-width Elements --- */
+/* JS sets width and margin-left as inline styles with !important priority. */
+
+article .fullwidth {
+    max-width: none;
+}
+
+/* Content fits layout → no scrollbar needed, add breathing room */
+article .highlight.fullwidth:not(.fullwidth-scroll) {
+    overflow-x: visible;
+    padding-right: 30px;
+}
+article .highlight.fullwidth:not(.fullwidth-scroll) pre {
+    overflow-x: visible;
+}
+article table.fullwidth:not(.fullwidth-scroll) {
+    overflow-x: visible;
+}
+
+/* Content exceeds layout → keep scrollbar for scrolling within expanded area */
+article .highlight.fullwidth-scroll,
+article table.fullwidth-scroll,
+article iframe.fullwidth-scroll,
+article .html-widget.fullwidth-scroll {
+    overflow-x: auto;
+}
+
+/* display:block needed on table for overflow-x to work reliably cross-browser */
+article table.fullwidth-scroll {
+    display: block;
+}
+
+/* Tables: remove constraints so JS can set explicit width */
+article table.fullwidth {
+    width: auto;
+    max-width: none !important;
+}
+article table.fullwidth th,
+article table.fullwidth td {
+    white-space: nowrap;
+}
+
+/* Images: don't force-stretch */
+article img.fullwidth {
+    width: auto !important;
+}
+
+/* Iframes and widgets */
+article iframe.fullwidth,
+article .html-widget.fullwidth {
+    max-width: none;
+}
+

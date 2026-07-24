@@ -1,0 +1,165 @@
+/* toc */
+/* --- Asides (Footnotes & TOC) --- */
+aside.footnotes {
+    position: relative;
+    z-index: 1;
+    padding: 0 1rem;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
+}
+
+aside.toc {
+    position: sticky;
+    z-index: 1;
+    top: 1rem;
+    height: fit-content;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1rem;
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    background: var(--white-color);
+    border-left: 1px solid var(--border-color);
+}
+
+/* TOC inline close button */
+.toc-collapse-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.toc-collapse-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* TOC floating toggle (visible only when TOC is hidden) */
+.toc-float-toggle {
+    display: none;
+    position: fixed;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    width: 34px;
+    height: 34px;
+    background: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+.toc-float-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toc-float-toggle.visible {
+    display: flex;
+}
+
+aside.toc.hidden {
+    display: none;
+}
+
+aside.toc nav ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+aside.toc nav li {
+    margin-bottom: 0.5em;
+    font-size: 0.95em;
+}
+
+aside.toc nav li a.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* TOC Collapsible Styles */
+aside.toc nav li.collapsible {
+    position: relative;
+    padding-left: 20px;
+}
+
+.toc-toggle {
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--text-color-light);
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.toc-toggle:hover {
+    color: var(--primary-color);
+}
+
+.toc-toggle svg {
+    width: 14px;
+    height: 14px;
+}
+
+aside.toc nav li.is-open>.toc-toggle {
+    transform: rotate(90deg);
+}
+
+.toc-sublist {
+    list-style: none;
+    padding-left: 10px;
+    margin-top: 0.5em;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+aside.toc nav li.is-open>.toc-sublist {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+.toc-level-2 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.toc-level-3 {
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.toc-level-4 {
+    font-size: 0.85em;
+    margin-left: 15px;
+    color: var(--text-color-light);
+}
+

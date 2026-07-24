@@ -1,0 +1,58 @@
+/* home */
+/* --- Home Page Styles --- */
+.home-content {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.home-content>p:first-of-type {
+    margin: 1rem 0;
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.home-content>p:first-of-type::before,
+.home-content>p:first-of-type::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: var(--border-color);
+    margin: 1.5rem auto;
+}
+
+.home-content>p:last-of-type {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* --- Home Footer Styles --- */
+.home-footer {
+    max-width: 800px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: var(--text-color-light);
+    font-size: 0.85rem;
+}
+
+.home-footer a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.home-footer a:hover {
+    color: var(--primary-color);
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: var(--border-color);
+}
