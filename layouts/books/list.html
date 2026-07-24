@@ -1,0 +1,38 @@
+{{ define "main" }}
+<section class="bookshelf">
+    <h2 class="bookshelf-title">{{ .Title }}</h2>
+    {{ with .Content }}
+    <div class="bookshelf-intro">{{ . }}</div>
+    {{ end }}
+
+    {{ if .Sections }}
+    <ul class="post-list">
+        {{ range .Sections }}
+        <li class="post-item">
+            <a href="{{ .RelPermalink }}" class="post-link">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    </ul>
+    {{ end }}
+
+    {{ $pages := .RegularPages }}
+    {{ if gt (len $pages) 0 }}
+    <ul class="book-list">
+        {{ range $pages }}
+        <li class="book-list-item">
+            <a href="{{ .RelPermalink }}" class="book-list-link">{{ .Title }}</a>
+            {{ with .Params.author }}
+            <span class="book-list-author">{{ . }}</span>
+            {{ end }}
+        </li>
+        {{ end }}
+    </ul>
+    {{ end }}
+
+    {{ if and (not .Sections) (eq (len .RegularPages) 0) }}
+    <div class="bookshelf-empty">
+        <p>No books in this category yet.</p>
+    </div>
+    {{ end }}
+</section>
+{{ end }}

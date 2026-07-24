@@ -8,6 +8,7 @@
             <li><a href="{{ "/blog/" | relURL }}"{{ if eq .Section "blog" }} class="active"{{ end }}>Blog</a></li>
             <li><a href="{{ "/note/" | relURL }}"{{ if eq .Section "note" }} class="active"{{ end }}>Note</a></li>
             <li><a href="{{ "/slides/" | relURL }}"{{ if eq .Section "slides" }} class="active"{{ end }}>Slides</a></li>
+        <li><a href="{{ "/books/" | relURL }}"{{ if eq .Section "books" }} class="active"{{ end }}>Books</a></li>
             {{ if not hugo.IsProduction }}
             <li><a href="{{ "/ramblings/" | relURL }}"{{ if eq .Section "ramblings" }} class="active"{{ end }}>Ramblings</a></li>
             {{ end }}

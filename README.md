@@ -23,22 +23,29 @@ hugo server --noHTTPCache --disableFastRender --themesDir ../..
 ```
 Nothing/
 ├── theme.toml              # Theme metadata (name, author, Hugo version, etc.)
+├── archetypes/
+│   ├── default.md          # Default page archetype
+│   └── books.md            # Book page archetype (title, author, cover, file)
 ├── assets/
-│   ├── css/styles.css      # Core stylesheet, processed via Hugo Pipes
+│   ├── css/
+│   │   ├── styles.css      # Core stylesheet, processed via Hugo Pipes
+│   │   └── ebook-reader.css# EPUB reader full-page styles
 │   └── js/
-│       ├── article-page.js # Footnotes, TOC, ScrollSpy, dark mode, code copy
-│       └── fullwidth.js    # Full-width element detection and offset calculation
+│       ├── article-page.js # Footnotes, TOC, ScrollSpy, code copy
+│       ├── fullwidth.js    # Full-width element detection and offset calculation
+│       └── ebook-reader.js # EPUB reader app (foliate-js) — ES module
 ├── layouts/
 │   ├── _default/
 │   │   ├── baseof.html     # Base HTML frame (head, fonts, header, footer)
 │   │   ├── single.html     # Single post template (3-column layout + mobile TOC)
 │   │   └── list.html       # Section list template with pagination
 │   ├── index.html          # Homepage (inherits baseof via "main" block)
+│   ├── books/              # E-book reader + bookshelf listing
 │   ├── note/               # Templates for rendered R Markdown notes
 │   ├── slides/             # Templates for rendered presentations
 │   └── partials/
 │       ├── head.html       # <head> with SEO meta, OG tags, dark mode prevention
-│       ├── header.html     # Fixed nav bar (top-right) + theme toggle
+│       ├── header.html     # Nav bar (top-right trigger → centered pill menu) + theme toggle
 │       └── footer.html     # Article footer with copyright and links
 └── exampleSite/            # Demo site for theme development
 ```
@@ -51,7 +58,9 @@ baseof.html  (global <head>, fonts, CSS, includes header + footer partials)
 ├── _default/single.html    → Posts, defines "main" and "scripts" blocks
 ├── _default/list.html      → Section lists with pagination, defines "main" block
 ├── note/single.html        → Bare HTML output (pre-rendered R Markdown content)
-└── slides/single.html      → Bare HTML output (pre-rendered R Markdown content)
+├── slides/single.html      → Bare HTML output (pre-rendered R Markdown content)
+├── books/single.html       → Standalone HTML (no baseof) — EPUB reader
+└── books/list.html         → Bookshelf listing, defines "main" block
 ```
 
 Dark mode preference is persisted in localStorage and applied before first paint via an inline script in `<head>`. The TOC sidebar can be hidden (× button) with a floating ☰ restore button.
@@ -229,13 +238,35 @@ article table.fullwidth td                        { white-space: nowrap; }
 
 **Reactivity:** `window.resize` (150ms debounce) + `ResizeObserver` on `<article>` keep all positions and widths current.
 
+### E-Book Reader (`books/`)
+
+The theme includes a full in-browser EPUB reader, plus a bookshelf listing for organizing books into categories.
+
+**Bookshelf (`books/list.html`):**
+- Lists `.Sections` (book categories, e.g. "出版小说") as group headers with links.
+- Lists `.RegularPages` (individual books) under each category, showing title + author.
+- Empty state message when no books exist.
+- Styled with `.bookshelf` CSS: centered layout (max 1100px), book list items with left-aligned title link and right-aligned author in italics.
+
+**Book page archetype (`archetypes/books.md`):**
+- Front matter: `title`, `author`, `date`, `description`, `cover`, `file` (EPUB filename), `format` (default: "epub").
+- Books use Hugo branch bundles: `content/books/<category>/<book-slug>/index.md` + `file.epub`.
+
+**Reader (`books/single.html` + `ebook-reader.js` + `ebook-reader.css`):**
+- Standalone HTML page (does not use `baseof.html`) — the reader fills the viewport.
+- Uses `foliate-js` (loaded from CDN) for EPUB rendering.
+- **Toolbar:** Back to Shelf link, book title, TOC toggle button, font size controls (60%–200%), theme toggle.
+- **TOC sidebar:** Slide-in panel populated from EPUB metadata.
+- **Navigation:** Click/tap 20% edge zones on left/right, arrow keys, or toolbar prev/next buttons.
+- **Progress:** CFI-based reading position persisted to `localStorage` per book. Bottom progress bar.
+- **Theme:** Dark/light toggle shares the same `localStorage` key as the main site.
+- **Resilience:** Error state display if EPUB fails to load.
+
 ### Navigation
 
-A horizontal bar trigger (80px × 2px, 44px tap area) sits at the top-right. Clicking it reveals a horizontal nav bar centered at the top of the page with a subtle slide-down animation. Click outside or press Escape to dismiss.
+A horizontal bar trigger (80px × 2px, 44px tap area) sits at the top-right. Clicking it reveals a horizontal nav bar centered at the top of the page with a slide-down animation. Click outside or press Escape to dismiss.
 
-The theme toggle (☀/☾) is fixed at the top-left corner, cycling through auto/dark/light modes with localStorage persistence.
-
-The "Ramblings" link only renders when `hugo.IsProduction` is false.
+**Menu items:** Home, About, Blog, Note, Slides, Books. The "Ramblings" link only renders when `hugo.IsProduction` is false.
 
 All pages share a consistent footer via `layouts/partials/footer.html` (Home, GitHub, Mail, copyright, back-to-top).
 
