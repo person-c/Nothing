@@ -36,6 +36,8 @@
 }
 
 .post-link {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
     color: var(--text-color);
     flex: 1;
     transition: color 0.2s ease;
