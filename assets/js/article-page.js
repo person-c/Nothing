@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     initTOCScrollSpy();
     initMobileToc();
     initCodeCopyButtons();
-    initSidenoteReflow();
 });
 
 function initResponsiveFootnotes() {
@@ -38,6 +37,23 @@ function initResponsiveFootnotes() {
             resizeTimer = setTimeout(handleFootnotesLayout, 250);
         }).observe(article);
     }
+
+    // Reflow after images load (they may shift sidenote positions)
+    document.querySelectorAll('article img').forEach(function (img) {
+        if (img.complete) return;
+        img.addEventListener('load', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(handleFootnotesLayout, 250);
+        });
+    });
+
+    // Reflow after fonts are ready
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+            setTimeout(handleFootnotesLayout, 100);
+        });
+    }
+
     handleFootnotesLayout();
 }
 function cleanupDynamicFootnotes() {
@@ -361,38 +377,4 @@ function initCodeCopyButtons() {
             });
         });
     });
-}
-
-/* --------------------------- Sidenote Reflow ---------------------------- */
-function initSidenoteReflow() {
-    var fnRefs = document.querySelectorAll("a.footnote-ref");
-    if (fnRefs.length === 0) return;
-
-    function reflow() {
-        if (window.innerWidth > 1024) {
-            cleanupDynamicFootnotes();
-            renderSidenotes(fnRefs);
-        }
-    }
-
-    var reflowTimer;
-    var debouncedReflow = function () {
-        clearTimeout(reflowTimer);
-        reflowTimer = setTimeout(reflow, 250);
-    };
-
-    document.querySelectorAll('article img').forEach(function (img) {
-        if (img.complete) return;
-        img.addEventListener('load', debouncedReflow);
-    });
-
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function () {
-            setTimeout(reflow, 100);
-        });
-    }
-
-    new ResizeObserver(function () {
-        debouncedReflow();
-    }).observe(document.querySelector('article'));
 }
