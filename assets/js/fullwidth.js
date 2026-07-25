@@ -99,77 +99,62 @@ function initFullwidth() {
     }
 
     function applyAllOffsets() {
+        const minGap = 12;
         const layoutRect = layout.getBoundingClientRect();
         const articleRect = article.getBoundingClientRect();
-        const artStyle = getComputedStyle(article);
-        const padLeft = parseFloat(artStyle.paddingLeft);
-        const padRight = parseFloat(artStyle.paddingRight);
+        const padLeft = parseFloat(getComputedStyle(article).paddingLeft);
+        const padRight = parseFloat(getComputedStyle(article).paddingRight);
         const contentLeft = articleRect.left + padLeft;
-        const contentRight = articleRect.right - padRight;
-        const contentWidth = contentRight - contentLeft;
         const layoutCenterX = layoutRect.left + layoutRect.width / 2;
         const viewportWidth = document.documentElement.clientWidth;
+        const vpMinusGap = viewportWidth - 2 * minGap;
 
         article.querySelectorAll('.fullwidth').forEach(el => {
             const natWidth = getNaturalWidth(el);
-
-            // Determine whether this element needs internal scrolling
-            // at the current viewport (not just at load time).
             const needsScroll = natWidth > layoutRect.width + 2;
 
-            // Keep CSS class in sync so existing stylesheet rules apply cleanly.
-            if (needsScroll) {
+            // Only toggle class when state actually changes
+            var hasScroll = el.classList.contains('fullwidth-scroll');
+            if (needsScroll && !hasScroll) {
                 el.classList.add('fullwidth-scroll');
-            } else {
+            } else if (!needsScroll && hasScroll) {
                 el.classList.remove('fullwidth-scroll');
             }
 
-            // Calculate width
-            let useWidth;
+            var useWidth;
             if (needsScroll) {
-                // Fill layout width (capped at viewport), content scrolls inside
                 useWidth = Math.min(layoutRect.width, viewportWidth);
             } else {
-                // Expand to natural width (into sidebars on wide layouts)
                 useWidth = natWidth;
-                // Compensate for padding-right added by CSS on non-scroll highlights
                 if (el.classList.contains('highlight')) {
                     useWidth += 10;
                 }
             }
 
-            // Hard cap: leave room for gaps on both sides
-            const minGap = 12;
-            useWidth = Math.min(useWidth, viewportWidth - 2 * minGap);
+            useWidth = Math.min(useWidth, vpMinusGap);
 
-            // Set width
             if (el.tagName === 'IMG') {
                 el.style.setProperty('width', 'auto', 'important');
-                el.style.setProperty('max-width', (viewportWidth - 2 * minGap) + 'px', 'important');
+                el.style.setProperty('max-width', vpMinusGap + 'px', 'important');
             } else {
                 el.style.setProperty('width', Math.floor(useWidth) + 'px', 'important');
                 el.style.setProperty('max-width', 'none', 'important');
-                // Remove HTML width attribute so it doesn't fight inline style
                 if (el.hasAttribute('width')) {
                     el.removeAttribute('width');
                 }
             }
 
-            // Center in layout, then clamp to viewport bounds
-            let marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
+            var marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
 
-            // Don't push past left edge of viewport (keep minimum gap)
             if (marginLeft < -contentLeft + minGap) {
                 marginLeft = -contentLeft + minGap;
             }
 
-            // Don't let right edge exceed viewport (keep minimum gap)
-            const rightEdge = contentLeft + marginLeft + useWidth;
+            var rightEdge = contentLeft + marginLeft + useWidth;
             if (rightEdge > viewportWidth - minGap) {
                 marginLeft -= (rightEdge - (viewportWidth - minGap));
             }
 
-            // Re-check left edge
             if (marginLeft < -contentLeft + minGap) {
                 marginLeft = -contentLeft + minGap;
             }
