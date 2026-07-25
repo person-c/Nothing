@@ -1,5 +1,51 @@
 /* footnotes */
 
+/* --- Sidenotes (wide screens) --- */
+#dynamic-footnotes {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#dynamic-footnotes li {
+    font-size: 0.88em;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+#dynamic-footnotes li p {
+    margin-bottom: 0.3rem;
+}
+
+#dynamic-footnotes li code {
+    font-size: 0.88em;
+}
+
+#dynamic-footnotes li .highlight {
+    font-size: 0.82em;
+    padding: 1px 8px;
+    border-radius: 3px;
+}
+
+#dynamic-footnotes li .highlight pre {
+    line-height: 1.4;
+}
+
+.sidenote-backlink {
+    display: inline-block;
+    margin-left: 0.3em;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.85em;
+    cursor: pointer;
+}
+
+.sidenote-backlink:hover {
+    text-decoration: underline;
+}
+
+/* --- Reference superscript --- */
 sup.footnote-ref {
     font-size: 0.8rem;
     vertical-align: super;
@@ -11,17 +57,18 @@ sup.footnote-ref:hover {
     text-decoration: underline;
 }
 
-a.footnote-return {
+a.footnote-backref {
     font-size: 0.85em;
     color: var(--primary-color);
     text-decoration: none;
     margin-left: 0.2em;
 }
 
-a.footnote-return:hover {
+a.footnote-backref:hover {
     text-decoration: underline;
 }
 
+/* --- End-of-article footnotes (narrow screens) --- */
 div.footnotes {
     margin-top: 3rem;
     padding-top: 1.5rem;

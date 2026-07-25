@@ -1,10 +1,78 @@
 document.addEventListener("DOMContentLoaded", function () {
+    initSidenotes();
     initTableOfContents();
     initTocInteractivity();
     initTOCScrollSpy();
     initMobileToc();
     initCodeCopyButtons();
 });
+
+function initSidenotes() {
+    var refs = document.querySelectorAll("a.footnote-ref");
+    var footnotesDiv = document.querySelector("div.footnotes");
+    var container = document.querySelector("aside.footnotes");
+    if (refs.length === 0 || !footnotesDiv || !container) return;
+
+    function render() {
+        if (window.innerWidth <= 1024) {
+            footnotesDiv.style.display = "";
+            container.innerHTML = '';
+            return;
+        }
+        footnotesDiv.style.display = "none";
+        container.innerHTML = '';
+
+        var list = document.createElement("ul");
+        list.id = "dynamic-footnotes";
+        container.appendChild(list);
+
+        var items = [];
+        var containerTop = container.getBoundingClientRect().top + container.scrollTop;
+
+        refs.forEach(function (ref, i) {
+            if (!ref.id) ref.id = 'fnref-' + (i + 1);
+            var footnoteId = ref.getAttribute("href").substring(1);
+            var fn = document.getElementById(footnoteId);
+            if (!fn) return;
+
+            var li = document.createElement("li");
+            var clone = fn.cloneNode(true);
+            var backLink = clone.querySelector('.footnote-backref');
+            if (backLink) backLink.remove();
+            li.innerHTML = clone.innerHTML.trim();
+            li.style.position = "absolute";
+            list.appendChild(li);
+
+            var back = document.createElement('a');
+            back.href = '#' + ref.id;
+            back.className = 'sidenote-backlink';
+            back.textContent = '↩';
+            back.title = 'Back to reference';
+            li.appendChild(back);
+
+            var refTop = ref.getBoundingClientRect().top;
+            items.push({ li: li, top: refTop - containerTop });
+        });
+
+        // Prevent overlap
+        var minGap = 10;
+        var prevBottom = -Infinity;
+        items.forEach(function (item) {
+            var h = item.li.getBoundingClientRect().height;
+            var t = item.top;
+            if (t < prevBottom + minGap) t = prevBottom + minGap;
+            item.li.style.top = t + 'px';
+            prevBottom = t + h;
+        });
+    }
+
+    var timer;
+    window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(render, 200);
+    });
+    render();
+}
 
 /**
  * 模块二：生成目录 (TOC) - 已重构
