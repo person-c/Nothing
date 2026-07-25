@@ -1,45 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-    initResponsiveFootnotes();
     initTableOfContents();
     initTocInteractivity();
     initTOCScrollSpy();
     initMobileToc();
     initCodeCopyButtons();
 });
-
-function initResponsiveFootnotes() {
-    const footnoteRefs = document.querySelectorAll("a.footnote-ref");
-    const originalFootnotesDiv = document.querySelector("div.footnotes");
-    if (footnoteRefs.length === 0) return;
-    if (originalFootnotesDiv) originalFootnotesDiv.style.display = "none";
-    renderInlineFootnotes(footnoteRefs);
-}
-function renderInlineFootnotes(footnoteRefs) {
-    footnoteRefs.forEach(ref => {
-        const paragraph = ref.closest('p');
-        if (!paragraph) return;
-        let container = paragraph.nextElementSibling;
-        if (!container || !container.matches('.inserted-footnotes-container')) {
-            container = document.createElement('div');
-            container.className = 'inserted-footnotes-container';
-            container.innerHTML = '<ol></ol>';
-            paragraph.after(container);
-        }
-        const list = container.querySelector('ol');
-        const footnoteId = ref.getAttribute("href").substring(1);
-        const footnoteElement = document.getElementById(footnoteId);
-        if (footnoteElement && list) {
-            const contentClone = footnoteElement.cloneNode(true);
-            const backLink = contentClone.querySelector('.footnote-return');
-            if (backLink) backLink.remove();
-            const newLi = document.createElement('li');
-            newLi.innerHTML = contentClone.innerHTML.trim();
-            list.appendChild(newLi);
-            ref.style.pointerEvents = 'none';
-        }
-    });
-}
-
 
 /**
  * 模块二：生成目录 (TOC) - 已重构

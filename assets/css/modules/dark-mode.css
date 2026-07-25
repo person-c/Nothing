@@ -57,10 +57,6 @@
     background: rgba(77, 166, 255, 0.08);
 }
 
-:root.dark .inserted-footnotes-container {
-    background-color: #252529;
-}
-
 :root.dark .home-content>p:first-of-type,
 :root.dark .home-content>p:last-of-type,
 :root.dark .last-modified {

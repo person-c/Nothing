@@ -34,10 +34,6 @@
         display: none;
     }
 
-    .inserted-footnotes-container {
-        transition: background-color 0.3s ease;
-    }
-
     .toc-mobile-toggle {
         display: inline-flex;
     }

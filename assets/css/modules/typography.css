@@ -113,7 +113,6 @@ header a,
 footer a,
 aside.toc a,
 aside.footnotes a,
-.inserted-footnotes-container a,
 sup.footnote-ref a {
     text-decoration: none;
 }
@@ -122,8 +121,7 @@ aside.toc a:hover {
     color: var(--primary-color);
 }
 
-aside.footnotes a:hover,
-.inserted-footnotes-container a:hover {
+aside.footnotes a:hover {
     text-decoration: underline;
 }
 
