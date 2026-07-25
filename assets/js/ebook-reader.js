@@ -138,22 +138,9 @@ function closeTOC() {
 }
 
 function toggleTheme() {
-    const root = document.documentElement;
+    if (window.__cycleTheme) window.__cycleTheme();
     const btn = document.getElementById('btn-theme');
-    if (root.classList.contains('dark')) {
-        root.classList.remove('dark');
-        root.classList.add('light');
-        localStorage.setItem('theme', 'light');
-        btn.textContent = '☀';
-    } else if (root.classList.contains('light')) {
-        root.classList.remove('light');
-        localStorage.setItem('theme', 'auto');
-        btn.textContent = '☀';
-    } else {
-        root.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-        btn.textContent = '☾';
-    }
+    if (btn) btn.textContent = window.__getThemeIcon ? window.__getThemeIcon() : '☀';
 }
 
 // --- Event bindings ---
