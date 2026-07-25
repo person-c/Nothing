@@ -109,10 +109,12 @@
         padding-right: 0.75rem;
     }
 
+    header,
     footer {
         padding: 15px;
     }
 
+    header ul,
     footer ul {
         flex-direction: row;
         gap: 15px;
@@ -120,8 +122,9 @@
         justify-content: center;
     }
 
-    header {
-        height: 32px;
+    header li a,
+    .social-links li a {
+        font-size: 0.85rem;
     }
 
     .footer-content {
@@ -141,22 +144,27 @@
         font-size: 0.8rem;
     }
 
+    .nav-bar {
+        width: 56px;
+        height: 36px;
+    }
+
     .theme-toggle {
-        top: 3px;
-        left: 4px;
-        width: 26px;
-        height: 26px;
+        top: 6px;
+        left: 6px;
+        width: 24px;
+        height: 24px;
         font-size: 14px;
     }
 
-    .nav-menu a {
-        font-size: 0.75rem;
-        padding: 2px 6px;
+    .nav-menu {
+        padding: 4px 8px;
+        gap: 0;
     }
 
-    .nav-menu li + li::before {
-        height: 10px;
-        margin: 0 1px;
+    .nav-menu li a {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
     }
 
     .home-main {
