@@ -7,9 +7,11 @@
 ```bash
 git tag
 
-git tag -a v1.0.1 -m "Theme update: [描述更新内容]" # 用2.1这种两位版本号会导致hugo mod 无法获取该tag。
+# 用 -a 创建附注标签，3位版本号（hugo mod 要求）
+git tag -a v3.3.0 -m "Version 3.3.0: [描述更新内容]"
 
-git push origin v1.0.1 
+git push origin main
+git push origin v3.3.0
 
 # 预览
 cd exampleSite/
@@ -28,42 +30,85 @@ Nothing/
 │   └── books.md            # Book page archetype (title, author, cover, file)
 ├── assets/
 │   ├── css/
-│   │   ├── styles.css      # Core stylesheet, processed via Hugo Pipes
+│   │   ├── modules/        # 15 modular CSS files (see below)
 │   │   └── ebook-reader.css# EPUB reader full-page styles
 │   └── js/
+│       ├── nav.js          # Navigation menu toggle (in header)
+│       ├── theme.js        # Dark/light/auto theme toggle
+│       ├── back-to-top.js  # Smooth scroll to top
 │       ├── article-page.js # Footnotes, TOC, ScrollSpy, code copy
-│       ├── fullwidth.js    # Full-width element detection and offset calculation
+│       ├── fullwidth.js    # Full-width element detection and offset
 │       └── ebook-reader.js # EPUB reader app (foliate-js) — ES module
 ├── layouts/
 │   ├── _default/
-│   │   ├── baseof.html     # Base HTML frame (head, fonts, header, footer)
-│   │   ├── single.html     # Single post template (3-column layout + mobile TOC)
-│   │   └── list.html       # Section list template with pagination
+│   │   ├── baseof.html     # Base HTML frame (head, header, footer, blocks)
+│   │   ├── single.html     # Single post (3-column layout + mobile TOC)
+│   │   └── list.html       # Section list with pagination
 │   ├── index.html          # Homepage (inherits baseof via "main" block)
 │   ├── books/              # E-book reader + bookshelf listing
-│   ├── note/               # Templates for rendered R Markdown notes
-│   ├── slides/             # Templates for rendered presentations
+│   ├── note/               # Bare templates for LiteDown-rendered notes
+│   ├── slides/             # Bare templates for LiteDown-rendered slides
 │   └── partials/
-│       ├── head.html       # <head> with SEO meta, OG tags, dark mode prevention
-│       ├── header.html     # Nav bar (top-right trigger → centered pill menu) + theme toggle
-│       └── footer.html     # Article footer with copyright and links
+│       ├── head.html       # <head> content: meta, fonts, CSS bundle, theme flash prevention, common JS
+│       ├── header.html     # Nav bar (top-right trigger → top-center pill menu) + theme toggle button
+│       └── footer.html     # Footer with copyright, social links, back-to-top
 └── exampleSite/            # Demo site for theme development
 ```
+
+**CSS modules** (`assets/css/modules/`):
+
+| File | Scope |
+|------|-------|
+| `critical.css` | CSS variables, reset, body, layout grid |
+| `header.css` | Header and footer base styles |
+| `header-badge.css` | Nav bar, nav menu, theme toggle positioning |
+| `article-list.css` | Blog list: post items, dates, links |
+| `toc.css` | TOC sidebar, collapsible tree, floating toggle |
+| `footnotes.css` | Sidenote system, inline footnotes |
+| `article.css` | Images, figures within articles |
+| `typography.css` | Headings, links, lists, blockquote, selection |
+| `code-tables.css` | Code blocks, tables, full-width elements |
+| `home.css` | Homepage-specific styles |
+| `copy-footer.css` | Code copy button, article footer, pagination |
+| `bookshelf.css` | Bookshelf listing page |
+| `dark-mode.css` | `:root.dark` variable overrides |
+| `responsive.css` | All `@media` breakpoints |
+| `print.css` | `@media print` rules |
+
+All modules are concatenated at build time via Hugo Pipes:
+```go
+{{ $css := slice $critical $header ... $print | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
+```
+
+JS files `nav.js`, `theme.js`, `back-to-top.js` are similarly bundled into `common.js` and loaded with `defer`. This keeps the critical theme flash prevention as the only inline script.
 
 ### Template Inheritance
 
 ```
-baseof.html  (global <head>, fonts, CSS, includes header + footer partials)
+baseof.html  (wraps <head>, provides body_attrs/body_content/scripts blocks)
 ├── index.html              → Homepage, defines "main" block only
 ├── _default/single.html    → Posts, defines "main" and "scripts" blocks
 ├── _default/list.html      → Section lists with pagination, defines "main" block
-├── note/single.html        → Bare HTML output (pre-rendered R Markdown content)
-├── slides/single.html      → Bare HTML output (pre-rendered R Markdown content)
-├── books/single.html       → Standalone HTML (no baseof) — EPUB reader
+├── note/single.html        → Bare HTML (LiteDown pre-rendered content), no baseof
+├── slides/single.html      → Bare HTML (LiteDown pre-rendered content), no baseof
+├── books/single.html       → EPUB reader, extends baseof via body_content + head_extras blocks
 └── books/list.html         → Bookshelf listing, defines "main" block
 ```
 
-Dark mode preference is persisted in localStorage and applied before first paint via an inline script in `<head>`. The TOC sidebar can be hidden (× button) with a floating ☰ restore button.
+**Blocks provided by baseof.html:**
+
+| Block | Purpose | Default |
+|-------|---------|---------|
+| `body_attrs` | Extra attributes on `<body>` tag | empty |
+| `body_content` | Entire body content area | header + main + footer |
+| `main` | Page-specific content inside `<main>` | empty |
+| `footer` | Footer override | `footer.html` partial |
+| `scripts` | Page-specific `<script>` tags | empty |
+| `head_extras` | Extra `<link>`/`<script>` in `<head>` | empty |
+
+`books/single.html` overrides `body_attrs` (adds `ebook-reader-body` class), `body_content` (replaces everything with the EPUB reader UI), and `head_extras` (injects `ebook-reader.css`). Regular pages use the default `body_content` which renders header + main + footer.
+
+**Theme system:** Dark/light/auto preference is persisted in `localStorage`. An inline script in `<head>` applies the `dark` class before first paint — if no stored preference, it checks `prefers-color-scheme`. The theme toggle button cycles: dark → light → auto. The TOC sidebar can be hidden (× button) with a floating ☰ restore button.
 
 ### Three-Column Layout (single.html)
 
@@ -146,7 +191,7 @@ Workflow:
 - Footnote references have `pointer-events: none` since the content is immediately below.
 - Styled with a blue left border and light background.
 
-The layout re-evaluates on `resize` (250ms debounce) and via `ResizeObserver` on the `<article>`.
+The layout re-evaluates on `resize` (250ms debounce), via `ResizeObserver` on `<article>`, and after images load or web fonts finish loading — all managed within `initResponsiveFootnotes()`.
 
 ### Table of Contents (TOC)
 
@@ -253,13 +298,14 @@ The theme includes a full in-browser EPUB reader, plus a bookshelf listing for o
 - Books use Hugo branch bundles: `content/books/<category>/<book-slug>/index.md` + `file.epub`.
 
 **Reader (`books/single.html` + `ebook-reader.js` + `ebook-reader.css`):**
-- Standalone HTML page (does not use `baseof.html`) — the reader fills the viewport.
+- Extends `baseof.html` (inherits CSS bundle, fonts, theme flash prevention, common JS).
+- Overrides `body_content` block — the reader fills the viewport.
 - Uses `foliate-js` (loaded from CDN) for EPUB rendering.
 - **Toolbar:** Back to Shelf link, book title, TOC toggle button, font size controls (60%–200%), theme toggle.
 - **TOC sidebar:** Slide-in panel populated from EPUB metadata.
-- **Navigation:** Click/tap 20% edge zones on left/right, arrow keys, or toolbar prev/next buttons.
+- **Navigation:** Click/tap 20% edge zones (capture phase), touch swipe (50px threshold, horizontal-dominant), arrow keys, or toolbar prev/next buttons.
 - **Progress:** CFI-based reading position persisted to `localStorage` per book. Bottom progress bar.
-- **Theme:** Dark/light toggle shares the same `localStorage` key as the main site.
+- **Theme:** Dark/light/auto toggle shares the same `localStorage` key as the main site.
 - **Resilience:** Error state display if EPUB fails to load.
 
 ### Navigation
@@ -279,7 +325,9 @@ All pages share a consistent footer via `layouts/partials/footer.html` (Home, Gi
 
 ### `note/` and `slides/` Sections
 
-These use minimal bare HTML templates (no site chrome). Since the content is pre-rendered R Markdown HTML output, the templates output only `{{ .Content }}` — no styles, navigation, or footer. `.Rmd` source files are excluded from Hugo processing via `ignoreFiles`.
+These use minimal bare HTML templates (no site chrome, no baseof inheritance). Content is pre-rendered HTML from [LiteDown](https://github.com/yihui/litedown) (an R package by Yihui Xie). The templates output only `{{ .Content }}` — the LiteDown HTML is rendered as-is with its own styles and scripts. `.Rmd` source files are excluded from Hugo via `ignoreFiles`.
+
+Future optimization: notes could be rendered as Markdown instead of HTML for better theme integration (consistent typography, dark mode, TOC). Slides require LiteDown's snap-scrolling and keyboard navigation, but could inherit baseof for shared CSS and theme support.
 
 ## License
 
