@@ -10,6 +10,13 @@
                     {{ if and (ne .URL "/") (hasPrefix $.RelPermalink .URL) }}{{ $isActive = true }}{{ end }}
                     <li><a href="{{ .URL }}"{{ if $isActive }} class="active"{{ end }}>{{ .Name }}</a></li>
                 {{ end }}
+                {{ if not hugo.IsProduction }}
+                    {{ range .Site.Sections }}
+                        {{ if eq .Section "ramblings" }}
+                        <li><a href="{{ .RelPermalink }}"{{ if eq $.Section "ramblings" }} class="active"{{ end }}>Ramblings</a></li>
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
             {{ else }}
                 <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
                 {{ $current := . }}
