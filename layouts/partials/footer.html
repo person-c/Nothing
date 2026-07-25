@@ -1,10 +1,18 @@
 <footer class="article-footer">
     <div class="footer-links">
         <a href="{{ "/" | relURL }}">Home</a>
+        {{ with .Site.Params.github }}
         <span class="separator">·</span>
-        <a href="https://github.com/person-c/myBlog" target="_blank" rel="noopener">GitHub</a>
+        <a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
+        {{ end }}
+        {{ with .Site.Params.email }}
         <span class="separator">·</span>
-        <a href="mailto:m2c.w@outlook.com">Mail</a>
+        <a href="mailto:{{ . }}">Mail</a>
+        {{ end }}
+        {{ with .Site.Params.rss }}
+        <span class="separator">·</span>
+        <a href="{{ . }}" target="_blank" rel="noopener">RSS</a>
+        {{ end }}
         <span class="separator">·</span>
         <a href="#" class="back-to-top">Back to top</a>
     </div>

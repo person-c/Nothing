@@ -56,3 +56,8 @@ enableGitInfo = true
     weight = 7
 
 paginate = 10
+
+[params]
+  github = "https://github.com/person-c/myBlog"
+  email = "m2c.w@outlook.com"
+  rss = "/index.xml"
