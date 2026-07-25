@@ -257,7 +257,6 @@ function initTableOfContents() {
 
         function hideToc() {
             layout.classList.add('toc-hidden');
-            tocAside.classList.add('hidden');
             floatBtn.classList.add('visible');
             localStorage.setItem('toc-hidden', 'true');
             recalcFullwidth();
@@ -265,7 +264,6 @@ function initTableOfContents() {
 
         function showToc() {
             layout.classList.remove('toc-hidden');
-            tocAside.classList.remove('hidden');
             floatBtn.classList.remove('visible');
             localStorage.setItem('toc-hidden', 'false');
             recalcFullwidth();
