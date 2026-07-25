@@ -57,7 +57,7 @@ main {
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(200px, 20%) auto minmax(160px, 18%);
+    grid-template-columns: 1fr minmax(0, 800px) 1fr;
     gap: 1rem;
     align-items: flex-start;
     max-width: 1400px;
