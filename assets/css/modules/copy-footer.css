@@ -106,16 +106,3 @@
     font-size: 0.8rem;
 }
 
-/* --- Sidenote Back-links --- */
-.sidenote-backlink {
-    display: inline-block;
-    margin-left: 0.3em;
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.85em;
-    cursor: pointer;
-}
-
-.sidenote-backlink:hover {
-    text-decoration: underline;
-}
