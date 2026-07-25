@@ -103,7 +103,6 @@ function initFullwidth() {
         const layoutRect = layout.getBoundingClientRect();
         const articleRect = article.getBoundingClientRect();
         const padLeft = parseFloat(getComputedStyle(article).paddingLeft);
-        const padRight = parseFloat(getComputedStyle(article).paddingRight);
         const contentLeft = articleRect.left + padLeft;
         const layoutCenterX = layoutRect.left + layoutRect.width / 2;
         const viewportWidth = document.documentElement.clientWidth;
@@ -114,14 +113,14 @@ function initFullwidth() {
             const needsScroll = natWidth > layoutRect.width + 2;
 
             // Only toggle class when state actually changes
-            var hasScroll = el.classList.contains('fullwidth-scroll');
+            const hasScroll = el.classList.contains('fullwidth-scroll');
             if (needsScroll && !hasScroll) {
                 el.classList.add('fullwidth-scroll');
             } else if (!needsScroll && hasScroll) {
                 el.classList.remove('fullwidth-scroll');
             }
 
-            var useWidth;
+            let useWidth;
             if (needsScroll) {
                 useWidth = Math.min(layoutRect.width, viewportWidth);
             } else {
@@ -144,13 +143,13 @@ function initFullwidth() {
                 }
             }
 
-            var marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
+            let marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
 
             if (marginLeft < -contentLeft + minGap) {
                 marginLeft = -contentLeft + minGap;
             }
 
-            var rightEdge = contentLeft + marginLeft + useWidth;
+            const rightEdge = contentLeft + marginLeft + useWidth;
             if (rightEdge > viewportWidth - minGap) {
                 marginLeft -= (rightEdge - (viewportWidth - minGap));
             }
@@ -167,16 +166,16 @@ function initFullwidth() {
     applyAllOffsets();
 
     // Expose for TOC toggle to trigger recalculation
-    layout._fullwidthRecalc = function () {
-        requestAnimationFrame(function () {
+    layout._fullwidthRecalc = () => {
+        requestAnimationFrame(() => {
             requestAnimationFrame(applyAllOffsets);
         });
     };
 
-    var rafId = null;
+    let rafId = null;
     function scheduleApply() {
         if (rafId) return;
-        rafId = requestAnimationFrame(function () {
+        rafId = requestAnimationFrame(() => {
             rafId = null;
             applyAllOffsets();
         });

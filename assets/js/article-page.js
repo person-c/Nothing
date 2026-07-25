@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
     initSidenotes();
     initTableOfContents();
     initTocInteractivity();
@@ -8,14 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // SVG icon constants
-var SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-var SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-var SVG_CHEVRON = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+const SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+const SVG_CHEVRON = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
 
 function initSidenotes() {
-    var refs = document.querySelectorAll("a.footnote-ref");
-    var footnotesDiv = document.querySelector("div.footnotes");
-    var container = document.querySelector("aside.footnotes");
+    const refs = document.querySelectorAll("a.footnote-ref");
+    const footnotesDiv = document.querySelector("div.footnotes");
+    const container = document.querySelector("aside.footnotes");
     if (refs.length === 0 || !footnotesDiv || !container) return;
 
     function render() {
@@ -27,52 +27,52 @@ function initSidenotes() {
         footnotesDiv.style.display = "none";
         container.innerHTML = '';
 
-        var list = document.createElement("ul");
+        const list = document.createElement("ul");
         list.id = "dynamic-footnotes";
         container.appendChild(list);
 
-        var items = [];
-        var containerTop = container.getBoundingClientRect().top + container.scrollTop;
+        const items = [];
+        const containerTop = container.getBoundingClientRect().top + container.scrollTop;
 
-        refs.forEach(function (ref, i) {
-            if (!ref.id) ref.id = 'fnref-' + (i + 1);
-            var footnoteId = ref.getAttribute("href").substring(1);
-            var fn = document.getElementById(footnoteId);
+        refs.forEach((ref, i) => {
+            if (!ref.id) ref.id = `fnref-${i + 1}`;
+            const footnoteId = ref.getAttribute("href").substring(1);
+            const fn = document.getElementById(footnoteId);
             if (!fn) return;
 
-            var li = document.createElement("li");
-            var clone = fn.cloneNode(true);
-            var backLink = clone.querySelector('.footnote-backref');
+            const li = document.createElement("li");
+            const clone = fn.cloneNode(true);
+            const backLink = clone.querySelector('.footnote-backref');
             if (backLink) backLink.remove();
             li.innerHTML = clone.innerHTML.trim();
             li.style.position = "absolute";
             list.appendChild(li);
 
-            var back = document.createElement('a');
-            back.href = '#' + ref.id;
+            const back = document.createElement('a');
+            back.href = `#${ref.id}`;
             back.className = 'sidenote-backlink';
             back.textContent = '↩';
             back.title = 'Back to reference';
             li.appendChild(back);
 
-            var refTop = ref.getBoundingClientRect().top;
-            items.push({ li: li, top: refTop - containerTop });
+            const refTop = ref.getBoundingClientRect().top;
+            items.push({ li, top: refTop - containerTop });
         });
 
         // Prevent overlap
-        var minGap = 10;
-        var prevBottom = -Infinity;
-        items.forEach(function (item) {
-            var h = item.li.getBoundingClientRect().height;
-            var t = item.top;
+        const minGap = 10;
+        let prevBottom = -Infinity;
+        items.forEach((item) => {
+            const h = item.li.getBoundingClientRect().height;
+            let t = item.top;
             if (t < prevBottom + minGap) t = prevBottom + minGap;
-            item.li.style.top = t + 'px';
+            item.li.style.top = `${t}px`;
             prevBottom = t + h;
         });
     }
 
-    var timer;
-    window.addEventListener('resize', function () {
+    let timer;
+    window.addEventListener('resize', () => {
         clearTimeout(timer);
         timer = setTimeout(render, 200);
     });
@@ -93,9 +93,9 @@ function initTableOfContents() {
     const tocList = buildTocTree(headings);
     tocContainer.appendChild(tocList);
 
-    tocContainer.querySelectorAll('.collapsible').forEach(function (li) {
+    tocContainer.querySelectorAll('.collapsible').forEach((li) => {
         li.classList.add('is-open');
-        var btn = li.querySelector('.toc-toggle');
+        const btn = li.querySelector('.toc-toggle');
         if (btn) btn.setAttribute('aria-expanded', 'true');
     });
 
@@ -104,10 +104,10 @@ function initTableOfContents() {
 }
 
 function hideTocElements() {
-    var tocAside = document.querySelector('aside.toc');
-    var layout = document.querySelector('.layout');
-    var mobileBtn = document.querySelector('.toc-mobile-toggle');
-    var floatBtn = document.querySelector('.toc-float-toggle');
+    const tocAside = document.querySelector('aside.toc');
+    const layout = document.querySelector('.layout');
+    const mobileBtn = document.querySelector('.toc-mobile-toggle');
+    const floatBtn = document.querySelector('.toc-float-toggle');
     if (tocAside) tocAside.style.display = 'none';
     if (layout) layout.classList.add('toc-hidden');
     if (mobileBtn) mobileBtn.style.display = 'none';
@@ -161,27 +161,26 @@ function buildTocTree(headings) {
 }
 
 function updateMobileToggle(headingCount) {
-    var mobileToggle = document.querySelector('.toc-mobile-toggle');
+    const mobileToggle = document.querySelector('.toc-mobile-toggle');
     if (!mobileToggle) return;
-    var svg = mobileToggle.querySelector('svg');
-    var svgHTML = svg ? svg.outerHTML : '';
-    var countStr = headingCount + ' section' + (headingCount !== 1 ? 's' : '');
-    mobileToggle.innerHTML = svgHTML + ' ' + countStr;
+    const svg = mobileToggle.querySelector('svg');
+    const svgHTML = svg ? svg.outerHTML : '';
+    mobileToggle.innerHTML = `${svgHTML} ${headingCount} section${headingCount !== 1 ? 's' : ''}`;
 }
 
 function initTocControls(tocContainer) {
-    var tocAside = document.querySelector('aside.toc');
-    var layout = document.querySelector('.layout');
+    const tocAside = document.querySelector('aside.toc');
+    const layout = document.querySelector('.layout');
     if (!tocAside || !layout) return;
 
-    var collapseBtn = document.createElement('button');
+    const collapseBtn = document.createElement('button');
     collapseBtn.className = 'toc-collapse-toggle';
     collapseBtn.title = 'Hide table of contents';
     collapseBtn.innerHTML = '×';
     collapseBtn.setAttribute('aria-label', 'Hide table of contents');
     tocAside.insertBefore(collapseBtn, tocContainer);
 
-    var floatBtn = document.createElement('button');
+    const floatBtn = document.createElement('button');
     floatBtn.className = 'toc-float-toggle';
     floatBtn.title = 'Show table of contents';
     floatBtn.innerHTML = '☰';
@@ -214,9 +213,6 @@ function initTocControls(tocContainer) {
     }
 }
 
-/**
- * 辅助函数：创建一个可折叠按钮
- */
 function createToggleButton() {
     const button = document.createElement('button');
     button.className = 'toc-toggle';
@@ -226,14 +222,11 @@ function createToggleButton() {
     return button;
 }
 
-/**
- * 新模块：初始化目录的折叠/展开交互
- */
 function initTocInteractivity() {
     const tocContainer = document.getElementById("toc");
     if (!tocContainer) return;
 
-    tocContainer.addEventListener('click', function (event) {
+    tocContainer.addEventListener('click', (event) => {
         const toggleButton = event.target.closest('.toc-toggle');
         if (toggleButton) {
             const parentLi = toggleButton.parentElement;
@@ -245,10 +238,6 @@ function initTocInteractivity() {
     });
 }
 
-
-/**
- * 模块三：目录滚动高亮 (Scroll-Spy) - 无需改动
- */
 function initTOCScrollSpy() {
     const headings = document.querySelectorAll("article h2, article h3, article h4");
     const tocLinks = document.querySelectorAll("#toc a");
@@ -268,54 +257,51 @@ function initTOCScrollSpy() {
     headings.forEach(heading => observer.observe(heading));
 }
 
-/* ---------------------------- Mobile TOC Toggle ----------------------------- */
 function initMobileToc() {
-    var toggle = document.querySelector('.toc-mobile-toggle');
-    var toc = document.querySelector('aside.toc');
+    const toggle = document.querySelector('.toc-mobile-toggle');
+    const toc = document.querySelector('aside.toc');
     if (!toggle || !toc) return;
 
-    toggle.addEventListener('click', function () {
-        var isOpen = toc.classList.toggle('mobile-visible');
+    toggle.addEventListener('click', () => {
+        const isOpen = toc.classList.toggle('mobile-visible');
         toggle.classList.toggle('is-open', isOpen);
         toggle.setAttribute('aria-expanded', isOpen);
-        // Override desktop hidden state when opening on mobile
         if (isOpen) {
             toc.classList.remove('hidden');
-            var layout = document.querySelector('.layout');
+            const layout = document.querySelector('.layout');
             if (layout) {
                 layout.classList.remove('toc-hidden');
                 if (layout._fullwidthRecalc) layout._fullwidthRecalc();
             }
-            var floatBtn = document.querySelector('.toc-float-toggle');
+            const floatBtn = document.querySelector('.toc-float-toggle');
             if (floatBtn) floatBtn.classList.remove('visible');
         }
     });
 }
 
-/* ----------------------------- Code Copy Buttons ---------------------------- */
 function initCodeCopyButtons() {
-    document.querySelectorAll('.highlight').forEach(function (block) {
-        var wrapper = document.createElement('div');
+    document.querySelectorAll('.highlight').forEach((block) => {
+        const wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
         block.parentNode.insertBefore(wrapper, block);
         wrapper.appendChild(block);
 
-        var button = document.createElement('button');
+        const button = document.createElement('button');
         button.className = 'copy-button';
         button.innerHTML = SVG_COPY + 'Copy';
         wrapper.appendChild(button);
 
-        button.addEventListener('click', function () {
-            var code = block.querySelector('code') || block.querySelector('pre');
-            var text = code ? code.textContent : block.textContent;
-            navigator.clipboard.writeText(text).then(function () {
+        button.addEventListener('click', () => {
+            const code = block.querySelector('code') || block.querySelector('pre');
+            const text = code ? code.textContent : block.textContent;
+            navigator.clipboard.writeText(text).then(() => {
                 button.innerHTML = SVG_CHECK + 'Copied!';
-                setTimeout(function () {
+                setTimeout(() => {
                     button.innerHTML = SVG_COPY + 'Copy';
                 }, 2000);
-            }).catch(function () {
+            }).catch(() => {
                 button.textContent = 'Failed';
-                setTimeout(function () { button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy'; }, 2000);
+                setTimeout(() => { button.innerHTML = SVG_COPY + 'Copy'; }, 2000);
             });
         });
     });

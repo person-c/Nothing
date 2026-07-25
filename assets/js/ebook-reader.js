@@ -52,7 +52,7 @@ function onSectionLoad({ detail }) {
         detail.doc.documentElement.style.setProperty(
             '--font-size-multiplier', (currentFontSize / 100).toString());
         detail.doc.documentElement.style.fontSize =
-            (16 * currentFontSize / 100) + 'px';
+            `${16 * currentFontSize / 100}px`;
     }
 }
 
@@ -112,7 +112,7 @@ function applyFontSizeToRenderer() {
         for (const { doc } of view.renderer.getContents()) {
             if (doc) {
                 doc.documentElement.style.fontSize =
-                    (16 * currentFontSize / 100) + 'px';
+                    `${16 * currentFontSize / 100}px`;
             }
         }
     }
@@ -126,7 +126,7 @@ function updateProgress() {
         ? Math.round(loc.fraction * 100)
         : (loc.tocItem?.fraction != null ? Math.round(loc.tocItem.fraction * 100) : 0);
     const fill = document.querySelector('.progress-fill');
-    if (fill) fill.style.width = pct + '%';
+    if (fill) fill.style.width = `${pct}%`;
 }
 
 function openTOC() {
@@ -183,7 +183,7 @@ document.getElementById('viewer').addEventListener('click', (e) => {
 }, true);
 
 // Touch swipe for mobile
-(function() {
+(() => {
     const viewer = document.getElementById('viewer');
     let touchStartX = 0;
     let touchStartY = 0;
