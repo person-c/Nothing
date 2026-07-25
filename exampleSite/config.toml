@@ -22,4 +22,7 @@ watch = true
 
 enableGitInfo = true
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 paginate = 10

@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="search-page">
+    <h2 class="search-title">Search</h2>
+    <div class="search-input-wrapper">
+        <input type="text" id="search-input" class="search-input" placeholder="Type to search..." autofocus>
+    </div>
+    <div id="search-results" class="search-results"></div>
+    <div id="search-status" class="search-status"></div>
+</div>
+{{ end }}
+
+{{ define "scripts" }}
+{{ $searchJs := resources.Get "js/search.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $searchJs.RelPermalink }}" defer></script>
+{{ end }}

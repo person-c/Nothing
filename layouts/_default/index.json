@@ -1,0 +1,14 @@
+{{- $pages := where .Site.RegularPages "Section" "ne" "ramblings" -}}
+{{- if not hugo.IsProduction }}{{ $pages = .Site.RegularPages }}{{ end -}}
+[
+{{- range $index, $page := $pages }}
+{{- if $index }},{{ end }}
+{
+  "title": {{ $page.Title | jsonify }},
+  "url": {{ $page.RelPermalink | jsonify }},
+  "summary": {{ $page.Summary | plainify | truncate 200 | jsonify }},
+  "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
+  "section": {{ $page.Section | jsonify }}
+}
+{{- end }}
+]
