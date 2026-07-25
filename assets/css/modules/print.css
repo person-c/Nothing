@@ -69,4 +69,17 @@
     a {
         color: inherit;
     }
+
+    article a[href^="http"]::after,
+    article a[href^="/"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.9em;
+        word-break: break-all;
+    }
+
+    article a[href^="#"]::after,
+    a.footnote-ref::after,
+    a.footnote-return::after {
+        content: none;
+    }
 }
