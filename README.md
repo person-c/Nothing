@@ -8,10 +8,10 @@
 git tag
 
 # 用 -a 创建附注标签，3位版本号（hugo mod 要求）
-git tag -a v3.4.0 -m "Version 3.4.0: centered layout, simplified nav, search, sidenotes"
+git tag -a v3.5.0 -m "Version 3.5.0: ES6 JS, refined typography, responsive images, accessible icons"
 
 git push origin main
-git push origin v3.4.0
+git push origin v3.5.0
 
 # 预览
 cd exampleSite/
@@ -64,7 +64,7 @@ Nothing/
 
 | File | Scope |
 |------|-------|
-| `critical.css` | CSS variables, reset, body, layout grid (centered article) |
+| `critical.css` | CSS variables (11 custom properties), reset, body, layout grid (centered article) |
 | `header.css` | Footer base styles |
 | `header-badge.css` | Nav trigger, menu, theme toggle |
 | `article-list.css` | Blog list, post items, search page |
@@ -76,13 +76,15 @@ Nothing/
 | `home.css` | Homepage-specific styles (loaded only on homepage) |
 | `copy-footer.css` | Code copy button, article footer, pagination |
 | `bookshelf.css` | Bookshelf listing (loaded only on /books/) |
-| `dark-mode.css` | `:root.dark` variable overrides |
+| `dark-mode.css` | `:root.dark` variable overrides (minimal — component colors inherit from variables) |
 | `responsive.css` | All `@media` breakpoints, TOC hidden state |
-| `print.css` | `@media print` rules, URL expansion |
+| `print.css` | `@media print` rules, URL expansion, page margins, widow/orphan control |
 
 **CSS bundling:** 13 modules concatenated into global `bundle.css`. `home.css` and `bookshelf.css` are loaded conditionally via `head.html` only on their respective pages.
 
-JS files `nav.js`, `theme.js`, `back-to-top.js` are bundled into `common.js` and loaded with `defer`. `search.js` and `article-page.js`/`fullwidth.js` are loaded per-page.
+All JS is ES6+: `const`/`let`, arrow functions, template literals, `for...of`. No transpilation needed — targets modern browsers.
+
+`nav.js`, `theme.js`, `back-to-top.js` are bundled into `common.js` and loaded with `defer`. `search.js` and `article-page.js`/`fullwidth.js` are loaded per-page. `ebook-reader.js` is loaded as an ES module.
 
 ### Template Inheritance
 
@@ -111,7 +113,7 @@ baseof.html  (wraps <head>, provides body_attrs/body_content/scripts blocks)
 
 `books/single.html` overrides `body_attrs`, `body_content`, and `head_extras`. Regular pages use the default `body_content`.
 
-**Theme system:** `window.__cycleTheme()` and `window.__getThemeIcon()` are defined in an inline `<script>` and shared by `theme.js` and `ebook-reader.js`. Theme preference is persisted in `localStorage` and applied before first paint.
+**Theme system:** `window.__cycleTheme()` and `window.__getThemeIcon()` are defined in an inline `<script>` and shared by `theme.js` and `ebook-reader.js`. Theme preference is persisted in `localStorage` and applied before first paint. Sun/moon icons are feather-style SVG (not Unicode) for cross-platform consistency.
 
 ### Three-Column Layout (single.html)
 
@@ -255,13 +257,39 @@ A horizontal bar trigger (80px × 28px, aligned with the theme toggle) at the to
 
 ### Typography
 
-- **Serif body:** `EB Garamond` (Latin) + `Noto Serif SC` (Chinese), Google Fonts with `display=swap`.
-- **Monospace:** `Consolas, Courier, 楷体` stack.
-- **Body links:** dashed underline, solid on hover.
-- **Text rendering:** `optimizeLegibility` + `-webkit-font-smoothing: antialiased`.
-- **Syntax highlighting:** Hugo Chroma with CSS classes, Monokai theme, line numbers.
-- **Image lazy loading:** `loading="lazy" decoding="async"` via render hook.
-- **Color contrast:** Light mode `--text-color-light: #444`, `--primary-color: #0066cc` (WCAG AA). Dark mode softened to reduce halation.
+**Font stack:** `EB Garamond` (Latin) + `Noto Serif SC` (Chinese), loaded from Google Fonts with `display=swap`. Monospace: `Consolas, Courier, 楷体` stack.
+
+**Responsive sizing:** Body font-size and line-height use `clamp()` for fluid scaling across viewports — 16→18px and 1.6→1.75 respectively. No hard breakpoint jumps.
+
+**CJK/Latin mixed text:**
+- `text-spacing: normal` — automatic 1/8em gap between Chinese and Latin characters (Chrome 124+, Safari 17+).
+- `font-kerning: normal` — enables Latin kerning pairs (e.g. "AV", "To").
+- `font-variant-numeric: oldstyle-nums` — proportional oldstyle figures (`123` have ascenders/descenders, blending naturally into serif body text).
+
+**Vertical rhythm:** Paragraph margins use `0.5lh` (half the line height), ensuring consistent spacing regardless of font-size or line-height changes. Headings have `2em` top margin for clear section separation.
+
+**Heading hierarchy:** Fluid `clamp()` sizes — H1 1.6→2.2rem, H2 1.2→1.5rem, H3 1.05→1.2rem — with `letter-spacing: -0.01em` on H1 for refined large-type tracking.
+
+**Links:** Dashed underline, solid on hover. `text-decoration-color` transition for smooth feedback.
+
+**Syntax highlighting:** Hugo Chroma with CSS classes, Monokai theme, line numbers. Code blocks use tinted background (`--bg-color-light`) with 8px border-radius — no border or box-shadow.
+
+**Images:** `loading="lazy" decoding="async"` via render hook. Page-resource images get automatic `srcset` with 480w and 960w variants for responsive loading.
+
+**Color contrast:** `--text-color: #3a3a3a` on white (~10:1 ratio) — comfortable for long-form reading, well above WCAG AAA (7:1). Dark mode palette softened to reduce halation.
+
+### Configuration
+
+Footer links (GitHub, email, RSS) are driven by `.Site.Params` in `config.toml`:
+
+```toml
+[params]
+  github = "https://github.com/your/repo"
+  email = "you@example.com"
+  rss = "/index.xml"
+```
+
+Each link is rendered only when its param is set.
 
 ### Production vs Development
 
