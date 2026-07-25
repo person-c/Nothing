@@ -3,15 +3,22 @@
     <nav class="nav-container">
         <div class="nav-bar" tabindex="0" role="button" aria-label="Toggle navigation menu"></div>
         <ul class="nav-menu">
-            <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
-            <li><a href="{{ "/about/" | relURL }}"{{ if eq .Section "about" }} class="active"{{ end }}>About</a></li>
-            <li><a href="{{ "/blog/" | relURL }}"{{ if eq .Section "blog" }} class="active"{{ end }}>Blog</a></li>
-            <li><a href="{{ "/note/" | relURL }}"{{ if eq .Section "note" }} class="active"{{ end }}>Note</a></li>
-            <li><a href="{{ "/slides/" | relURL }}"{{ if eq .Section "slides" }} class="active"{{ end }}>Slides</a></li>
-        <li><a href="{{ "/books/" | relURL }}"{{ if eq .Section "books" }} class="active"{{ end }}>Books</a></li>
-            <li><a href="{{ "/search/" | relURL }}"{{ if eq .Section "search" }} class="active"{{ end }}>Search</a></li>
-            {{ if not hugo.IsProduction }}
-            <li><a href="{{ "/ramblings/" | relURL }}"{{ if eq .Section "ramblings" }} class="active"{{ end }}>Ramblings</a></li>
+            {{ if .Site.Menus.main }}
+                {{ range .Site.Menus.main }}
+                    {{ $isActive := false }}
+                    {{ if eq $.RelPermalink .URL }}{{ $isActive = true }}{{ end }}
+                    {{ if and (ne .URL "/") (hasPrefix $.RelPermalink .URL) }}{{ $isActive = true }}{{ end }}
+                    <li><a href="{{ .URL }}"{{ if $isActive }} class="active"{{ end }}>{{ .Name }}</a></li>
+                {{ end }}
+            {{ else }}
+                <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
+                {{ $current := . }}
+                {{ range .Site.Sections }}
+                    {{ if or (ne .Section "ramblings") (not hugo.IsProduction) }}
+                    <li><a href="{{ .RelPermalink }}"{{ if eq $current.Section .Section }} class="active"{{ end }}>{{ .Title }}</a></li>
+                    {{ end }}
+                {{ end }}
+                <li><a href="{{ "/search/" | relURL }}"{{ if eq .Section "search" }} class="active"{{ end }}>Search</a></li>
             {{ end }}
         </ul>
     </nav>
