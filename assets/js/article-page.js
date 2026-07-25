@@ -74,32 +74,43 @@ function initSidenotes() {
     render();
 }
 
-/**
- * 模块二：生成目录 (TOC) - 已重构
- * - 支持 H2, H3, H4 嵌套
- * - 为可折叠项添加必要的元素和类
- */
 function initTableOfContents() {
     const tocContainer = document.getElementById("toc");
-    const contentArticle = document.querySelector("article");
-    if (!tocContainer || !contentArticle) return;
+    const article = document.querySelector("article");
+    if (!tocContainer || !article) return;
 
-    // 支持h2, h3, h4，你可以按需增减
-    const headings = contentArticle.querySelectorAll("h2, h3, h4");
+    const headings = article.querySelectorAll("h2, h3, h4");
     if (headings.length === 0) {
-        var tocAside = document.querySelector('aside.toc');
-        var layout = document.querySelector('.layout');
-        var mobileBtn = document.querySelector('.toc-mobile-toggle');
-        var floatBtn = document.querySelector('.toc-float-toggle');
-        if (tocAside) tocAside.style.display = 'none';
-        if (layout) layout.classList.add('toc-hidden');
-        if (mobileBtn) mobileBtn.style.display = 'none';
-        if (floatBtn) floatBtn.style.display = 'none';
+        hideTocElements();
         return;
     }
 
+    const tocList = buildTocTree(headings);
+    tocContainer.appendChild(tocList);
+
+    tocContainer.querySelectorAll('.collapsible').forEach(function (li) {
+        li.classList.add('is-open');
+        var btn = li.querySelector('.toc-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    });
+
+    updateMobileToggle(headings.length);
+    initTocControls(tocContainer);
+}
+
+function hideTocElements() {
+    var tocAside = document.querySelector('aside.toc');
+    var layout = document.querySelector('.layout');
+    var mobileBtn = document.querySelector('.toc-mobile-toggle');
+    var floatBtn = document.querySelector('.toc-float-toggle');
+    if (tocAside) tocAside.style.display = 'none';
+    if (layout) layout.classList.add('toc-hidden');
+    if (mobileBtn) mobileBtn.style.display = 'none';
+    if (floatBtn) floatBtn.style.display = 'none';
+}
+
+function buildTocTree(headings) {
     const tocList = document.createElement("ul");
-    // 使用指针来跟踪每一级的最后一个列表项，以便正确嵌套
     const pointers = { 2: null, 3: null };
 
     headings.forEach(heading => {
@@ -117,96 +128,84 @@ function initTableOfContents() {
 
         if (level === 2) {
             tocList.appendChild(listItem);
-            pointers[2] = listItem; // 记录最后一个H2项
-            pointers[3] = null; // 重置下一级指针
+            pointers[2] = listItem;
+            pointers[3] = null;
         } else if (level === 3 && pointers[2]) {
-            // 如果这是一个H3，并且我们知道它的父H2是哪个
             let sublist = pointers[2].querySelector("ul");
             if (!sublist) {
                 sublist = document.createElement("ul");
                 sublist.className = "toc-sublist";
                 pointers[2].appendChild(sublist);
-                // 给父级添加可折叠的标记
                 pointers[2].classList.add('collapsible');
                 pointers[2].insertBefore(createToggleButton(), pointers[2].firstChild);
             }
             sublist.appendChild(listItem);
-            pointers[3] = listItem; // 记录最后一个H3项
+            pointers[3] = listItem;
         } else if (level === 4 && pointers[3]) {
-            // 如果这是一个H4，并且我们知道它的父H3是哪个
             let sublist = pointers[3].querySelector("ul");
             if (!sublist) {
                 sublist = document.createElement("ul");
                 sublist.className = "toc-sublist";
                 pointers[3].appendChild(sublist);
-                // H3 级别通常不设为可折叠，但可以按需添加
             }
             sublist.appendChild(listItem);
         }
     });
 
-    tocContainer.appendChild(tocList);
+    return tocList;
+}
 
-    // Update mobile TOC toggle with heading count
+function updateMobileToggle(headingCount) {
     var mobileToggle = document.querySelector('.toc-mobile-toggle');
-    if (mobileToggle) {
-        var svg = mobileToggle.querySelector('svg');
-        var svgHTML = svg ? svg.outerHTML : '';
-        var countStr = headings.length + ' section' + (headings.length !== 1 ? 's' : '');
-        mobileToggle.innerHTML = svgHTML + ' ' + countStr;
-    }
+    if (!mobileToggle) return;
+    var svg = mobileToggle.querySelector('svg');
+    var svgHTML = svg ? svg.outerHTML : '';
+    var countStr = headingCount + ' section' + (headingCount !== 1 ? 's' : '');
+    mobileToggle.innerHTML = svgHTML + ' ' + countStr;
+}
 
-    tocContainer.querySelectorAll('.collapsible').forEach(function (li) {
-        li.classList.add('is-open');
-        var btn = li.querySelector('.toc-toggle');
-        if (btn) btn.setAttribute('aria-expanded', 'true');
-    });
-
-    // Add TOC collapse/expand: inline hide button + floating restore button
+function initTocControls(tocContainer) {
     var tocAside = document.querySelector('aside.toc');
     var layout = document.querySelector('.layout');
-    if (tocAside && layout) {
-        // Inline collapse button at top of TOC
-        var collapseBtn = document.createElement('button');
-        collapseBtn.className = 'toc-collapse-toggle';
-        collapseBtn.title = 'Hide table of contents';
-        collapseBtn.innerHTML = '×';
-        collapseBtn.setAttribute('aria-label', 'Hide table of contents');
-        tocAside.insertBefore(collapseBtn, tocContainer);
+    if (!tocAside || !layout) return;
 
-        // Floating restore button (appended to body, shown only when TOC hidden)
-        var floatBtn = document.createElement('button');
-        floatBtn.className = 'toc-float-toggle';
-        floatBtn.title = 'Show table of contents';
-        floatBtn.innerHTML = '☰';
-        floatBtn.setAttribute('aria-label', 'Show table of contents');
-        document.body.appendChild(floatBtn);
+    var collapseBtn = document.createElement('button');
+    collapseBtn.className = 'toc-collapse-toggle';
+    collapseBtn.title = 'Hide table of contents';
+    collapseBtn.innerHTML = '×';
+    collapseBtn.setAttribute('aria-label', 'Hide table of contents');
+    tocAside.insertBefore(collapseBtn, tocContainer);
 
-        function recalcFullwidth() {
-            if (layout._fullwidthRecalc) layout._fullwidthRecalc();
-        }
+    var floatBtn = document.createElement('button');
+    floatBtn.className = 'toc-float-toggle';
+    floatBtn.title = 'Show table of contents';
+    floatBtn.innerHTML = '☰';
+    floatBtn.setAttribute('aria-label', 'Show table of contents');
+    document.body.appendChild(floatBtn);
 
-        function hideToc() {
-            layout.classList.add('toc-hidden');
-            floatBtn.classList.add('visible');
-            localStorage.setItem('toc-hidden', 'true');
-            recalcFullwidth();
-        }
+    function recalcFullwidth() {
+        if (layout._fullwidthRecalc) layout._fullwidthRecalc();
+    }
 
-        function showToc() {
-            layout.classList.remove('toc-hidden');
-            floatBtn.classList.remove('visible');
-            localStorage.setItem('toc-hidden', 'false');
-            recalcFullwidth();
-        }
+    function hideToc() {
+        layout.classList.add('toc-hidden');
+        floatBtn.classList.add('visible');
+        localStorage.setItem('toc-hidden', 'true');
+        recalcFullwidth();
+    }
 
-        collapseBtn.addEventListener('click', hideToc);
-        floatBtn.addEventListener('click', showToc);
+    function showToc() {
+        layout.classList.remove('toc-hidden');
+        floatBtn.classList.remove('visible');
+        localStorage.setItem('toc-hidden', 'false');
+        recalcFullwidth();
+    }
 
-        // Restore persisted state
-        if (localStorage.getItem('toc-hidden') === 'true') {
-            hideToc();
-        }
+    collapseBtn.addEventListener('click', hideToc);
+    floatBtn.addEventListener('click', showToc);
+
+    if (localStorage.getItem('toc-hidden') === 'true') {
+        hideToc();
     }
 }
 
