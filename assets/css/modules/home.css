@@ -9,7 +9,7 @@
     margin: 1rem 0;
     text-align: center;
     font-style: italic;
-    color: #555;
+    color: var(--text-color-light);
     font-size: 1.1rem;
     position: relative;
 }
@@ -29,7 +29,7 @@
     padding-top: 2rem;
     border-top: 1px solid var(--border-color);
     font-size: 0.95rem;
-    color: #666;
+    color: var(--text-color-light);
 }
 
 /* --- Home Footer Styles --- */

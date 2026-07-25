@@ -82,7 +82,7 @@ article ol ul {
     display: flex;
     justify-content: flex-end;
     font-size: 0.8em;
-    color: #666;
+    color: var(--text-color-light);
     margin-top: 2em;
     font-style: italic;
 }
