@@ -1,5 +1,19 @@
+{{- $src := .Destination | safeURL -}}
+{{- $img := .Page.Resources.GetMatch (path.Base .Destination) -}}
+{{- if and $img (ne $img.MediaType.SubType "svg") -}}
+  {{- $small := $img.Resize "480x" -}}
+  {{- $large := $img.Resize "960x" -}}
+<img src="{{ $img.RelPermalink }}"
+     srcset="{{ $small.RelPermalink }} 480w, {{ $large.RelPermalink }} 960w"
+     sizes="(max-width: 800px) 100vw, 800px"
+     alt="{{ .Text }}"
+     {{ with .Title }}title="{{ . }}"{{ end }}
+     loading="lazy"
+     decoding="async">
+{{- else -}}
 <img src="{{ .Destination | safeURL }}"
      alt="{{ .Text }}"
      {{ with .Title }}title="{{ . }}"{{ end }}
      loading="lazy"
      decoding="async">
+{{- end -}}
