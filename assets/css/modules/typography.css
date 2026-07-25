@@ -45,10 +45,10 @@ article>h1 {
 }
 
 blockquote {
-    color: #666;
+    color: var(--text-color-light);
     margin: 0;
     padding: 1px 1em;
-    border-left: .2em solid #eee;
+    border-left: .2em solid var(--border-color);
 }
 
 /* --- Horizontal Rule --- */
