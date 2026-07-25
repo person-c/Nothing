@@ -5,7 +5,7 @@
 
 p {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7em;
 }
 
 .highlight+p,
@@ -21,7 +21,7 @@ h5,
 h6 {
     color: var(--text-color);
     line-height: 1.2;
-    margin-top: 1.5em;
+    margin-top: 2em;
     margin-bottom: 0.5em;
 }
 
