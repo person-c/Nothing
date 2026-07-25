@@ -90,10 +90,10 @@
     border-color: #3a3a3e;
 }
 
-:root.dark .toc-float-toggle {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+:root.dark .toc-float-toggle::after {
+    background-color: rgba(180, 180, 180, 0.4);
 }
 
-:root.dark .toc-float-toggle:hover {
-    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+:root.dark .toc-float-toggle:hover::after {
+    background-color: rgba(180, 180, 180, 0.7);
 }

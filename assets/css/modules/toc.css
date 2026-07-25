@@ -47,36 +47,40 @@ aside.toc {
     border-color: var(--primary-color);
 }
 
-/* TOC floating toggle (visible only when TOC is hidden) */
+/* TOC floating toggle — vertical bar (visible only when TOC is hidden) */
 .toc-float-toggle {
     display: none;
     position: fixed;
-    right: 8px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
     z-index: 999;
-    width: 34px;
-    height: 34px;
-    background: var(--white-color);
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
+    width: 8px;
+    height: 56px;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    color: var(--text-color-light);
-    font-size: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
+    /* the visible line is drawn by ::after */
 }
 
-.toc-float-toggle:hover {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+.toc-float-toggle::after {
+    content: '';
+    position: absolute;
+    right: 3px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(128, 128, 128, 0.4);
+    transition: background-color 0.3s ease;
+}
+
+.toc-float-toggle:hover::after {
+    background-color: rgba(128, 128, 128, 0.7);
 }
 
 .toc-float-toggle.visible {
-    display: flex;
+    display: block;
 }
 
 aside.toc.hidden {
