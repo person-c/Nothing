@@ -44,6 +44,7 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     font-kerning: normal;
+    font-variant-numeric: oldstyle-nums;
     text-spacing: normal;
     text-wrap: pretty;
 }
