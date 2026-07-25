@@ -1,7 +1,7 @@
 
 ## Update and push
 
-个人网站的hugo主题，与Sonnet 3.5以及Gemini 2.5 Pro 合作开发。
+个人网站的hugo主题，由claude code + deepseek开发。
 
 
 ```bash
