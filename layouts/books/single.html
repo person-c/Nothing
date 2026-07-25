@@ -1,6 +1,10 @@
 {{ define "head_extras" }}
     {{ $readerCss := resources.Get "css/ebook-reader.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $readerCss.RelPermalink }}">
+    <link rel="modulepreload"
+          href="https://cdn.jsdelivr.net/npm/@xincmm/foliate-js@0.1.3/dist/index.js"
+          integrity="sha384-paM/bCkRMjtnparWnhVYYJD9QqP3U6gtGFXovbN0NxoQw6FtJGQX37fTXC0vx2jg"
+          crossorigin="anonymous">
 {{ end }}
 
 {{ define "body_attrs" }} class="ebook-reader-body"{{ end }}
