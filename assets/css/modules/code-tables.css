@@ -10,11 +10,9 @@ h code {
 }
 
 .highlight {
-    background: var(--white-color);
+    background: var(--bg-color-light);
     padding: 2px 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-shadow: 0 4px 6px var(--shadow-color-light);
+    border-radius: 8px;
     overflow-x: auto;
     margin: 1.2rem 0;
 }
