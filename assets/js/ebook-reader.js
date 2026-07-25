@@ -140,7 +140,7 @@ function closeTOC() {
 function toggleTheme() {
     if (window.__cycleTheme) window.__cycleTheme();
     const btn = document.getElementById('btn-theme');
-    if (btn) btn.textContent = window.__getThemeIcon ? window.__getThemeIcon() : '☀';
+    if (btn) btn.innerHTML = window.__getThemeIcon ? window.__getThemeIcon() : window.__SUN_ICON || '☀';
 }
 
 // --- Event bindings ---

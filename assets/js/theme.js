@@ -3,7 +3,7 @@
     if (!toggle) return;
 
     function updateIcon() {
-        toggle.textContent = window.__getThemeIcon ? window.__getThemeIcon() : '☀';
+        toggle.innerHTML = window.__getThemeIcon ? window.__getThemeIcon() : window.__SUN_ICON || '☀';
         var isDark = document.documentElement.classList.contains('dark');
         toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     }
