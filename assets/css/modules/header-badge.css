@@ -70,20 +70,20 @@ header {
     background-color: rgba(128, 128, 128, 0.7);
 }
 
-/* Nav menu — slim bar below the trigger line */
+/* Nav menu — items on a line, rule below (yihui.org style) */
 .nav-menu {
     position: fixed;
-    top: 34px;
+    top: 32px;
     left: 50%;
-    transform: translateX(-50%) translateY(-8px);
+    transform: translateX(-50%) translateY(-6px);
     list-style: none;
     background: var(--white-color);
     margin: 0;
-    padding: 3px 10px;
-    border-radius: 3px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    padding: 4px 24px 7px;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 0;
     opacity: 0;
     visibility: hidden;
@@ -106,17 +106,16 @@ header {
 .nav-menu li + li::before {
     content: '·';
     color: var(--border-color);
-    margin: 0 2px;
-    font-size: 0.8rem;
+    margin: 0 4px;
+    font-size: 0.85rem;
 }
 
 .nav-menu li a {
     display: inline-block;
-    padding: 0.2rem 0.5rem;
+    padding: 0.15rem 0.4rem;
     color: var(--text-color-light);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     text-decoration: none;
-    border-radius: 3px;
     transition: color 0.2s ease;
 }
 
@@ -138,7 +137,7 @@ header {
 }
 
 :root.dark .nav-menu {
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    border-bottom-color: #3a3a3e;
 }
 
 .nav-bar:focus {
