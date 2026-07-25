@@ -12,7 +12,7 @@
 }
 
 :root.dark .ebook-reader-body {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 /* --- Toolbar --- */
@@ -289,15 +289,15 @@
    ========================================================================== */
 
 :root.dark .ebook-toolbar {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 :root.dark .toc-sidebar {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 :root.dark .ebook-reader-body {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 /* ==========================================================================

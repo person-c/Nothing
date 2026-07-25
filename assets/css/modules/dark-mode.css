@@ -5,33 +5,33 @@
 
 /* Dark mode (applied via JS based on localStorage or system preference) */
 :root.dark {
-    --primary-color: #4da6ff;
-    --text-color: #d4d4d4;
+    --primary-color: #5baeff;
+    --text-color: #c5c5c5;
     --text-color-light: #a0a0a0;
-    --bg-color-light: #252529;
+    --bg-color-light: #252528;
     --border-color: #3a3a3e;
     --link-border-color: #555;
     --code-color: #e083a8;
-    --white-color: #1a1a1e;
+    --white-color: #1e1e22;
     --shadow-color-light: rgba(0, 0, 0, 0.3);
 }
 
 :root.dark body {
-    background-color: #1a1a1e;
+    background-color: var(--white-color);
 }
 
 :root.dark header,
 :root.dark footer {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 :root.dark aside.footnotes,
 :root.dark aside.toc {
-    background: #1a1a1e;
+    background: var(--white-color);
 }
 
 :root.dark .nav-menu {
-    background-color: #2a2a2e;
+    background-color: #2c2c30;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
