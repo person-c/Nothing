@@ -146,7 +146,7 @@
 
     .nav-bar {
         width: 56px;
-        height: 36px;
+        height: 24px;
     }
 
     .theme-toggle {
@@ -158,13 +158,13 @@
     }
 
     .nav-menu {
-        padding: 4px 8px;
-        gap: 0;
+        top: 30px;
+        padding: 2px 6px;
     }
 
     .nav-menu li a {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.15rem 0.4rem;
     }
 
     .home-main {
