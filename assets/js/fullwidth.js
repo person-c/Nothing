@@ -20,25 +20,23 @@ function initFullwidth() {
             }
         });
 
-        // 2. Tables: measure unwrapped content width, save it
+        // 2. Tables: measure unwrapped content width using off-screen clone
         article.querySelectorAll('table').forEach(table => {
             if (table.closest('.fullwidth')) return;
-            const cells = table.querySelectorAll('th, td');
-            const savedWhiteSpaces = [];
-            cells.forEach(cell => {
-                savedWhiteSpaces.push(cell.style.whiteSpace);
+            const clone = table.cloneNode(true);
+            clone.style.position = 'absolute';
+            clone.style.left = '-9999px';
+            clone.style.top = '0';
+            clone.style.visibility = 'hidden';
+            clone.style.width = 'auto';
+            clone.style.maxWidth = 'none';
+            clone.querySelectorAll('th, td').forEach(cell => {
                 cell.style.whiteSpace = 'nowrap';
             });
-            const savedMaxW = table.style.maxWidth;
-            table.style.maxWidth = 'none';
-            table.style.width = 'auto';
-            table.offsetHeight;
-            const naturalWidth = table.scrollWidth;
-            cells.forEach((cell, i) => {
-                cell.style.whiteSpace = savedWhiteSpaces[i];
-            });
-            table.style.maxWidth = savedMaxW;
-            table.style.width = '';
+            table.parentNode.appendChild(clone);
+            const naturalWidth = clone.scrollWidth;
+            clone.remove();
+
             const parentWidth = table.parentElement.clientWidth;
             const needsSpace = naturalWidth > parentWidth + 2;
             if (needsSpace) {
