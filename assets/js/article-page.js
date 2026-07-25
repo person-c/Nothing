@@ -216,6 +216,15 @@ function initTableOfContents() {
 
     tocContainer.appendChild(tocList);
 
+    // Update mobile TOC toggle with heading count
+    var mobileToggle = document.querySelector('.toc-mobile-toggle');
+    if (mobileToggle) {
+        var svg = mobileToggle.querySelector('svg');
+        var svgHTML = svg ? svg.outerHTML : '';
+        var countStr = headings.length + ' section' + (headings.length !== 1 ? 's' : '');
+        mobileToggle.innerHTML = svgHTML + ' ' + countStr;
+    }
+
     tocContainer.querySelectorAll('.collapsible').forEach(function (li) {
         li.classList.add('is-open');
         var btn = li.querySelector('.toc-toggle');
