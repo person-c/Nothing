@@ -1,0 +1,6 @@
+# Production-only settings (loaded by `hugo` builds, not by `hugo server`).
+# Excludes the private ramblings section at the source: no HTML pages, no RSS
+# feed, no sitemap entries, no search-index records are emitted.
+# Note: ignoreFiles replaces (not merges with) the root config value, so the
+# .Rmd rule is repeated here.
+ignoreFiles = ["\\.Rmd$", "[\\/]ramblings[\\/]"]

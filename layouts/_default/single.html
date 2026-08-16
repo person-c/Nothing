@@ -1,6 +1,4 @@
 {{ define "main" }}
-{{ if and hugo.IsProduction (eq .Section "ramblings") }}
-{{ else }}
 <div class="layout">
     <aside class="footnotes"></aside>
 
@@ -31,7 +29,6 @@
         <nav id="toc"></nav>
     </aside>
 </div>
-{{ end }}
 {{ end }}
 
 

@@ -253,7 +253,7 @@ Tables use an off-screen clone for measurement to avoid visible layout flash.
 
 A horizontal bar trigger (80px × 28px, aligned with the theme toggle) at the top-right. Clicking reveals a minimal nav bar: items on a line with a thin rule below, yihui.org style. Items separated by `·`. Click outside or press Escape to dismiss.
 
-**Menu configuration:** Uses `.Site.Menus.main` from `config.toml`. Falls back to auto-generating from site sections if no menu is configured. The "Ramblings" section is automatically appended in development mode (`hugo server`).
+**Menu configuration:** Uses `.Site.Menus.main` from `config.toml`. Falls back to auto-generating from site sections if no menu is configured. The "Ramblings" section is appended automatically whenever it exists (i.e. in development builds).
 
 ### Typography
 
@@ -293,8 +293,8 @@ Each link is rendered only when its param is set.
 
 ### Production vs Development
 
-- **Ramblings section:** Appears in nav menu only when `hugo.IsProduction` is false. Content pages for ramblings are hidden in production builds.
-- Content files matching `\.Rmd$` are ignored via `ignoreFiles`.
+- **Ramblings section:** Excluded at the source in production via `exampleSite/config/production/config.toml` (`ignoreFiles`). No HTML pages, RSS feed, sitemap entries, or search-index records are emitted. `hugo server` (development environment) does not load that config, so the section renders normally and appears in the nav menu.
+- Content files matching `\.Rmd$` are ignored via `ignoreFiles` (repeated in the production config, since `ignoreFiles` replaces rather than merges).
 
 ## License
 
