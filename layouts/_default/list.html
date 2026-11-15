@@ -38,19 +38,19 @@
 {{ $listTitle := .Title }}
 {{ if not $listTitle }}{{ $listTitle = humanize .Section }}{{ end }}
 <section class="article-list">
-    {{ if $showLangFilter }}
+    {{/* One list-header structure for every list page: editorial left-aligned
+         title with an optional right-hand control (language filter). */}}
     <div class="list-header">
         <h1 class="list-title">{{ $listTitle }}</h1>
+        {{ if $showLangFilter }}
         {{ partial "list-lang-filter.html" (dict
             "current" $currentLang
             "lists" $langLists
             "listURL" $baseSection.RelPermalink
             "zhURL" $zhURL
             "enURL" $enURL) }}
+        {{ end }}
     </div>
-    {{ else }}
-    <h1 class="list-title">{{ $listTitle }}</h1>
-    {{ end }}
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}

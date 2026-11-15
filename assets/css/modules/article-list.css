@@ -6,10 +6,25 @@
     max-width: 800px;
 }
 
+/* Editorial list header: left-aligned title, hairline under the header.
+   The same structure is used by every list page (with or without the
+   title-language filter on the right). */
+.list-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.6rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
 .list-title {
-    text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
+    text-align: left;
+    font-size: 1.7rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0;
     color: var(--text-color);
 }
 
@@ -133,20 +148,7 @@
     line-height: 1.5;
 }
 
-/* --- List header with title-language filter --- */
-.list-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.list-header .list-title {
-    text-align: left;
-    margin-bottom: 0;
-}
-
+/* --- Title-language filter (inside .list-header) --- */
 .list-lang-filter {
     display: flex;
     flex-shrink: 0;
