@@ -59,7 +59,9 @@ function initSidenotes() {
             number.className = 'sidenote-number';
             number.textContent = String(i + 1);
             li.appendChild(number);
-            li.appendChild(clone);
+            // Move the cloned content, not the cloned <li> itself: an li inside
+            // an li is invalid HTML and screen readers flag the whole list.
+            while (clone.firstChild) li.appendChild(clone.firstChild);
             li.style.position = "absolute";
             list.appendChild(li);
             noteMap.set(footnoteId, li);
