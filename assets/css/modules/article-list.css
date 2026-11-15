@@ -73,7 +73,7 @@
     font-family: var(--font-serif);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--white-color);
+    background: var(--bg-color);
     color: var(--text-color);
     outline: none;
     transition: border-color 0.2s ease;

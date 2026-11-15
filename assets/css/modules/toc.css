@@ -6,7 +6,7 @@ aside.footnotes {
     padding: 0 1rem;
     font-size: 0.85rem;
     color: var(--text-color-light);
-    background: var(--white-color);
+    background: var(--bg-color);
 }
 
 aside.toc {
@@ -20,7 +20,7 @@ aside.toc {
     padding: 0 1rem;
     font-size: 0.85rem;
     color: var(--text-color-light);
-    background: var(--white-color);
+    background: var(--bg-color);
     border-left: 1px solid var(--border-color);
 }
 

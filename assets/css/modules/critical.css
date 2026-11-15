@@ -12,14 +12,14 @@
     --border-color: #ddd;
     --link-border-color: #ccc;
     --code-color: #d6336c;
-    --white-color: #ffffff;
+    --bg-color: #ffffff;
     --nav-menu-bg: #ffffff;
     --decor-line: rgba(128, 128, 128, 0.4);
     --decor-line-strong: rgba(128, 128, 128, 0.7);
     --table-stripe: rgba(0, 0, 0, 0.02);
     --table-hover: rgba(0, 123, 255, 0.04);
     --selection-bg: var(--primary-color);
-    --selection-fg: var(--white-color);
+    --selection-fg: var(--bg-color);
     --menu-shadow: none;
     --font-serif: 'EB Garamond', 'EB Garamond Fallback Georgia', 'EB Garamond Fallback Times', 'Noto Serif SC', 'Songti SC', 'SimSun', 'Noto Serif CJK SC', serif;
     --font-mono: Consolas, Courier, 'Lucida Console', 'Courier New', 'Kai SC', 'Kai TC', monospace;
@@ -73,7 +73,7 @@ body {
        and <length> makes the whole declaration invalid (it computed to
        "normal"). Keep a fixed readable ratio instead. */
     line-height: 1.7;
-    background-color: var(--white-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     flex-direction: column;

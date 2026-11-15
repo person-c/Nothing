@@ -140,7 +140,7 @@ aside.footnotes a:hover {
     z-index: 9999;
     padding: 0.5rem 1rem;
     background: var(--primary-color);
-    color: var(--white-color) !important;
+    color: var(--bg-color) !important;
     font-size: 0.9rem;
     border-radius: 0 0 4px 0;
     transition: top 0.2s ease;

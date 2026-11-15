@@ -1,18 +1,142 @@
-/* header-footer-base */
-/* Base footer styles (header is styled in header-badge.css) */
-
-footer {
-    background: var(--white-color);
-    border-top: 1px solid var(--border-color);
-    border-bottom: none;
-    padding: 1rem 0;
-    text-align: center;
-    width: 100%;
-    margin-top: 2rem;
+/* header-badge */
+/* --- Header Styles --- */
+header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: auto;
+    background: transparent;
+    z-index: 1000;
+    border: none;
+    padding: 0;
 }
 
-.copyright {
-    font-size: 0.8rem;
+/* Theme toggle — fixed at top-left */
+.theme-toggle {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 1001;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     color: var(--text-color-light);
+    transition: color 0.2s ease, background-color 0.2s ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.theme-toggle:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-color-light);
+}
+
+.nav-container {
+    padding: 8px 8px 0 0;
+}
+
+/* Horizontal bar trigger (a real <button>) */
+.nav-bar {
+    width: 80px;
+    height: 28px;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: var(--decor-line);
+    transition: background-color 0.3s ease;
+}
+
+.nav-container.is-open .nav-bar::after {
+    background-color: var(--decor-line-strong);
+}
+
+/* Nav menu — items on a line, rule below (yihui.org style) */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    list-style: none;
+    background: var(--nav-menu-bg);
+    margin: 0;
+    padding: 4px 24px 7px;
+    border-bottom: 1px solid var(--text-color-light);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    z-index: 1002;
+    white-space: nowrap;
+    box-shadow: var(--menu-shadow);
+}
+
+.nav-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-menu li {
+    padding: 0;
     margin: 0;
 }
+
+.nav-menu li + li::before {
+    content: '·';
+    color: var(--border-color);
+    margin: 0 4px;
+    font-size: 0.85rem;
+}
+
+.nav-menu li a {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    color: var(--text-color-light);
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-menu li a:hover {
+    color: var(--primary-color);
+}
+
+.nav-menu li a.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+.nav-bar:focus {
+    outline: none;
+}
+.nav-bar:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+

@@ -1,0 +1,18 @@
+/* header-footer-base */
+/* Base footer styles (header is styled in header-badge.css) */
+
+footer {
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
+    padding: 1rem 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: var(--text-color-light);
+    margin: 0;
+}

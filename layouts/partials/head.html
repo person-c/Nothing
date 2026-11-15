@@ -109,8 +109,8 @@
         rel="stylesheet">
 
     {{ $critical := resources.Get "css/modules/critical.css" }}
-    {{ $header := resources.Get "css/modules/header.css" }}
-    {{ $headerBadge := resources.Get "css/modules/header-badge.css" }}
+    {{ $footerCss := resources.Get "css/modules/footer.css" }}
+    {{ $headerCss := resources.Get "css/modules/header.css" }}
     {{ $articleList := resources.Get "css/modules/article-list.css" }}
     {{ $toc := resources.Get "css/modules/toc.css" }}
     {{ $footnotes := resources.Get "css/modules/footnotes.css" }}
@@ -123,7 +123,7 @@
     {{ $darkMode := resources.Get "css/modules/dark-mode.css" }}
     {{ $responsive := resources.Get "css/modules/responsive.css" }}
     {{ $print := resources.Get "css/modules/print.css" }}
-    {{ $css := slice $critical $header $headerBadge $articleList $toc $footnotes $article $typography $codeTables $syntaxLight $copyFooter $darkMode $syntaxDark $responsive $print | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
+    {{ $css := slice $critical $footerCss $headerCss $articleList $toc $footnotes $article $typography $codeTables $syntaxLight $copyFooter $darkMode $syntaxDark $responsive $print | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
     {{/* Page-specific CSS */}}
