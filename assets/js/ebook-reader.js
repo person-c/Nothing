@@ -1,4 +1,7 @@
-import { makeBook, View } from 'https://cdn.jsdelivr.net/npm/@xincmm/foliate-js@0.1.3/dist/index.js';
+// foliate-js is a large third-party bundle served from a CDN. Load it
+// dynamically so that a blocked CDN produces a visible error instead of a
+// silently blank reader (a top-level static import would never run this file).
+const FOLIATE_URL = 'https://cdn.jsdelivr.net/npm/@xincmm/foliate-js@0.1.3/dist/index.js';
 
 const bookUrl = window.__BOOK_URL;
 const bookSlug = window.__BOOK_SLUG;
@@ -6,17 +9,52 @@ const progressKey = `ebook-progress-${bookSlug}`;
 
 let view;
 let currentFontSize = 100;
+let foliate = null;
+
+function showReaderError(message, detail) {
+    const viewer = document.getElementById('viewer');
+    if (!viewer) return;
+    viewer.textContent = '';
+    const box = document.createElement('div');
+    box.className = 'ebook-error';
+    const p = document.createElement('p');
+    p.textContent = message;
+    box.appendChild(p);
+    if (detail) {
+        const pre = document.createElement('pre');
+        pre.textContent = detail;
+        box.appendChild(pre);
+    }
+    viewer.appendChild(box);
+}
+
+async function loadFoliate() {
+    if (foliate) return foliate;
+    foliate = await import(FOLIATE_URL);
+    return foliate;
+}
 
 async function initReader() {
     const viewer = document.getElementById('viewer');
     if (!viewer) return;
 
+    let lib;
     try {
-        const book = await makeBook(bookUrl);
+        lib = await loadFoliate();
+    } catch (err) {
+        showReaderError(
+            'Could not load the reader engine, so this book cannot be opened. Check your network connection and reload the page.',
+            err && err.message ? err.message : String(err)
+        );
+        return;
+    }
+
+    try {
+        const book = await lib.makeBook(bookUrl);
         document.querySelector('.book-title-label').textContent =
             book.metadata?.title || window.__BOOK_TITLE;
 
-        view = new View();
+        view = new lib.View();
         view.setAttribute('autohide-cursor', '');
         viewer.appendChild(view);
         await view.open(book);
@@ -36,7 +74,7 @@ async function initReader() {
 
         updateProgress();
     } catch (err) {
-        viewer.innerHTML = `<div class="ebook-error"><p>Failed to load book.</p><pre>${err.message}</pre></div>`;
+        showReaderError('Failed to load book.', err && err.message ? err.message : String(err));
         console.error(err);
     }
 }
