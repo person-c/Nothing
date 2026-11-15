@@ -55,11 +55,11 @@ article table:not(.lntable) thead th {
 }
 
 article table:not(.lntable) tbody tr:nth-child(even) {
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--table-stripe);
 }
 
 article table:not(.lntable) tbody tr:hover {
-    background: rgba(0, 123, 255, 0.04);
+    background: var(--table-hover);
 }
 
 /* --- Full-width Elements --- */

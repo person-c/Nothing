@@ -151,7 +151,7 @@ aside.footnotes a:hover {
 
 /* --- Selection --- */
 ::selection {
-    background: var(--primary-color);
-    color: var(--white-color);
+    background: var(--selection-bg);
+    color: var(--selection-fg);
 }
 

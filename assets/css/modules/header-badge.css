@@ -64,12 +64,12 @@ header {
     transform: translateY(-50%);
     width: 100%;
     height: 2px;
-    background-color: rgba(128, 128, 128, 0.4);
+    background-color: var(--decor-line);
     transition: background-color 0.3s ease;
 }
 
 .nav-container.is-open .nav-bar::after {
-    background-color: rgba(128, 128, 128, 0.7);
+    background-color: var(--decor-line-strong);
 }
 
 /* Nav menu — items on a line, rule below (yihui.org style) */
@@ -92,6 +92,7 @@ header {
     transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
     z-index: 1002;
     white-space: nowrap;
+    box-shadow: var(--menu-shadow);
 }
 
 .nav-menu.is-open {
@@ -130,13 +131,6 @@ header {
     font-weight: 600;
 }
 
-:root.dark .nav-bar::after {
-    background-color: rgba(180, 180, 180, 0.4);
-}
-
-:root.dark .nav-container.is-open .nav-bar::after {
-    background-color: rgba(180, 180, 180, 0.7);
-}
 
 .nav-bar:focus {
     outline: none;

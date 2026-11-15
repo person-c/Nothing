@@ -71,12 +71,12 @@ aside.toc {
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: rgba(128, 128, 128, 0.4);
+    background-color: var(--decor-line);
     transition: background-color 0.3s ease;
 }
 
 .toc-float-toggle:hover::after {
-    background-color: rgba(128, 128, 128, 0.7);
+    background-color: var(--decor-line-strong);
 }
 
 .toc-float-toggle.visible {
