@@ -3,6 +3,8 @@
        so it prevents a flash of the wrong theme. */ -}}
     <script>
         (function() {
+            // Lets CSS hide JS-only controls before/without scripts.
+            document.documentElement.classList.add('js');
             var root = document.documentElement;
             var media = window.matchMedia('(prefers-color-scheme: dark)');
 

@@ -121,6 +121,12 @@ aside.toc nav li.collapsible {
     line-height: 1;
     color: var(--text-color-light);
     transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+    /* Rendered server-side; without JS the toggle cannot work, so hide it. */
+    display: none;
+}
+
+html.js .toc-toggle {
+    display: block;
 }
 
 .toc-toggle:hover {

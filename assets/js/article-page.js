@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     initSidenotes();
-    initTableOfContents();
     initTocInteractivity();
+    initTocControls(document.getElementById('toc'));
     initTOCScrollSpy();
     initMobileToc();
     initCodeCopyButtons();
@@ -15,7 +15,6 @@ const BP_SIDENOTES = window.matchMedia('(max-width: 1200px)');
 // SVG icon constants
 const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 const SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-const SVG_CHEVRON = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
 
 function initSidenotes() {
     const refs = document.querySelectorAll("a.footnote-ref");
@@ -105,99 +104,11 @@ function initSidenotes() {
     render();
 }
 
-function initTableOfContents() {
-    const tocContainer = document.getElementById("toc");
-    const article = document.querySelector("article");
-    if (!tocContainer || !article) return;
-
-    const headings = article.querySelectorAll("h2, h3, h4");
-    if (headings.length === 0) {
-        hideTocElements();
-        return;
-    }
-
-    const tocList = buildTocTree(headings);
-    tocContainer.appendChild(tocList);
-
-    tocContainer.querySelectorAll('.collapsible').forEach((li) => {
-        li.classList.add('is-open');
-        const btn = li.querySelector('.toc-toggle');
-        if (btn) btn.setAttribute('aria-expanded', 'true');
-    });
-
-    updateMobileToggle(headings.length);
-    initTocControls(tocContainer);
-}
-
-function hideTocElements() {
-    const tocAside = document.querySelector('aside.toc');
-    const layout = document.querySelector('.layout');
-    const mobileBtn = document.querySelector('.toc-mobile-toggle');
-    const floatBtn = document.querySelector('.toc-float-toggle');
-    if (tocAside) tocAside.style.display = 'none';
-    if (layout) layout.classList.add('toc-hidden');
-    if (mobileBtn) mobileBtn.style.display = 'none';
-    if (floatBtn) floatBtn.style.display = 'none';
-}
-
-function buildTocTree(headings) {
-    const tocList = document.createElement("ul");
-    const pointers = { 2: null, 3: null };
-
-    headings.forEach(heading => {
-        const level = parseInt(heading.tagName.substring(1));
-        const listItem = document.createElement("li");
-        listItem.className = `toc-level-${level}`;
-
-        const id = heading.id || heading.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, '');
-        heading.id = id;
-
-        const link = document.createElement("a");
-        link.href = `#${id}`;
-        link.textContent = heading.textContent;
-        listItem.appendChild(link);
-
-        if (level === 2) {
-            tocList.appendChild(listItem);
-            pointers[2] = listItem;
-            pointers[3] = null;
-        } else if (level === 3 && pointers[2]) {
-            let sublist = pointers[2].querySelector("ul");
-            if (!sublist) {
-                sublist = document.createElement("ul");
-                sublist.className = "toc-sublist";
-                pointers[2].appendChild(sublist);
-                pointers[2].classList.add('collapsible');
-                pointers[2].insertBefore(createToggleButton(), pointers[2].firstChild);
-            }
-            sublist.appendChild(listItem);
-            pointers[3] = listItem;
-        } else if (level === 4 && pointers[3]) {
-            let sublist = pointers[3].querySelector("ul");
-            if (!sublist) {
-                sublist = document.createElement("ul");
-                sublist.className = "toc-sublist";
-                pointers[3].appendChild(sublist);
-            }
-            sublist.appendChild(listItem);
-        }
-    });
-
-    return tocList;
-}
-
-function updateMobileToggle(headingCount) {
-    const mobileToggle = document.querySelector('.toc-mobile-toggle');
-    if (!mobileToggle) return;
-    const svg = mobileToggle.querySelector('svg');
-    const svgHTML = svg ? svg.outerHTML : '';
-    mobileToggle.innerHTML = `${svgHTML} ${headingCount} section${headingCount !== 1 ? 's' : ''}`;
-}
 
 function initTocControls(tocContainer) {
     const tocAside = document.querySelector('aside.toc');
     const layout = document.querySelector('.layout');
-    if (!tocAside || !layout) return;
+    if (!tocContainer || !tocAside || !layout) return;
 
     const collapseBtn = document.createElement('button');
     collapseBtn.className = 'toc-collapse-toggle';
@@ -240,14 +151,6 @@ function initTocControls(tocContainer) {
     }
 }
 
-function createToggleButton() {
-    const button = document.createElement('button');
-    button.className = 'toc-toggle';
-    button.setAttribute('aria-expanded', 'false');
-    button.setAttribute('aria-label', 'Toggle section');
-    button.innerHTML = SVG_CHEVRON;
-    return button;
-}
 
 function initTocInteractivity() {
     const tocContainer = document.getElementById("toc");

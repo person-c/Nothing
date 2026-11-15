@@ -1,19 +1,28 @@
 {{ define "main" }}
+{{ $tocHeadings := partial "toc-headings.html" . }}
+{{ $hasToc := gt (len $tocHeadings) 0 }}
 <div class="layout">
     <aside class="footnotes"></aside>
 
-    {{/* The TOC comes before the article in source order so that the mobile
-         toggle reveals it directly above the text. Desktop positions are
-         assigned with explicit grid-column rules. */}}
+    {{/* The TOC is rendered server-side so it works without JavaScript and is
+         part of the document outline. It comes before the article in source
+         order so the mobile toggle reveals it directly above the text; desktop
+         positions are assigned with explicit grid-column rules. */}}
+    {{ if $hasToc }}
     <aside class="toc">
-        <nav id="toc" aria-label="Table of contents"></nav>
+        <nav id="toc" aria-label="Table of contents">
+            {{ partial "toc.html" (dict "headings" $tocHeadings) }}
+        </nav>
     </aside>
+    {{ end }}
 
     <article>
+        {{ if $hasToc }}
         <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             {{ partial "icons/chevron-right.html" (dict "size" 14) }}
             Contents
         </button>
+        {{ end }}
         <h1>
             {{ .Title }}
             {{ with .Date }}

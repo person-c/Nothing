@@ -1,0 +1,18 @@
+{{- /* Top-level table of contents from the page fragments (no JS required).
+       Usage: {{ partial "toc.html" (dict "headings" $headings) }} */ -}}
+{{- $headings := .headings -}}
+{{- if $headings -}}
+<ul>
+    {{- range $headings -}}
+    <li class="toc-level-{{ .Level }}{{ if .Headings }} collapsible is-open{{ end }}">
+        {{- if .Headings }}
+        <button type="button" class="toc-toggle" aria-expanded="true" aria-label="Toggle section">{{ partial "icons/chevron-right.html" (dict "size" 12) }}</button>
+        {{- end }}
+        <a href="#{{ .ID }}">{{ .Title }}</a>
+        {{- if .Headings }}
+        {{ partial "toc-children.html" .Headings }}
+        {{- end }}
+    </li>
+    {{- end -}}
+</ul>
+{{- end -}}

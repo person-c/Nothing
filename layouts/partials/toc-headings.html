@@ -1,0 +1,11 @@
+{{- /* Flattens .Fragments.Headings into the list of top-level (H2+) headings.
+       Hugo wraps the fragment headings in a synthetic level-0 root. */ -}}
+{{- $flat := slice -}}
+{{- range .Fragments.Headings -}}
+{{- if eq .Level 0 -}}
+{{- range .Headings -}}{{ $flat = $flat | append . }}{{- end -}}
+{{- else -}}
+{{- $flat = $flat | append . -}}
+{{- end -}}
+{{- end -}}
+{{- return $flat -}}
