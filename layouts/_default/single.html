@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $titleLang := partial "title-lang.html" . }}
 {{ $tocHeadings := partial "toc-headings.html" . }}
 {{ $hasToc := gt (len $tocHeadings) 0 }}
 <div class="layout">
@@ -20,7 +21,9 @@
         {{ if $hasToc }}
         <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             {{ partial "icons/chevron-right.html" (dict "size" 14) }}
-            {{ i18n "contents" }}
+            {{- $contentsLabel := i18n "contents" -}}
+            {{- if in (slice "en" "zh") $titleLang -}}{{- with index site.Data.lang $titleLang }}{{ $contentsLabel = .contents }}{{ end -}}{{- end -}}
+            {{ $contentsLabel }}
         </button>
         {{ end }}
         <h1>
@@ -36,7 +39,13 @@
         {{ $dateStr := .Date.Format "2006-01-02" }}
         {{ if and .Site.Params.showLastmod (ne $lastmodStr $dateStr) }}
         <div class="last-modified">
-            {{ i18n "lastModified" }} <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format "2006-01-02" }}</time>
+            {{- $lastmodLabel := i18n "lastModified" -}}
+            {{- with $titleLang -}}
+              {{- if in (slice "en" "zh") . -}}
+                {{- with index site.Data.lang . }}{{ $lastmodLabel = .last_modified }}{{ end -}}
+              {{- end -}}
+            {{- end -}}
+            {{ $lastmodLabel }} <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format "2006-01-02" }}</time>
         </div>
         {{ end }}
     </article>

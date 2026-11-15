@@ -151,6 +151,19 @@
     <script>
         // Site-relative so client-side search also works when baseURL has a path.
         window.__SEARCH_INDEX_URL = {{ "index.json" | relURL | jsonify | safeJS }};
+        window.__POST_LANG = {{ if .IsPage }}{{ partial "title-lang.html" . | jsonify | safeJS }}{{ else }}null{{ end }};
+        window.__UI_LANG = {
+            en: {
+                copy: {{ (index site.Data.lang "en").copy | jsonify | safeJS }},
+                copied: {{ (index site.Data.lang "en").copied | jsonify | safeJS }},
+                copyFailed: {{ (index site.Data.lang "en").copy_failed | jsonify | safeJS }}
+            },
+            zh: {
+                copy: {{ (index site.Data.lang "zh").copy | jsonify | safeJS }},
+                copied: {{ (index site.Data.lang "zh").copied | jsonify | safeJS }},
+                copyFailed: {{ (index site.Data.lang "zh").copy_failed | jsonify | safeJS }}
+            }
+        };
         window.__I18N = {
             copy: {{ i18n "copy" | jsonify | safeJS }},
             copied: {{ i18n "copied" | jsonify | safeJS }},

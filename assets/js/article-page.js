@@ -248,8 +248,14 @@ function initMobileToc() {
 }
 
 function copyLabel(key) {
-    const strings = window.__I18N || {};
-    return strings[key] || { copy: 'Copy', copied: 'Copied!', copyFailed: 'Failed' }[key] || key;
+    // The copy button belongs to the article, so prefer the language of the
+    // post title (set by head.html as window.__POST_LANG) over the site UI
+    // language, falling back to the site catalog.
+    const perLang = window.__UI_LANG && window.__POST_LANG
+        ? window.__UI_LANG[window.__POST_LANG] : null;
+    const siteStrings = window.__I18N || {};
+    return (perLang && perLang[key]) || siteStrings[key]
+        || { copy: 'Copy', copied: 'Copied!', copyFailed: 'Failed' }[key] || key;
 }
 
 function copyToClipboard(text) {

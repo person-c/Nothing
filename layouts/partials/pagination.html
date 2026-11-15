@@ -1,15 +1,30 @@
-{{- /* Pager navigation. Usage: {{ partial "pagination.html" $paginator }} */ -}}
-{{- $paginator := . -}}
+{{- /* Pager navigation.
+       Usage: {{ partial "pagination.html" (dict "paginator" $paginator "lang" $lang) }}
+       "lang" is optional: "" (or "all") uses the site language via i18n, while
+       "en"/"zh" localizes the pager for a title-language filtered list. */ -}}
+{{- $paginator := .paginator -}}
+{{- $lang := .lang | default "" -}}
+{{- $newer := i18n "newer" -}}
+{{- $older := i18n "older" -}}
+{{- $pageInfo := i18n "pageInfo" (dict "Page" $paginator.PageNumber "Total" $paginator.TotalPages) -}}
+{{- if in (slice "en" "zh") $lang -}}
+  {{- with index site.Data.lang $lang -}}
+    {{- $newer = .newer -}}
+    {{- $older = .older -}}
+    {{- $info := replace .page_info "{page}" (printf "%d" $paginator.PageNumber) -}}
+    {{- $pageInfo = replace $info "{total}" (printf "%d" $paginator.TotalPages) -}}
+  {{- end -}}
+{{- end -}}
 {{- if gt $paginator.TotalPages 1 -}}
 <nav class="pagination">
     {{ if $paginator.HasPrev }}
-    <a href="{{ $paginator.Prev.URL }}" rel="prev">← {{ i18n "newer" }}</a>
+    <a href="{{ $paginator.Prev.URL }}" rel="prev">← {{ $newer }}</a>
     {{ else }}
     <span></span>
     {{ end }}
-    <span class="page-info">{{ i18n "pageInfo" (dict "Page" $paginator.PageNumber "Total" $paginator.TotalPages) }}</span>
+    <span class="page-info">{{ $pageInfo }}</span>
     {{ if $paginator.HasNext }}
-    <a href="{{ $paginator.Next.URL }}" rel="next">{{ i18n "older" }} →</a>
+    <a href="{{ $paginator.Next.URL }}" rel="next">{{ $older }} →</a>
     {{ else }}
     <span></span>
     {{ end }}

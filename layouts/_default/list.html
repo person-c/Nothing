@@ -93,6 +93,6 @@
     </ul>
     {{ end }}
 
-    {{ partial "pagination.html" $paginator }}
+    {{ partial "pagination.html" (dict "paginator" $paginator "lang" $currentLang) }}
 </section>
 {{ end }}
