@@ -5,11 +5,25 @@
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}
+
+    {{ if eq .Kind "taxonomy" }}
+    {{/* The taxonomy index lists terms, not pages — terms have no .File or date. */}}
+    <ul class="post-list taxonomy-list">
+        {{ range $paginator.Pages }}
+        <li class="post-item">
+            <a href="{{ .RelPermalink }}" class="post-link">{{ .Title }}</a>
+            <span class="post-date">{{ len .Pages }} {{ if eq (len .Pages) 1 }}entry{{ else }}entries{{ end }}</span>
+        </li>
+        {{ end }}
+    </ul>
+    {{ else }}
     <ul class="post-list">
         {{ range $paginator.Pages }}
         <li class="post-item">
-            {{ $date := .Date }}
-            {{- if le $date.Year 1 }}
+            {{- $date := .Date -}}
+            {{- $fallbackName := "" -}}
+            {{- with .File }}{{ $fallbackName = .BaseFileName }}{{ end -}}
+            {{- if and (le $date.Year 1) .File }}
               {{- $fn := .File.ContentBaseName }}
               {{- if gt (len $fn) 10 }}
                 {{- $dateStr := substr $fn 0 10 }}
@@ -17,11 +31,13 @@
                   {{- $date = time $dateStr }}
                 {{- end }}
               {{- end }}
-            {{- end }}<span class="post-date">{{ $date.Format "2006-01-02" }}</span>
-            <a href="{{ .RelPermalink }}" class="post-link">{{ .Title | default (.File.BaseFileName) }}</a>
+            {{- end }}
+            {{ if not $date.IsZero }}<span class="post-date">{{ $date.Format "2006-01-02" }}</span>{{ end }}
+            <a href="{{ .RelPermalink }}" class="post-link">{{ .Title | default $fallbackName }}</a>
         </li>
         {{ end }}
     </ul>
+    {{ end }}
 
     {{ if gt $paginator.TotalPages 1 }}
     <nav class="pagination">

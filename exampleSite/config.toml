@@ -5,6 +5,10 @@ theme = "Nothing"
 
 ignoreFiles = ["\\.Rmd$"]
 
+# The demo site uses no tags/categories, so do not emit empty taxonomy pages.
+# Remove these two kinds (or configure taxonomies) if you add tags to your content.
+disableKinds = ["taxonomy", "term"]
+
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
