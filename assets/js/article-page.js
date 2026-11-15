@@ -18,10 +18,14 @@ function initSidenotes() {
     const container = document.querySelector("aside.footnotes");
     if (refs.length === 0 || !footnotesDiv || !container) return;
 
+    const noteMap = new Map();
+    const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function render() {
         if (window.innerWidth <= 1200) {
             footnotesDiv.style.display = "";
             container.innerHTML = '';
+            noteMap.clear();
             return;
         }
         footnotesDiv.style.display = "none";
@@ -47,6 +51,7 @@ function initSidenotes() {
             li.innerHTML = clone.innerHTML.trim();
             li.style.position = "absolute";
             list.appendChild(li);
+            noteMap.set(footnoteId, li);
 
             const back = document.createElement('a');
             back.href = `#${ref.id}`;
@@ -70,6 +75,22 @@ function initSidenotes() {
             prevBottom = t + h;
         });
     }
+
+    // On wide screens the footnote targets are hidden, so the default anchor
+    // jump goes nowhere: scroll to the matching sidenote and flash it instead.
+    refs.forEach((ref) => {
+        ref.addEventListener('click', (event) => {
+            const li = noteMap.get(ref.getAttribute('href').substring(1));
+            if (!li) return; // narrow layout: keep the native anchor behavior
+            event.preventDefault();
+            li.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
+            li.classList.add('is-highlighted');
+            li.tabIndex = -1;
+            li.focus({ preventScroll: true });
+            clearTimeout(li._highlightTimer);
+            li._highlightTimer = setTimeout(() => li.classList.remove('is-highlighted'), 1600);
+        });
+    });
 
     let timer;
     window.addEventListener('resize', () => {

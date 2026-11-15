@@ -45,16 +45,29 @@
     text-decoration: underline;
 }
 
-/* --- Reference superscript --- */
-sup.footnote-ref {
+/* --- Reference superscript ---
+   Hugo puts the class on the <a>; the <sup> wrapper carries the fnref id. */
+sup[id^="fnref"] {
     font-size: 0.8rem;
-    vertical-align: super;
-    cursor: pointer;
-    color: var(--primary-color);
 }
 
-sup.footnote-ref:hover {
+a.footnote-ref {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.footnote-ref:hover {
     text-decoration: underline;
+}
+
+/* Highlighted when a reference scrolls to its sidenote */
+#dynamic-footnotes li.is-highlighted {
+    background-color: var(--bg-color-light);
+    border-radius: 4px;
+    outline: 1px solid var(--border-color);
+    outline-offset: 2px;
+    transition: background-color 0.2s ease;
 }
 
 a.footnote-backref {

@@ -114,7 +114,7 @@ header a,
 footer a,
 aside.toc a,
 aside.footnotes a,
-sup.footnote-ref a {
+a.footnote-ref {
     text-decoration: none;
 }
 
