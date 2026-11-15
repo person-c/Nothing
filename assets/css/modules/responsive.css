@@ -167,7 +167,8 @@
 
     .theme-toggle {
         top: 6px;
-        left: 6px;
+        right: 88px;
+        left: auto;
         width: 24px;
         height: 24px;
         font-size: 14px;
