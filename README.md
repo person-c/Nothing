@@ -241,6 +241,9 @@ empty-taxonomy-free section lists.
 
 ## Development notes
 
+- `slides/` pages are LiteDown/snap decks and keep their own full-screen CSS
+  and light presentation; the theme only adds the `lang` attribute and maps the
+  Prism code tokens to the paper palette there.
 - Embedded iframes in Markdown (HTML widgets) need a `title` attribute for
   accessibility; the theme cannot add one automatically.
 - LiteDown 0.7 writes display-math row breaks (`\\`) as a single backslash at
