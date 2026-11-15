@@ -264,19 +264,35 @@ function initTOCScrollSpy() {
     const headings = document.querySelectorAll("article h2, article h3, article h4");
     const tocLinks = document.querySelectorAll("#toc a");
     if (headings.length === 0 || tocLinks.length === 0) return;
+
+    function setActive(id) {
+        tocLinks.forEach(link => {
+            link.classList.toggle('active', id !== null && link.getAttribute('href') === `#${id}`);
+        });
+    }
+
+    // IntersectionObserver only fires while scrolling, so the TOC had no
+    // active entry until the reader moved the page. Mark the current section
+    // (or the first one) as soon as the page is ready.
+    function syncActive() {
+        const threshold = window.innerHeight * 0.25;
+        let current = null;
+        headings.forEach(heading => {
+            if (heading.getBoundingClientRect().top <= threshold) current = heading;
+        });
+        if (!current) current = headings[0];
+        setActive(current ? current.getAttribute('id') : null);
+    }
+
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                const correspondingLink = document.querySelector(`#toc a[href="#${id}"]`);
-                tocLinks.forEach(link => link.classList.remove('active'));
-                if (correspondingLink) {
-                    correspondingLink.classList.add('active');
-                }
+                setActive(entry.target.getAttribute('id'));
             }
         });
     }, { rootMargin: "0px 0px -75% 0px", threshold: 0.1 });
     headings.forEach(heading => observer.observe(heading));
+    syncActive();
 }
 
 function initMobileToc() {
