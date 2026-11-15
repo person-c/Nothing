@@ -145,17 +145,8 @@
         justify-content: center;
     }
 
-    header li a,
-    .social-links li a {
+    header li a {
         font-size: 0.85rem;
-    }
-
-    .footer-content {
-        gap: 1rem;
-    }
-
-    .social-links {
-        gap: 0.8rem;
     }
 
     .post-item {
@@ -203,11 +194,6 @@
     .home-content>p:first-of-type {
         margin: 2rem 0;
         font-size: 1rem;
-    }
-
-    .home-footer {
-        margin: 0;
-        padding: 0;
     }
 }
 

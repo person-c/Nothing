@@ -14,7 +14,6 @@
     --code-color: #e083a8;
     --white-color: #1e1e22;
     --nav-menu-bg: #2c2c30;
-    --shadow-color-light: rgba(0, 0, 0, 0.3);
 }
 
 :root.dark body {

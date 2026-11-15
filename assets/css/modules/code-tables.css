@@ -9,6 +9,15 @@ h code {
     font-size: 100%;
 }
 
+/* Inline code: give it a tinted chip so it does not blend into body text.
+   Block code lives inside <pre>, so it is excluded here. */
+:not(pre)>code {
+    padding: 0.1em 0.35em;
+    background: var(--bg-color-light);
+    border-radius: 3px;
+    color: var(--code-color);
+}
+
 .highlight {
     background: var(--bg-color-light);
     padding: 2px 20px;
