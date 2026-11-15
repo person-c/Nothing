@@ -43,7 +43,7 @@ other = "首页"
 other = "回到顶部"
 
 [lastModified]
-other = "最后修改于 {{ .Date }}"
+other = "最后修改于"
 
 [newer]
 other = "更新"

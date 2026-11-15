@@ -43,7 +43,7 @@ other = "Home"
 other = "Back to top"
 
 [lastModified]
-other = "Last-modified in {{ .Date }}"
+other = "Last-modified"
 
 [newer]
 other = "Newer"
