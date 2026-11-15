@@ -75,38 +75,42 @@
     flex-wrap: wrap;
 }
 
-/* --- Pagination --- */
+/* --- Pagination ---
+   Editorial pager: plain small-caps text separated by wide space, no button
+   chrome (the list above is already a printed index). */
 .pagination {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
+    align-items: baseline;
+    gap: 2rem;
     max-width: 800px;
-    margin: 2rem auto;
+    margin: 2.4rem auto 2rem;
     padding: 0 1.5rem;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-color-light);
 }
 
 .pagination a {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
     color: var(--text-color-light);
     text-decoration: none;
     transition: color 0.2s ease;
-    padding: 4px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
 }
 
-.pagination a:hover {
+.pagination a:hover,
+.pagination a:focus-visible {
     color: var(--primary-color);
-    border-color: var(--primary-color);
+}
+
+.pagination a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
 }
 
 .pagination .page-info {
     color: var(--text-color-light);
-    font-size: 0.85rem;
+    font-variant-numeric: oldstyle-nums;
 }
 
 .article-footer .copyright {
