@@ -3,9 +3,53 @@
    5. Responsive Design
    ========================================================================== */
 
+/* Mobile TOC toggle button.
+   The base rule must come before the media queries below: when it lived after
+   them it overrode `display: inline-flex` and hid the only mobile TOC entry. */
+.toc-mobile-toggle {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-family: var(--font-serif);
+    color: var(--text-color-light);
+    cursor: pointer;
+    margin-bottom: 0.8rem;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.toc-mobile-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.toc-mobile-toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.toc-mobile-toggle.is-open svg {
+    transform: rotate(90deg);
+}
+
+/* Two columns: article + TOC. The TOC is before the article in the DOM, so
+   both items get an explicit grid column. */
 @media (max-width: 1024px) {
     .layout {
         grid-template-columns: auto minmax(180px, 28%);
+    }
+
+    .layout>article {
+        grid-column: 1;
+    }
+
+    .layout>aside.toc {
+        grid-column: 2;
     }
 
     aside.footnotes {
@@ -13,16 +57,29 @@
     }
 }
 
+/* Single column. The TOC stays before the article in source order and is only
+   shown when the mobile toggle expands it. */
 @media (max-width: 800px) {
     .layout {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .layout>article {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .layout>aside.toc {
+        grid-column: 1;
+        grid-row: auto;
     }
 
     article {
         max-width: 100%;
     }
 
-    .highlight, article table {
+    .highlight,
+    article table {
         max-width: 100%;
     }
 
@@ -55,38 +112,6 @@
     }
 }
 
-/* Mobile TOC toggle button */
-.toc-mobile-toggle {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 6px 14px;
-    font-size: 0.85rem;
-    font-family: var(--font-serif);
-    color: var(--text-color-light);
-    cursor: pointer;
-    margin-bottom: 0.8rem;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.toc-mobile-toggle:hover {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.toc-mobile-toggle svg {
-    width: 14px;
-    height: 14px;
-    transition: transform 0.2s ease;
-}
-
-.toc-mobile-toggle.is-open svg {
-    transform: rotate(90deg);
-}
-
 @media (min-width: 1440px) {
     main {
         max-width: 1400px;
@@ -103,6 +128,7 @@
 }
 
 @media (max-width: 600px) {
+
     header,
     footer {
         padding: 15px;
@@ -161,7 +187,7 @@
         padding: 0.15rem 0.3rem;
     }
 
-    .nav-menu li + li::before {
+    .nav-menu li+li::before {
         margin: 0 2px;
         font-size: 0.75rem;
     }
@@ -183,9 +209,8 @@
 }
 
 /* --- Hidden TOC --- */
-/* 3-column layout: grid stays 1fr 800px 1fr, article stays centered. */
-/* Just hide the TOC content; the right column becomes empty space. */
-
+/* 3-column layout: grid stays 1fr 800px 1fr, article stays centered.
+   Just hide the TOC content; the right column becomes empty space. */
 .layout.toc-hidden aside.toc {
     display: none;
 }
@@ -193,6 +218,6 @@
 /* 2-column layout: also collapse the TOC grid column so article fills width. */
 @media (max-width: 1024px) {
     .layout.toc-hidden {
-        grid-template-columns: auto;
+        grid-template-columns: minmax(0, 1fr);
     }
 }

@@ -2,8 +2,15 @@
 <div class="layout">
     <aside class="footnotes"></aside>
 
+    {{/* The TOC comes before the article in source order so that the mobile
+         toggle reveals it directly above the text. Desktop positions are
+         assigned with explicit grid-column rules. */}}
+    <aside class="toc">
+        <nav id="toc" aria-label="Table of contents"></nav>
+    </aside>
+
     <article>
-        <button class="toc-mobile-toggle" aria-expanded="false">
+        <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             Contents
         </button>
@@ -24,10 +31,6 @@
         </div>
         {{ end }}
     </article>
-
-    <aside class="toc">
-        <nav id="toc"></nav>
-    </aside>
 </div>
 {{ end }}
 

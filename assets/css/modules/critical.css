@@ -69,6 +69,20 @@ main {
     margin: 0 auto;
 }
 
+/* The TOC precedes the article in source order (mobile toggle), so assign the
+   desktop columns explicitly: sidenotes | article | TOC. */
+.layout>aside.footnotes {
+    grid-column: 1;
+}
+
+.layout>article {
+    grid-column: 2;
+}
+
+.layout>aside.toc {
+    grid-column: 3;
+}
+
 article {
     max-width: 800px;
     margin: 0 auto;
