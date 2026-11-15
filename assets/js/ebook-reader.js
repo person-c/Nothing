@@ -139,8 +139,7 @@ function closeTOC() {
 
 function toggleTheme() {
     if (window.__cycleTheme) window.__cycleTheme();
-    const btn = document.getElementById('btn-theme');
-    if (btn) btn.innerHTML = window.__getThemeIcon ? window.__getThemeIcon() : window.__SUN_ICON || '☀';
+    // The toolbar icons are rendered server-side and toggled by CSS.
 }
 
 // --- Event bindings ---

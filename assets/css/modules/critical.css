@@ -128,6 +128,26 @@ article {
     border: 0;
 }
 
+/* Theme icons: both are rendered server-side; CSS picks one, so the correct
+   icon is shown before any JavaScript runs (no flash in dark mode). */
+.theme-icon {
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-icon-sun {
+    display: inline-flex;
+}
+
+:root.dark .theme-icon-sun {
+    display: none;
+}
+
+:root.dark .theme-icon-moon {
+    display: inline-flex;
+}
+
 /* Respect the OS "reduce motion" preference for every transition/animation,
    and let JS smooth scrolling fall back to instant jumps (see the scripts). */
 @media (prefers-reduced-motion: reduce) {
