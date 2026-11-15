@@ -161,13 +161,18 @@
     }
 
     .nav-bar {
+        width: 64px;
+        height: 44px;
+    }
+
+    .nav-bar::after,
+    .nav-bar:hover::after {
         width: 56px;
-        height: 24px;
     }
 
     .theme-toggle {
         top: 6px;
-        right: 88px;
+        right: 94px;
         left: auto;
         width: 24px;
         height: 24px;
