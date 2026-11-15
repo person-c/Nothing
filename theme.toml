@@ -1,7 +1,7 @@
 name = "Nothing"
 author = "cw"
-description = "A custom Hugo theme for personal or project use."
+description = "A minimal, typography-first Hugo theme for personal blogs and notes."
 license = "MIT"
-homepage = "https://example.com"
-tags = ["hugo", "theme", "custom"]
-min_hugo_version = "0.80.0"
+homepage = "https://github.com/person-c/Nothing"
+tags = ["hugo", "theme", "blog", "typography", "dark-mode", "search", "epub"]
+min_hugo_version = "0.146.0"
