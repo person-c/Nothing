@@ -55,7 +55,13 @@
          page on the theme's dark tokens instead, and invert only the figures,
          images and widgets that need it. */ -}}
   {{- $dark := `html{filter:none !important}#litedown-main img,#litedown-main video,#litedown-main iframe,#litedown-main svg,#litedown-main canvas{filter:none}:root.dark #litedown-main img,:root.dark #litedown-main video,:root.dark #litedown-main iframe,:root.dark #litedown-main svg,:root.dark #litedown-main canvas{filter:invert(1)}` -}}
-  {{- $style := printf "%s%s%s%s" $layout $tokens $back $dark -}}
+  {{- /* LiteDown writes its figures as inline SVG with a fixed size in pt
+         (up to 720pt = 960px) and wide display math does not wrap either, so
+         without these caps a note page is wider than a tablet/phone screen
+         (985px on a 390px phone) and the whole document scrolls sideways.
+         Plotly-managed SVGs are excluded: Plotly sizes them itself. */ -}}
+  {{- $responsive := `#litedown-main svg{max-width:100%;height:auto}#litedown-main .js-plotly-plot svg{max-width:none}#litedown-main .katex-display{max-width:100%;overflow-x:auto;overflow-y:hidden}` -}}
+  {{- $style := printf "%s%s%s%s%s" $layout $tokens $back $dark $responsive -}}
   {{- $script := `(function(){function labelMathHeadings(){var sel='#litedown-main h1,#litedown-main h2,#litedown-main h3,#litedown-main h4,#litedown-main h5,#litedown-main h6';var hs=document.querySelectorAll(sel);for(var i=0;i<hs.length;i++){var h=hs[i];if(h.getAttribute('aria-label'))continue;var note=h.querySelector('math annotation');var tex=note?note.textContent.trim():'';if(!tex){var k=h.querySelector('.katex');tex=k?k.textContent.trim():''}if(tex)h.setAttribute('aria-label',tex)}}if(document.readyState==='complete'){labelMathHeadings()}else{window.addEventListener('load',labelMathHeadings)}})();` -}}
   {{- $headInject := printf "%s\n<link rel=\"stylesheet\" href=\"%s\">\n<style>%s</style>\n<script>%s</script>\n" $themeInit $css.RelPermalink $style $script -}}
   {{- $content = replace $content "</head>" (printf "%s</head>" $headInject) -}}
