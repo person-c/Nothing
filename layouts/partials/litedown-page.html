@@ -30,13 +30,19 @@
 {{- with site.GetPage (printf "/%s" .Section) }}{{ $backHref = .RelPermalink }}{{ end -}}
 {{- $backLabel := i18n "backToList" -}}
 
+{{- /* A pre-rendered document may carry its own language: LiteDown's `lang`
+       meta option writes <html lang="…">.  Only add the site language when the
+       document has none, so the attribute is never emitted twice. */ -}}
+{{- if not (findRE `(?is)<html[^>]*\slang\s*=` $content 1) -}}
+  {{- $content = replaceRE `(?s)<html([^>]*)>` (printf "<html lang=\"%s\"$1>" $lang) $content -}}
+{{- end -}}
+
 {{- if $isSlides -}}
   {{- /* Keep the deck CSS/JS untouched; only map the Prism token colors (the
          deck highlights code client-side) onto the site palette. */ -}}
   {{- $prism := `body .token.comment,body .token.prolog,body .token.doctype,body .token.cdata{color:#6f6a5e;font-style:italic}body .token.keyword,body .token.atrule,body .token.rule,body .token.important{color:#a03a2b}body .token.string,body .token.attr-value,body .token.char{color:#5c6b3a}body .token.number,body .token.boolean,body .token.constant,body .token.symbol{color:#8a5a1f}body .token.function,body .token.class-name,body .token.builtin{color:#3d5a73}body .token.property,body .token.attr-name,body .token.selector,body .token.tag{color:#8a5a1f}body .token.operator,body .token.punctuation,body .token.attr-equals,body .token.entity,body .token.url{color:#6b665c}body .token.regex,body .token.variable{color:#4a5830}` -}}
   {{- $headInject := printf "%s\n<style>%s</style>\n" $themeInit $prism -}}
   {{- $content = replace $content "</head>" (printf "%s</head>" $headInject) -}}
-  {{- $content = replaceRE `(?s)<html([^>]*)>` (printf "<html lang=\"%s\"$1>" $lang) $content -}}
 {{- else -}}
   {{- $layout := `body{display:block;max-width:800px;margin:0 auto;padding:2rem 1.5rem;background-color:var(--bg-color);color:var(--text-color)}main{display:block}` -}}
   {{- $tokens := `::selection{background:var(--selection-bg);color:var(--selection-fg)}#litedown-main a{color:var(--text-color);text-decoration:underline;text-decoration-color:var(--link-border-color);text-underline-offset:2px}#litedown-main a:hover{color:var(--primary-color);text-decoration-color:var(--primary-color)}#litedown-main h1,#litedown-main h2,#litedown-main h3,#litedown-main h4,#litedown-main h5,#litedown-main h6,#litedown-main .frontmatter .title{color:var(--text-color)}#litedown-main code{font-family:var(--font-mono)}#litedown-main table thead,#litedown-main table tfoot,#litedown-main table tr:nth-child(even){background:var(--bg-color-light)}#litedown-main table th,#litedown-main table td{border-color:var(--border-color)}#litedown-main table{border-color:var(--border-color)}#litedown-main table thead th{border-bottom-color:var(--border-color)}#litedown-main table:not(.datatable-table){border-top-color:var(--decor-line-strong);border-bottom-color:var(--decor-line-strong)}#litedown-main blockquote{color:var(--text-color-light);border-left-color:var(--decor-line-strong);background:transparent}#litedown-main pre,#litedown-main pre>code{background:var(--bg-color-light);border-color:var(--border-color)}#litedown-main :not(pre,th)>code,#litedown-main code[class],#litedown-main div>.caption{background:var(--bg-color-light);border-color:var(--border-color)}#litedown-main hr,#litedown-main .footnotes::before{border-color:var(--border-color)}#litedown-main .box,#litedown-main .figure,#litedown-main .table,#litedown-main .fenced-chunk{border-color:var(--border-color)}#litedown-main .caption,#litedown-main .footnotes,#litedown-main footer,#litedown-main #refs{color:var(--text-color-light)}` -}}
@@ -45,7 +51,6 @@
   {{- $script := `(function(){function labelMathHeadings(){var sel='#litedown-main h1,#litedown-main h2,#litedown-main h3,#litedown-main h4,#litedown-main h5,#litedown-main h6';var hs=document.querySelectorAll(sel);for(var i=0;i<hs.length;i++){var h=hs[i];if(h.getAttribute('aria-label'))continue;var note=h.querySelector('math annotation');var tex=note?note.textContent.trim():'';if(!tex){var k=h.querySelector('.katex');tex=k?k.textContent.trim():''}if(tex)h.setAttribute('aria-label',tex)}}if(document.readyState==='complete'){labelMathHeadings()}else{window.addEventListener('load',labelMathHeadings)}})();` -}}
   {{- $headInject := printf "%s\n<link rel=\"stylesheet\" href=\"%s\">\n<style>%s</style>\n<script>%s</script>\n" $themeInit $css.RelPermalink $style $script -}}
   {{- $content = replace $content "</head>" (printf "%s</head>" $headInject) -}}
-  {{- $content = replaceRE `(?s)<html([^>]*)>` (printf "<html lang=\"%s\"$1>" $lang) $content -}}
   {{- $content = replaceRE `(?s)(<body[^>]*>)` (printf "%s<main id=\"litedown-main\"><a class=\"litedown-back\" href=\"%s\">%s</a>" "$1" $backHref $backLabel) $content -}}
   {{- $content = replace $content "</body>" "</main></body>" -}}
 {{- end -}}

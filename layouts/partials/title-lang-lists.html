@@ -1,8 +1,15 @@
 {{- /* Splits a section's regular pages by title language.
+       The whole section tree is classified, so a post nested in a physical
+       language folder (content/blog/chinese/<post>.md) counts exactly like one
+       that sits directly under the section.
        Usage: {{ partialCached "title-lang-lists.html" $section $section.RelPermalink }} */ -}}
+{{- $pages := .RegularPages -}}
+{{- if eq .Kind "section" -}}
+  {{- $pages = .RegularPagesRecursive -}}
+{{- end -}}
 {{- $en := slice -}}
 {{- $zh := slice -}}
-{{- range .RegularPages -}}
+{{- range $pages -}}
 {{- $lang := partial "title-lang.html" . -}}
 {{- if eq $lang "en" -}}
 {{- $en = $en | append . -}}

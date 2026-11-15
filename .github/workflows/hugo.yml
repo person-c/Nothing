@@ -60,8 +60,16 @@ jobs:
           # list chrome follows the list language (data/lang.toml)
           grep -q '>All<' public/blog/english/index.html
           grep -q '>全部<' public/blog/chinese/index.html
+          # posts filed in the language folders are part of the parent list and
+          # the section feed (the lists and the RSS template walk the section
+          # tree recursively)
+          test -f public/blog/english/2026-05-18-theme-feature-test/index.html
+          grep -q 'Theme Feature Test' public/blog/index.html
+          grep -q 'R 中的函数式编程' public/blog/index.html
+          test "$(grep -o '<item>' public/blog/index.xml | wc -l)" -eq 13
+          grep -q 'R 中的函数式编程' public/blog/index.xml
           # article chrome follows the post title language
-          grep -q 'Last modified' public/blog/2026-05-18-theme-feature-test/index.html
+          grep -q 'Last modified' public/blog/english/2026-05-18-theme-feature-test/index.html
 
       - name: Build subpath baseURL
         working-directory: exampleSite

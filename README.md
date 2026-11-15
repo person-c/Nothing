@@ -59,8 +59,11 @@ hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify
   a Chinese site (and vice versa).
 - **Title-language lists**: any list section can publish filtered, paginated
   views (e.g. `/blog/` = all, `/blog/chinese/`, `/blog/english/`) with a
-  paper-style `全部 / 中文 / EN` toggle. Classification happens at build time;
-  no JavaScript is required and each view paginates independently.
+  paper-style `全部 / 中文 / EN` toggle. Posts may stay at the section root or
+  be filed in the language folders (`content/blog/chinese/…`); the parent list,
+  the filtered views and the section RSS all cover the whole section tree.
+  Classification happens at build time; no JavaScript is required and each view
+  paginates independently.
 - **Maintainability**: CSS is split into 15 ordered modules (tokens → typography
   → components → dark overrides → responsive → print) with semantic color
   tokens, plus shared pagination/date/TOC/icon partials.
@@ -117,9 +120,11 @@ Enable the filtered views by adding two nested index pages under the section you
 want to filter (the example site does this for `blog`):
 
 ```text
-content/blog/_index.md            # /blog/          (all posts, existing page)
-content/blog/chinese/_index.md    # /blog/chinese/  (Chinese titles)
-content/blog/english/_index.md    # /blog/english/  (English titles)
+content/blog/_index.md                      # /blog/          (all posts)
+content/blog/chinese/_index.md              # /blog/chinese/  (Chinese titles)
+content/blog/chinese/2026-01-01-r-basics.md # a post filed under the folder
+content/blog/english/_index.md              # /blog/english/  (English titles)
+content/blog/english/2026-02-02-r-basics.md # a post filed under the folder
 ```
 
 ```yaml
@@ -131,11 +136,19 @@ outputs: ["HTML"]   # the list has no pages of its own: skip its empty RSS feed
 ---
 ```
 
-The child section paginates the matching subset of its **parent** section's
-posts, so `/blog/chinese/`, `/blog/chinese/page/2/`, … are real URLs with their
-own canonical/prev/next and work without JavaScript. The parent list shows the
-same `全部 / 中文 / EN` toggle with per-language counts. Works for any section;
-only `blog` is configured in the demo site.
+Posts may be filed in the language folders, left directly under the section
+(`content/blog/2026-03-03-post.md`), or mixed — every list below covers the whole
+section tree, so the physical location never hides a post from a view:
+
+- the parent list paginates every post in the section tree and shows the
+  `全部 / 中文 / EN` toggle with per-language counts;
+- each child view paginates the matching subset of the **parent** section's
+  posts (`/blog/chinese/`, `/blog/chinese/page/2/`, …) as real URLs with their
+  own canonical/prev/next, and works without JavaScript;
+- `/blog/index.xml` lists the same tree (the theme's RSS template walks
+  sections recursively), so nested posts are not dropped from the feed.
+
+Works for any section; only `blog` is configured in the demo site.
 
 The list chrome follows the list language: the pager reads `Page 1 of 2` /
 `Newer` / `Older` on `/blog/english/` and `第 1 / 2 页` / `更新` / `更早` on
@@ -159,7 +172,7 @@ Nothing/
 ├── data/lang.toml         bilingual UI strings for list/post language
 ├── i18n/                  en.toml, zh.toml, zh-cn.toml
 ├── layouts/
-│   ├── _default/          baseof, single, list, search, index.json,
+│   ├── _default/          baseof, single, list, search, index.json, rss.xml,
 │   │   └── _markup/       render-image.html
 │   ├── partials/          head, header, footer, pagination, post-date,
 │   │   ├── icons/         sun, moon, chevrons, arrow-left
@@ -171,7 +184,8 @@ Nothing/
 │   ├── 404.html, robots.txt, index.html
 ├── static/favicon.svg
 └── exampleSite/           demo content + config
-    └── content/blog/{chinese,english}/_index.md  # title-language lists
+    └── content/blog/      posts at the root and in {chinese,english}/,
+                           each language folder with its `_index.md` list page
 ```
 
 ### CSS modules
@@ -242,8 +256,10 @@ empty-taxonomy-free section lists.
 ## Development notes
 
 - `slides/` pages are LiteDown/snap decks and keep their own full-screen CSS
-  and light presentation; the theme only adds the `lang` attribute and maps the
-  Prism code tokens to the paper palette there.
+  and light presentation; the theme only adds a `lang` attribute when the
+  document has none and maps the Prism code tokens onto the paper palette there.
+  The same rule applies to `note/` pages: a document that already declares its
+  language (`output: html: meta: lang:` in the Rmd) keeps it.
 - Embedded iframes in Markdown (HTML widgets) need a `title` attribute for
   accessibility; the theme cannot add one automatically.
 - LiteDown 0.7 writes display-math row breaks (`\\`) as a single backslash at

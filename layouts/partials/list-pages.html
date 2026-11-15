@@ -1,9 +1,12 @@
 {{- /* Returns the collection a list page should paginate.
-       Normal lists use regular pages (child sections such as the language
-       lists are navigation, not posts); taxonomy indexes paginate terms.
+       Section lists collect every regular page in the section tree: a post may
+       sit directly under content/<section>/ or inside a subdirectory such as
+       content/blog/chinese/, and both are listed.  Nested `_index.md` language
+       lists are navigation, not posts, so they are not paginated themselves.
+       Taxonomy indexes paginate terms.
        Pages with `listLang` (nested under a section, e.g.
        content/blog/chinese/_index.md) paginate the matching title-language
-       subset of their parent section. */ -}}
+       subset of their parent section (see title-lang-lists.html). */ -}}
 {{- $listLang := .Params.listLang -}}
 {{- $base := . -}}
 {{- if $listLang -}}
@@ -14,7 +17,9 @@
   {{- with $parent }}{{ $base = . }}{{ end -}}
 {{- end -}}
 {{- $pages := .Pages -}}
-{{- if and (ne .Kind "taxonomy") (ne .Kind "home") -}}
+{{- if eq .Kind "section" -}}
+  {{- $pages = .RegularPagesRecursive -}}
+{{- else if and (ne .Kind "taxonomy") (ne .Kind "home") -}}
   {{- $pages = .RegularPages -}}
 {{- end -}}
 {{- if $listLang -}}
