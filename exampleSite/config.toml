@@ -10,6 +10,14 @@ ignoreFiles = ["\\.Rmd$"]
 # Remove these two kinds (or configure taxonomies) if you add tags to your content.
 disableKinds = ["taxonomy", "term"]
 
+# Global keys must live before the first [table] below, otherwise TOML puts them
+# inside the previous table (this is what silently disabled enableGitInfo).
+enableGitInfo = true
+enableRobotsTXT = true
+
+[pagination]
+  pagerSize = 10
+
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
@@ -24,8 +32,6 @@ disableKinds = ["taxonomy", "term"]
 
 [server]
 watch = true
-
-enableGitInfo = true
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
@@ -59,8 +65,6 @@ enableGitInfo = true
     name = "Search"
     url = "/search/"
     weight = 7
-
-paginate = 10
 
 [params]
   github = "https://github.com/person-c/myBlog"
