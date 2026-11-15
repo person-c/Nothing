@@ -35,7 +35,10 @@ body {
     padding: 0;
     font-family: var(--font-serif);
     font-size: clamp(1rem, 0.3vw + 0.9rem, 1.125rem);
-    line-height: clamp(1.6, 0.05vw + 1.5, 1.75);
+    /* A numeric line-height cannot be fluid via clamp()/calc(): mixing <number>
+       and <length> makes the whole declaration invalid (it computed to
+       "normal"). Keep a fixed readable ratio instead. */
+    line-height: 1.7;
     background-color: var(--white-color);
     color: var(--text-color);
     display: flex;
@@ -45,7 +48,9 @@ body {
     -webkit-font-smoothing: antialiased;
     font-kerning: normal;
     font-variant-numeric: oldstyle-nums;
-    text-spacing: normal;
+    /* "text-spacing" is not a CSS property; the standard name for automatic
+       CJK/Latin spacing is text-autospace. */
+    text-autospace: normal;
     text-wrap: pretty;
 }
 
