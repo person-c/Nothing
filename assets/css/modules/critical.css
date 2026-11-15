@@ -18,6 +18,20 @@
     --font-serif: 'EB Garamond', 'Noto Serif SC', serif;
     --font-mono: Consolas, Courier, 'Lucida Console', 'Courier New', 'Kai SC', 'Kai TC', monospace;
     --font-size-base: 17px;
+
+    /* Let native UI (form controls, scrollbars) follow the active theme. */
+    color-scheme: light;
+}
+
+:root.dark {
+    color-scheme: dark;
+}
+
+/* No JS / auto-mode fallback: follow the OS while no explicit theme wins. */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+        color-scheme: dark;
+    }
 }
 
 html {
