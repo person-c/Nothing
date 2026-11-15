@@ -49,6 +49,14 @@ jobs:
           grep -q 'name=description' public/index.html
           grep -q 'og:image' public/index.html
           grep -q 'Sitemap:' public/robots.txt
+          # title-language lists: /blog/ shows the 全部/中文/EN toggle and the
+          # filtered views exist with their own pages
+          test -f public/blog/chinese/index.html
+          test -f public/blog/english/index.html
+          grep -q 'list-lang-filter' public/blog/index.html
+          grep -q 'is-active' public/blog/chinese/index.html
+          grep -q 'Theme Feature Test' public/blog/english/index.html
+          grep -q 'R 中的函数式编程' public/blog/chinese/index.html
 
       - name: Build subpath baseURL
         working-directory: exampleSite

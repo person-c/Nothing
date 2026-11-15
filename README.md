@@ -51,6 +51,10 @@ hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify
   toggles, focus management for the nav menu.
 - **i18n**: all UI strings come from `i18n/{en,zh,zh-cn}.toml`; JS strings are
   injected from the same catalog.
+- **Title-language lists**: any list section can publish filtered, paginated
+  views (e.g. `/blog/` = all, `/blog/chinese/`, `/blog/english/`) with a
+  paper-style `全部 / 中文 / EN` toggle. Classification happens at build time;
+  no JavaScript is required and each view paginates independently.
 - **Maintainability**: CSS is split into 15 ordered modules (tokens → typography
   → components → dark overrides → responsive → print) with semantic color
   tokens, plus shared pagination/date/TOC/icon partials.
@@ -90,6 +94,42 @@ The search page requires the JSON home output (the theme's `head.html` injects
   home = ["HTML", "RSS", "JSON"]
 ```
 
+## Filtering a list by title language
+
+The blog list ships with an optional language filter built entirely at build
+time. A post is classified as `zh` when its title contains Han characters and as
+`en` otherwise; override mixed titles per page with front matter:
+
+```yaml
+---
+title: "R 语言实战"
+titleLang: en      # forced into the English list
+---
+```
+
+Enable the filtered views by adding two nested index pages under the section you
+want to filter (the example site does this for `blog`):
+
+```text
+content/blog/_index.md            # /blog/          (all posts, existing page)
+content/blog/chinese/_index.md    # /blog/chinese/  (Chinese titles)
+content/blog/english/_index.md    # /blog/english/  (English titles)
+```
+
+```yaml
+# content/blog/chinese/_index.md
+---
+title: 中文文章
+listLang: zh
+outputs: ["HTML"]   # the list has no pages of its own: skip its empty RSS feed
+---
+```
+
+The child section paginates the matching subset of its **parent** section's
+posts, so `/blog/chinese/`, `/blog/chinese/page/2/`, … are real URLs with their
+own canonical/prev/next and work without JavaScript. The parent list shows the
+same `全部 / 中文 / EN` toggle with per-language counts. Works for any section;
+only `blog` is configured in the demo site.
 ## File structure
 
 ```
@@ -109,13 +149,15 @@ Nothing/
 │   │   └── _markup/       render-image.html
 │   ├── partials/          head, header, footer, pagination, post-date,
 │   │   ├── icons/         sun, moon, chevrons, arrow-left
-│   │   └──              theme-init, toc, toc-children, toc-headings
+│   │   └──              theme-init, toc*, list-pages, list-lang-filter,
+│   │                    title-lang, title-lang-lists
 │   ├── books/             list.html (shelf) + single.html (reader)
 │   ├── note|slides/       bare templates for pre-rendered content
 │   ├── shortcodes/        figure.html
 │   ├── 404.html, robots.txt, index.html
 ├── static/favicon.svg
 └── exampleSite/           demo content + config
+    └── content/blog/{chinese,english}/_index.md  # title-language lists
 ```
 
 ### CSS modules
