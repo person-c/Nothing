@@ -21,7 +21,21 @@
 {{- $backHref := "/" -}}
 {{- with site.GetPage (printf "/%s" .Section) }}{{ $backHref = .RelPermalink }}{{ end -}}
 {{- $backLabel := i18n "backToList" -}}
-{{- $headInject := printf "%s\n<link rel=\"stylesheet\" href=\"%s\">\n<style>body{display:block;max-width:800px;margin:0 auto;padding:2rem 1.5rem;background-color:var(--bg-color);color:var(--text-color)}.litedown-back{display:inline-block;margin:0 0 1.75rem;font-family:var(--font-serif);font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-color-light);text-decoration:none}.litedown-back:hover{color:var(--primary-color)}</style>\n" $themeInit $css.RelPermalink -}}
+{{- $lang := .Site.Language.Lang -}}
+
+{{- /* Keep LiteDown's own typography but map its light defaults onto the
+       theme tokens, so notes follow the paper/ink palette and dark mode. */ -}}
+{{- $style := `body{display:block;max-width:800px;margin:0 auto;padding:2rem 1.5rem;background-color:var(--bg-color);color:var(--text-color)}main{display:block}::selection{background:var(--selection-bg);color:var(--selection-fg)}#litedown-main a{color:var(--text-color);text-decoration:underline;text-decoration-color:var(--link-border-color);text-underline-offset:2px}#litedown-main a:hover{color:var(--primary-color);text-decoration-color:var(--primary-color)}#litedown-main h1,#litedown-main h2,#litedown-main h3,#litedown-main h4,#litedown-main h5,#litedown-main h6,#litedown-main .frontmatter .title{color:var(--text-color)}#litedown-main code{font-family:var(--font-mono)}#litedown-main table thead,#litedown-main table tfoot,#litedown-main table tr:nth-child(even){background:var(--bg-color-light)}#litedown-main table th,#litedown-main table td{border-color:var(--border-color)}#litedown-main table{border-color:var(--border-color)}#litedown-main table thead th{border-bottom-color:var(--border-color)}#litedown-main table:not(.datatable-table){border-top-color:var(--decor-line-strong);border-bottom-color:var(--decor-line-strong)}#litedown-main blockquote{color:var(--text-color-light);border-left-color:var(--decor-line-strong);background:transparent}#litedown-main pre,#litedown-main pre>code{background:var(--bg-color-light);border-color:var(--border-color)}#litedown-main :not(pre,th)>code,#litedown-main code[class],#litedown-main div>.caption{background:var(--bg-color-light);border-color:var(--border-color)}#litedown-main hr,#litedown-main .footnotes::before{border-color:var(--border-color)}#litedown-main .box,#litedown-main .figure,#litedown-main .table,#litedown-main .fenced-chunk{border-color:var(--border-color)}#litedown-main .caption,#litedown-main .footnotes,#litedown-main footer,#litedown-main #refs{color:var(--text-color-light)}.litedown-back{display:inline-block;margin:0 0 1.75rem;font-family:var(--font-serif);font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-color-light);text-decoration:none}.litedown-back:hover{color:var(--primary-color)}` -}}
+
+{{- /* KaTeX turns math-only headings into elements with no text for assistive
+       tech; copy the TeX annotation to aria-label after rendering. */ -}}
+{{- $script := `(function(){function labelMathHeadings(){var sel='#litedown-main h1,#litedown-main h2,#litedown-main h3,#litedown-main h4,#litedown-main h5,#litedown-main h6';var hs=document.querySelectorAll(sel);for(var i=0;i<hs.length;i++){var h=hs[i];if(h.getAttribute('aria-label'))continue;var note=h.querySelector('math annotation');var tex=note?note.textContent.trim():'';if(!tex){var k=h.querySelector('.katex');tex=k?k.textContent.trim():''}if(tex)h.setAttribute('aria-label',tex)}}if(document.readyState==='complete'){labelMathHeadings()}else{window.addEventListener('load',labelMathHeadings)}})();` -}}
+
+{{- $headInject := printf "%s\n<link rel=\"stylesheet\" href=\"%s\">\n<style>%s</style>\n<script>%s</script>\n" $themeInit $css.RelPermalink $style $script -}}
 {{- $content = replace $content "</head>" (printf "%s</head>" $headInject) -}}
-{{- $content = replaceRE `(?s)(<body[^>]*>)` (printf "%s<a class=\"litedown-back\" href=\"%s\">%s</a>" "$1" $backHref $backLabel) $content -}}
+
+{{- /* Give the standalone document a language and a main landmark. */ -}}
+{{- $content = replaceRE `(?s)<html([^>]*)>` (printf "<html lang=\"%s\"$1>" $lang) $content -}}
+{{- $content = replaceRE `(?s)(<body[^>]*>)` (printf "%s<main id=\"litedown-main\"><a class=\"litedown-back\" href=\"%s\">%s</a>" "$1" $backHref $backLabel) $content -}}
+{{- $content = replace $content "</body>" "</main></body>" -}}
 {{- return ($content | safeHTML) -}}
