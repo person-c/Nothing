@@ -22,7 +22,8 @@ h code {
     padding: 0;
 }
 
-article table {
+/* Content tables only — never Chroma line-number tables */
+article table:not(.lntable) {
     display: table;
     width: auto;
     max-width: 100%;
@@ -31,24 +32,24 @@ article table {
     margin: 0 auto 1rem auto;
 }
 
-article table th,
-article table td {
+article table:not(.lntable) th,
+article table:not(.lntable) td {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     text-align: left;
 }
 
-article table thead th {
+article table:not(.lntable) thead th {
     background: var(--bg-color-light);
     font-weight: 600;
     border-bottom: 2px solid var(--border-color);
 }
 
-article table tbody tr:nth-child(even) {
+article table:not(.lntable) tbody tr:nth-child(even) {
     background: rgba(0, 0, 0, 0.02);
 }
 
-article table tbody tr:hover {
+article table:not(.lntable) tbody tr:hover {
     background: rgba(0, 123, 255, 0.04);
 }
 

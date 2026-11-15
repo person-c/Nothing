@@ -1,0 +1,89 @@
+/* Generated using: hugo gen chromastyles --style monokai (scoped to dark mode) */
+:root.dark .bg { color:#f8f8f2;background-color:#272822; }
+:root.dark .chroma { color:#f8f8f2;background-color:#272822; }
+:root.dark .chroma .x {  }
+:root.dark .chroma .err { color:#960050;background-color:#1e0010 }
+:root.dark .chroma .cl {  }
+:root.dark .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+:root.dark .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+:root.dark .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+:root.dark .chroma .hl { background-color:#3c3d38 }
+:root.dark .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+:root.dark .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+:root.dark .chroma .line { display:flex; }
+:root.dark .chroma .k { color:#66d9ef }
+:root.dark .chroma .kc { color:#66d9ef }
+:root.dark .chroma .kd { color:#66d9ef }
+:root.dark .chroma .kn { color:#f92672 }
+:root.dark .chroma .kp { color:#66d9ef }
+:root.dark .chroma .kr { color:#66d9ef }
+:root.dark .chroma .kt { color:#66d9ef }
+:root.dark .chroma .n {  }
+:root.dark .chroma .na { color:#a6e22e }
+:root.dark .chroma .nc { color:#a6e22e }
+:root.dark .chroma .no { color:#66d9ef }
+:root.dark .chroma .nd { color:#a6e22e }
+:root.dark .chroma .ni {  }
+:root.dark .chroma .ne { color:#a6e22e }
+:root.dark .chroma .nl {  }
+:root.dark .chroma .nn {  }
+:root.dark .chroma .nx { color:#a6e22e }
+:root.dark .chroma .py {  }
+:root.dark .chroma .nt { color:#f92672 }
+:root.dark .chroma .nb {  }
+:root.dark .chroma .bp {  }
+:root.dark .chroma .nv {  }
+:root.dark .chroma .vc {  }
+:root.dark .chroma .vg {  }
+:root.dark .chroma .vi {  }
+:root.dark .chroma .vm {  }
+:root.dark .chroma .nf { color:#a6e22e }
+:root.dark .chroma .fm { color:#a6e22e }
+:root.dark .chroma .l { color:#ae81ff }
+:root.dark .chroma .ld { color:#e6db74 }
+:root.dark .chroma .s { color:#e6db74 }
+:root.dark .chroma .sa { color:#e6db74 }
+:root.dark .chroma .sb { color:#e6db74 }
+:root.dark .chroma .sc { color:#e6db74 }
+:root.dark .chroma .dl { color:#e6db74 }
+:root.dark .chroma .sd { color:#e6db74 }
+:root.dark .chroma .s2 { color:#e6db74 }
+:root.dark .chroma .se { color:#ae81ff }
+:root.dark .chroma .sh { color:#e6db74 }
+:root.dark .chroma .si { color:#e6db74 }
+:root.dark .chroma .sx { color:#e6db74 }
+:root.dark .chroma .sr { color:#e6db74 }
+:root.dark .chroma .s1 { color:#e6db74 }
+:root.dark .chroma .ss { color:#e6db74 }
+:root.dark .chroma .m { color:#ae81ff }
+:root.dark .chroma .mb { color:#ae81ff }
+:root.dark .chroma .mf { color:#ae81ff }
+:root.dark .chroma .mh { color:#ae81ff }
+:root.dark .chroma .mi { color:#ae81ff }
+:root.dark .chroma .il { color:#ae81ff }
+:root.dark .chroma .mo { color:#ae81ff }
+:root.dark .chroma .o { color:#f92672 }
+:root.dark .chroma .ow { color:#f92672 }
+:root.dark .chroma .p {  }
+:root.dark .chroma .c { color:#75715e }
+:root.dark .chroma .ch { color:#75715e }
+:root.dark .chroma .cm { color:#75715e }
+:root.dark .chroma .c1 { color:#75715e }
+:root.dark .chroma .cs { color:#75715e }
+:root.dark .chroma .cp { color:#75715e }
+:root.dark .chroma .cpf { color:#75715e }
+:root.dark .chroma .g {  }
+:root.dark .chroma .gd { color:#f92672 }
+:root.dark .chroma .ge { font-style:italic }
+:root.dark .chroma .gr {  }
+:root.dark .chroma .gh {  }
+:root.dark .chroma .gi { color:#a6e22e }
+:root.dark .chroma .go {  }
+:root.dark .chroma .gp {  }
+:root.dark .chroma .gs { font-weight:bold }
+:root.dark .chroma .gu { color:#75715e }
+:root.dark .chroma .gt {  }
+:root.dark .chroma .gl {  }
+:root.dark .chroma .w {  }
+:root.dark .highlight .chroma { background-color: transparent; }
+:root.dark .highlight .ln { color: var(--text-color-light); opacity: 0.5; }

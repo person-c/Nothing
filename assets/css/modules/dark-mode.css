@@ -36,15 +36,15 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-:root.dark article table thead th {
+:root.dark article table:not(.lntable) thead th {
     background: var(--bg-color-light);
 }
 
-:root.dark article table tbody tr:nth-child(even) {
+:root.dark article table:not(.lntable) tbody tr:nth-child(even) {
     background: rgba(255, 255, 255, 0.03);
 }
 
-:root.dark article table tbody tr:hover {
+:root.dark article table:not(.lntable) tbody tr:hover {
     background: rgba(77, 166, 255, 0.08);
 }
 

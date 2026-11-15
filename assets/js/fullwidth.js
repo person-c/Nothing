@@ -21,7 +21,8 @@ function initFullwidth() {
         });
 
         // 2. Tables: measure unwrapped content width using off-screen clone
-        article.querySelectorAll('table').forEach(table => {
+        //    (skip Chroma line-number tables, they are part of a code block)
+        article.querySelectorAll('table:not(.lntable)').forEach(table => {
             if (table.closest('.fullwidth')) return;
             const clone = table.cloneNode(true);
             clone.style.position = 'absolute';
