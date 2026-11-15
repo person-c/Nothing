@@ -1,0 +1,24 @@
+{{- /* Returns the collection a list page should paginate.
+       Normal lists use regular pages (child sections such as the language
+       lists are navigation, not posts); taxonomy indexes paginate terms.
+       Pages with `listLang` (nested under a section, e.g.
+       content/blog/chinese/_index.md) paginate the matching title-language
+       subset of their parent section. */ -}}
+{{- $listLang := .Params.listLang -}}
+{{- $base := . -}}
+{{- if $listLang -}}
+  {{- $parent := .Parent -}}
+  {{- with .Params.listParent -}}
+    {{- with site.GetPage (printf "/%s" (strings.Trim . "/")) }}{{ $parent = . }}{{ end -}}
+  {{- end -}}
+  {{- with $parent }}{{ $base = . }}{{ end -}}
+{{- end -}}
+{{- $pages := .Pages -}}
+{{- if and (ne .Kind "taxonomy") (ne .Kind "home") -}}
+  {{- $pages = .RegularPages -}}
+{{- end -}}
+{{- if $listLang -}}
+  {{- $langLists := partialCached "title-lang-lists.html" $base $base.RelPermalink -}}
+  {{- $pages = index $langLists $listLang -}}
+{{- end -}}
+{{- return $pages -}}

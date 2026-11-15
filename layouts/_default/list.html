@@ -1,14 +1,66 @@
 {{ define "main" }}
-{{ $paginator := .Paginate .Pages }}
+{{/* Title-language filter.
+     Language lists are nested sections of a parent list, e.g.:
+       content/blog/_index.md          -> /blog/       (all posts)
+       content/blog/chinese/_index.md  -> /blog/chinese/  (listLang: zh)
+       content/blog/english/_index.md  -> /blog/english/  (listLang: en)
+     The child section renders a paginated subset of the parent's regular
+     pages. Classification happens at build time (partials/title-lang.html),
+     so the filtered lists work without JavaScript and paginate correctly. */}}
+{{ $listLang := .Params.listLang }}
+{{ $baseSection := . }}
+{{ if $listLang }}
+  {{ $baseSection = .Parent }}
+  {{ with .Params.listParent }}
+    {{ with site.GetPage (printf "/%s" (strings.Trim . "/")) }}{{ $baseSection = . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $showLangFilter := false }}
+{{ $zhURL := "" }}
+{{ $enURL := "" }}
+{{ with $baseSection }}
+  {{ range .Sections }}
+    {{ if eq .Params.listLang "zh" }}{{ $showLangFilter = true }}{{ $zhURL = .RelPermalink }}{{ end }}
+    {{ if eq .Params.listLang "en" }}{{ $showLangFilter = true }}{{ $enURL = .RelPermalink }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $langLists := dict }}
+{{ if $showLangFilter }}
+  {{ $langLists = partialCached "title-lang-lists.html" $baseSection $baseSection.RelPermalink }}
+{{ end }}
+
+{{ $currentLang := "all" }}
+{{ if $listLang }}{{ $currentLang = $listLang }}{{ end }}
+
+{{ $paginator := .Paginator }}
 {{ $listTitle := .Title }}
 {{ if not $listTitle }}{{ $listTitle = humanize .Section }}{{ end }}
 <section class="article-list">
+    {{ if $showLangFilter }}
+    <div class="list-header">
+        <h1 class="list-title">{{ $listTitle }}</h1>
+        {{ partial "list-lang-filter.html" (dict
+            "current" $currentLang
+            "lists" $langLists
+            "listURL" $baseSection.RelPermalink
+            "zhURL" $zhURL
+            "enURL" $enURL) }}
+    </div>
+    {{ else }}
     <h1 class="list-title">{{ $listTitle }}</h1>
+    {{ end }}
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}
 
-    {{ if eq .Kind "taxonomy" }}
+    {{ if and $listLang (eq $paginator.TotalNumberOfElements 0) }}
+    <p class="list-empty">
+        {{ if eq $listLang "en" }}{{ i18n "listEmptyEnglish" }}{{ else }}{{ i18n "listEmptyChinese" }}{{ end }}
+        <a href="{{ $baseSection.RelPermalink }}">{{ i18n "listViewAll" }}</a>
+    </p>
+    {{ else if eq .Kind "taxonomy" }}
     {{/* The taxonomy index lists terms, not pages — terms have no .File or date. */}}
     <ul class="post-list taxonomy-list">
         {{ range $paginator.Pages }}

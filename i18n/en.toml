@@ -69,3 +69,24 @@ other = "Back to the home page"
 
 [themeToggle]
 other = "Toggle color theme"
+
+[listLangFilterLabel]
+other = "Filter posts by title language"
+
+[listAll]
+other = "All"
+
+[listChinese]
+other = "Chinese"
+
+[listEnglish]
+other = "EN"
+
+[listEmptyChinese]
+other = "No posts with Chinese titles yet."
+
+[listEmptyEnglish]
+other = "No posts with English titles yet."
+
+[listViewAll]
+other = "View all posts"

@@ -1,0 +1,8 @@
+{{- /* Returns "zh" when the page title contains Han characters, otherwise "en".
+       Override per page via front matter: titleLang: en (or zh) for mixed titles
+       like "R 语言" or titles that are mostly names/numbers. */ -}}
+{{- $lang := .Params.titleLang -}}
+{{- if not $lang -}}
+{{- $lang = cond (gt (len (findRE `\p{Han}` .Title)) 0) "zh" "en" -}}
+{{- end -}}
+{{- return $lang -}}

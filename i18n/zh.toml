@@ -69,3 +69,24 @@ other = "返回首页"
 
 [themeToggle]
 other = "切换主题"
+
+[listLangFilterLabel]
+other = "按文章标题语言筛选"
+
+[listAll]
+other = "全部"
+
+[listChinese]
+other = "中文"
+
+[listEnglish]
+other = "EN"
+
+[listEmptyChinese]
+other = "暂无中文标题的文章。"
+
+[listEmptyEnglish]
+other = "暂无英文标题的文章。"
+
+[listViewAll]
+other = "查看全部"

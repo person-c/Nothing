@@ -1,0 +1,13 @@
+{{- /* Splits a section's regular pages by title language.
+       Usage: {{ partialCached "title-lang-lists.html" $section $section.RelPermalink }} */ -}}
+{{- $en := slice -}}
+{{- $zh := slice -}}
+{{- range .RegularPages -}}
+{{- $lang := partial "title-lang.html" . -}}
+{{- if eq $lang "en" -}}
+{{- $en = $en | append . -}}
+{{- else -}}
+{{- $zh = $zh | append . -}}
+{{- end -}}
+{{- end -}}
+{{- return (dict "en" $en "zh" $zh) -}}

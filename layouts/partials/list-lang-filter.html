@@ -1,0 +1,18 @@
+{{- /* Title-language filter for list pages.
+       Usage: {{ partial "list-lang-filter.html" (dict
+         "current" "all|zh|en"
+         "zhURL" $zhURL "enURL" $enURL "listURL" $listURL
+         "zhCount" 12 "enCount" 8) }} */ -}}
+{{- $current := .current -}}
+{{- $counts := .lists -}}
+<nav class="list-lang-filter" aria-label="{{ i18n "listLangFilterLabel" }}">
+    <a href="{{ .listURL }}"
+       class="list-lang-option{{ if eq $current "all" }} is-active{{ end }}"
+       {{- if eq $current "all" }} aria-current="page"{{ end }}>{{ i18n "listAll" }}</a>
+    <a href="{{ .zhURL }}"
+       class="list-lang-option{{ if eq $current "zh" }} is-active{{ end }}"
+       {{- if eq $current "zh" }} aria-current="page"{{ end }}>{{ i18n "listChinese" }}<span class="list-lang-count">{{ len (index $counts "zh") }}</span></a>
+    <a href="{{ .enURL }}"
+       class="list-lang-option{{ if eq $current "en" }} is-active{{ end }}"
+       {{- if eq $current "en" }} aria-current="page"{{ end }}>{{ i18n "listEnglish" }}<span class="list-lang-count">{{ len (index $counts "en") }}</span></a>
+</nav>

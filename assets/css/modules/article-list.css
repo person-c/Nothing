@@ -130,3 +130,74 @@
     color: var(--text-color-light);
     line-height: 1.5;
 }
+
+/* --- List header with title-language filter --- */
+.list-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.list-header .list-title {
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.list-lang-filter {
+    display: flex;
+    flex-shrink: 0;
+    align-items: baseline;
+    gap: 1.1rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.list-lang-option {
+    color: var(--text-color-light);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.list-lang-option:hover {
+    color: var(--primary-color);
+}
+
+.list-lang-option:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+.list-lang-option.is-active {
+    color: var(--text-color);
+    border-bottom-color: var(--text-color);
+}
+
+.list-lang-count {
+    margin-left: 3px;
+    font-size: 0.72rem;
+    font-variant-numeric: oldstyle-nums;
+    color: var(--text-color-light);
+    vertical-align: super;
+}
+
+.list-empty {
+    color: var(--text-color-light);
+    padding: 1rem 0 2rem;
+}
+
+.list-empty a {
+    color: var(--primary-color);
+}
+
+@media (max-width: 600px) {
+    .list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}

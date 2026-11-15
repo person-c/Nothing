@@ -24,7 +24,12 @@
     {{/* Paginated list pages get a self-referencing canonical plus prev/next. */}}
     {{ $canonical := .Permalink }}
     {{ if in (slice "home" "section" "taxonomy" "term") .Kind }}
-      {{ with .Paginator }}
+      {{/* Initialize pagination here (head renders before main) so the
+           canonical links reflect the current pager page. The main template
+           then reads the initialized pager via .Paginator. Pages with a
+           title-language filter paginate a custom collection (list-pages.html). */}}
+      {{ $listPages := partial "list-pages.html" . }}
+      {{ with .Paginate $listPages }}
         {{ if gt .PageNumber 1 }}{{ $canonical = .URL | absURL }}{{ end }}
         {{ if .HasPrev }}<link rel="prev" href="{{ .Prev.URL | absURL }}">{{ end }}
         {{ if .HasNext }}<link rel="next" href="{{ .Next.URL | absURL }}">{{ end }}
