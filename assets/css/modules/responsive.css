@@ -38,14 +38,17 @@
 }
 
 /* Two columns: article + TOC. The TOC is before the article in the DOM, so
-   both items get an explicit grid column. */
-@media (max-width: 1024px) {
+   both items get an explicit grid column. The article must be allowed to
+   shrink to its column: with max-width:800px and auto margins it used to stay
+   800px wide and overlap the TOC by 89-107px between 801 and 1024px. */
+@media (max-width: 1200px) {
     .layout {
-        grid-template-columns: auto minmax(180px, 28%);
+        grid-template-columns: minmax(0, 1fr) minmax(180px, 28%);
     }
 
     .layout>article {
         grid-column: 1;
+        max-width: 100%;
     }
 
     .layout>aside.toc {
@@ -216,7 +219,7 @@
 }
 
 /* 2-column layout: also collapse the TOC grid column so article fills width. */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .layout.toc-hidden {
         grid-template-columns: minmax(0, 1fr);
     }

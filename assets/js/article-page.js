@@ -19,7 +19,7 @@ function initSidenotes() {
     if (refs.length === 0 || !footnotesDiv || !container) return;
 
     function render() {
-        if (window.innerWidth <= 1024) {
+        if (window.innerWidth <= 1200) {
             footnotesDiv.style.display = "";
             container.innerHTML = '';
             return;
