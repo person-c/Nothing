@@ -1,4 +1,3 @@
-@layer components {
 /* home */
 /* --- Home Page Styles --- */
 .home-content {
@@ -37,5 +36,4 @@
 .separator {
     margin: 0 0.5rem;
     color: var(--border-color);
-}
 }

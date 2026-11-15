@@ -1,4 +1,3 @@
-@layer components {
 /* responsive */
 /* ==========================================================================
    5. Responsive Design
@@ -212,5 +211,4 @@
     .layout.toc-hidden {
         grid-template-columns: minmax(0, 1fr);
     }
-}
 }

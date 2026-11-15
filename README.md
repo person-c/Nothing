@@ -51,9 +51,9 @@ hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify
   toggles, focus management for the nav menu.
 - **i18n**: all UI strings come from `i18n/{en,zh,zh-cn}.toml`; JS strings are
   injected from the same catalog.
-- **Maintainability**: CSS is split into 15 modules wrapped in cascade layers
-  (`base`, `components`, `overrides`, `print`), semantic color tokens, shared
-  pagination/date/TOC/icon partials.
+- **Maintainability**: CSS is split into 15 ordered modules (tokens → typography
+  → components → dark overrides → responsive → print) with semantic color
+  tokens, plus shared pagination/date/TOC/icon partials.
 
 ## Configuration
 
@@ -98,7 +98,7 @@ Nothing/
 ├── archetypes/            default.md, books.md
 ├── assets/
 │   ├── css/
-│   │   ├── modules/       15 module files (wrapped in @layer), see below
+│   │   ├── modules/       15 module files (fixed order), see below
 │   │   ├── syntax-light.css / syntax-dark.css   # generated Chroma CSS
 │   │   └── ebook-reader.css
 │   └── js/                nav, theme, back-to-top, article-page,
@@ -118,27 +118,31 @@ Nothing/
 └── exampleSite/           demo content + config
 ```
 
-### CSS modules and cascade layers
+### CSS modules
 
-| File | Layer | Scope |
-|------|-------|-------|
-| `critical.css` | base | tokens, reset, layout grid, theme bootstrap styles |
-| `typography.css` | base | headings, links, lists, quotes, selection |
-| `footer.css` | components | site footer |
-| `header.css` | components | nav trigger/menu, theme toggle |
-| `article-list.css` | components | lists, post items, search page |
-| `toc.css` | components | TOC sidebar/tree/float toggle |
-| `footnotes.css` | components | sidenotes + end footnotes |
-| `article.css` | components | images, figures |
-| `code-tables.css` | components | code blocks, tables, inline code |
-| `copy-footer.css` | components | copy button, article footer, pager |
-| `home.css` / `bookshelf.css` | components | loaded only on `/` and `/books/` |
-| `responsive.css` | components | media queries, hidden-TOC state |
-| `dark-mode.css` | overrides | dark token overrides only |
-| `print.css` | print | print layout, link expansion, page margins |
+| File | Scope |
+|------|-------|
+| `critical.css` | tokens, reset, layout grid, theme bootstrap styles |
+| `typography.css` | headings, links, lists, quotes, selection |
+| `footer.css` | site footer |
+| `header.css` | nav trigger/menu, theme toggle |
+| `article-list.css` | lists, post items, search page |
+| `toc.css` | TOC sidebar/tree/float toggle |
+| `footnotes.css` | sidenotes + end footnotes |
+| `article.css` | images, figures |
+| `code-tables.css` | code blocks, tables, inline code |
+| `copy-footer.css` | copy button, article footer, pager |
+| `home.css` / `bookshelf.css` | loaded only on `/` and `/books/` |
+| `responsive.css` | media queries, hidden-TOC state |
+| `dark-mode.css` | dark token overrides only |
+| `print.css` | print layout, link expansion, page margins |
 
-`critical.css` declares `@layer base, components, overrides, print;` so cascade
-order is explicit instead of depending on bundle order.
+Modules are concatenated in this fixed order (tokens → typography → components
+→ dark overrides → responsive → print), so cascade order is explicit. The theme
+deliberately does **not** wrap them in `@layer`: the CSS minifier shipped with
+Hugo 0.147 leaves `@layer` block contents unminified, which grew the bundle from
+~25 KB to ~34 KB. If you prefer layers, add them after confirming your Hugo
+version minifies layered CSS.
 
 ### Bundle strategy
 

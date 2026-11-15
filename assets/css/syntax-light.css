@@ -1,4 +1,3 @@
-@layer components {
 /* Generated using: hugo gen chromastyles --style github */
 
 /* Background */ .bg { background-color:#fff; }
@@ -96,5 +95,4 @@
     text-align: right;
     color: var(--text-color-light);
     opacity: 0.55;
-}
 }

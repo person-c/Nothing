@@ -1,4 +1,3 @@
-@layer components {
 /* header-footer-base */
 /* Base footer styles (the header is styled in header.css) */
 
@@ -16,5 +15,4 @@ footer {
     font-size: 0.8rem;
     color: var(--text-color-light);
     margin: 0;
-}
 }

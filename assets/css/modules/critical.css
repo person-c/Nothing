@@ -1,6 +1,3 @@
-@layer base, components, overrides, print;
-
-@layer base {
 /* critical */
 
 /* ==========================================================================
@@ -189,5 +186,4 @@ article {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-}
 }

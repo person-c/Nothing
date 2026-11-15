@@ -1,4 +1,3 @@
-@layer base {
 /* typography */
 /* ==========================================================================
    4. Typography & Links
@@ -154,5 +153,4 @@ aside.footnotes a:hover {
 ::selection {
     background: var(--selection-bg);
     color: var(--selection-fg);
-}
 }
