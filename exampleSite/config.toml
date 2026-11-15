@@ -73,3 +73,5 @@ watch = true
   rss = "/index.xml"
   author = "cw"
   ogImage = "images/og-default.png"
+  # Requires enableGitInfo; shows "Last-modified in ..." when git dates differ.
+  showLastmod = true
