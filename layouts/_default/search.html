@@ -2,10 +2,11 @@
 <div class="search-page">
     <h1 class="search-title">Search</h1>
     <div class="search-input-wrapper">
+        <label class="visually-hidden" for="search-input">Search posts</label>
         <input type="text" id="search-input" class="search-input" placeholder="Type to search..." autofocus>
     </div>
     <div id="search-results" class="search-results"></div>
-    <div id="search-status" class="search-status"></div>
+    <div id="search-status" class="search-status" role="status" aria-live="polite"></div>
 </div>
 {{ end }}
 
