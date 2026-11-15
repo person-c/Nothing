@@ -116,4 +116,8 @@
     {{ $backToTopJs := resources.Get "js/back-to-top.js" }}
     {{ $commonJs := slice $navJs $themeJs $backToTopJs | resources.Concat "js/common.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $commonJs.RelPermalink }}" defer></script>
+    <script>
+        // Site-relative so client-side search also works when baseURL has a path.
+        window.__SEARCH_INDEX_URL = {{ "index.json" | relURL | jsonify | safeJS }};
+    </script>
 

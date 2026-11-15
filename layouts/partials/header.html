@@ -16,12 +16,12 @@
                     {{ end }}
                 {{ end }}
             {{ else }}
-                <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
+                <li><a href="{{ .Site.Home.RelPermalink }}"{{ if .IsHome }} class="active"{{ end }}>Home</a></li>
                 {{ $current := . }}
                 {{ range .Site.Sections }}
                     <li><a href="{{ .RelPermalink }}"{{ if eq $current.Section .Section }} class="active"{{ end }}>{{ .Title }}</a></li>
                 {{ end }}
-                <li><a href="{{ "/search/" | relURL }}"{{ if eq .Section "search" }} class="active"{{ end }}>Search</a></li>
+                <li><a href="{{ "search/" | relURL }}"{{ if eq .Section "search" }} class="active"{{ end }}>Search</a></li>
             {{ end }}
         </ul>
     </nav>

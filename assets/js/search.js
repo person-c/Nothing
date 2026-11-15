@@ -6,12 +6,13 @@
 
     let pages = [];
     let loaded = false;
+    const indexUrl = window.__SEARCH_INDEX_URL || '/index.json';
 
     input.addEventListener('input', function () {
         const query = this.value.trim();
         if (!loaded) {
             status.textContent = 'Loading index...';
-            fetch('/index.json')
+            fetch(indexUrl)
                 .then(r => r.json())
                 .then(data => {
                     pages = data;
