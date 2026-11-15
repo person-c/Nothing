@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-</head>
-<body>
-    {{ .Content }}
-</body>
-</html>
+{{- /*
+  LiteDown (and similar pre-rendering tools) emit a complete HTML document.
+  Do not wrap .Content in another <html>/<head>/<body>: output the document
+  as-is so the page has a single, valid document structure.
+*/ -}}
+{{ .Content }}
