@@ -1,3 +1,4 @@
+@layer components {
 /* ==========================================================================
    E-book Reader Styles
    ========================================================================== */
@@ -12,7 +13,7 @@
 }
 
 :root.dark .ebook-reader-body {
-    background: var(--white-color);
+    background: var(--bg-color);
 }
 
 /* --- Toolbar --- */
@@ -22,7 +23,7 @@
     justify-content: space-between;
     padding: 0 12px;
     height: 44px;
-    background: var(--white-color);
+    background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     z-index: 100;
     flex-shrink: 0;
@@ -119,7 +120,7 @@
     bottom: 0;
     width: 280px;
     max-width: 80vw;
-    background: var(--white-color);
+    background: var(--bg-color);
     border-right: 1px solid var(--border-color);
     z-index: 50;
     overflow-y: auto;
@@ -289,15 +290,15 @@
    ========================================================================== */
 
 :root.dark .ebook-toolbar {
-    background: var(--white-color);
+    background: var(--bg-color);
 }
 
 :root.dark .toc-sidebar {
-    background: var(--white-color);
+    background: var(--bg-color);
 }
 
 :root.dark .ebook-reader-body {
-    background: var(--white-color);
+    background: var(--bg-color);
 }
 
 /* ==========================================================================
@@ -311,4 +312,5 @@
     .toc-sidebar {
         display: none !important;
     }
+}
 }

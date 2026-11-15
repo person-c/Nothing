@@ -1,3 +1,4 @@
+@layer components {
 /* bookshelf */
 /* ==========================================================================
    6b. Bookshelf Styles
@@ -66,4 +67,5 @@
     text-align: center;
     color: var(--text-color-light);
     padding: 4rem 0;
+}
 }

@@ -1,3 +1,4 @@
+@layer components {
 /* footnotes */
 
 /* --- Sidenotes (wide screens) --- */
@@ -112,4 +113,5 @@ div.footnotes li:last-child {
 div.footnotes li p {
     margin: 0;
     display: inline;
+}
 }

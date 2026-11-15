@@ -1,3 +1,4 @@
+@layer overrides {
 /* dark-mode */
 /* ==========================================================================
    6. Dark Mode
@@ -22,4 +23,5 @@
     --selection-bg: #4da6ff;
     --selection-fg: #1a1a1e;
     --menu-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
 }

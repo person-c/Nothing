@@ -1,3 +1,4 @@
+@layer components {
 /* toc */
 /* --- Asides (Footnotes & TOC) --- */
 aside.footnotes {
@@ -172,4 +173,4 @@ aside.toc nav li.is-open>.toc-sublist {
     margin-left: 15px;
     color: var(--text-color-light);
 }
-
+}

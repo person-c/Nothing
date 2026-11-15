@@ -1,3 +1,4 @@
+@layer components {
 /* header-footer-base */
 /* Base footer styles (header is styled in header-badge.css) */
 
@@ -15,4 +16,5 @@ footer {
     font-size: 0.8rem;
     color: var(--text-color-light);
     margin: 0;
+}
 }

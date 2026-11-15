@@ -1,3 +1,4 @@
+@layer components {
 /* article */
 /* --- Images & Figures --- */
 article img {
@@ -21,4 +22,5 @@ article figcaption {
     color: var(--text-color-light);
     font-style: italic;
     margin-top: 0.25rem;
+}
 }

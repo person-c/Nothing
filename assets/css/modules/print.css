@@ -1,3 +1,4 @@
+@layer print {
 /* print */
 /* ==========================================================================
    7. Print Styles
@@ -105,4 +106,5 @@
     a.footnote-return::after {
         content: none;
     }
+}
 }
