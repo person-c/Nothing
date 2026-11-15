@@ -65,7 +65,7 @@ This iframe is 1200px wide — wider than the article but fits within the layout
 
 ## Code Blocks
 
-Code blocks use Monokai highlighting with line numbers. Here is an R example:
+Code blocks use Hugo's Chroma highlighting (GitHub theme in light mode, Monokai in dark mode) with inline line numbers. Here is an R example:
 
 ```r
 # A simple linear model
@@ -138,7 +138,7 @@ This table has 8 columns with long URLs that make it wider than the article (~10
 
 This sentence contains **bold text**, *italic text*, and `inline code`. Links like [this one](https://example.com) have a dashed underline that turns solid on hover.
 
-[^1]: TOC generation is handled by `initTableOfContents()` in `article-page.js`. It scans `h2`, `h3`, and `h4` elements and builds a nested list with expandable sub-items.
+[^1]: The TOC is rendered server-side from Hugo's page fragments (`toc.html` / `toc-children.html`). `article-page.js` only adds collapse toggles, scrollspy and the hide/restore controls.
 
 [^2]: The footnote system works by finding all `a.footnote-ref` links, cloning the content from the hidden `div.footnotes` at the bottom of the article, and positioning them dynamically.
 
