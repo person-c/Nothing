@@ -1,5 +1,17 @@
 # 忽略 Hugo 的生成文件
 public/
 resources/
+.hugo_build.lock
+**/.hugo_build.lock
+
+# 编辑器 / 工具
 .vscode/
+.claude/
+
+# 本地私有内容
 exampleSite/content/ramblings/
+
+# 本地审查报告与截图（分析产物，不进入主题仓库）
+.review/
+THEME-REVIEW.md
+THEME-DESIGN-REVIEW.md
