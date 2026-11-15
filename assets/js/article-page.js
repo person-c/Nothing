@@ -317,6 +317,31 @@ function initMobileToc() {
     });
 }
 
+function copyToClipboard(text) {
+    // navigator.clipboard only exists in secure contexts; fall back to
+    // execCommand so copy still works on plain-http deployments.
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    }
+    return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-1000px';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy') ? resolve() : reject(new Error('copy failed'));
+        } catch (err) {
+            reject(err);
+        } finally {
+            textarea.remove();
+        }
+    });
+}
+
 function initCodeCopyButtons() {
     document.querySelectorAll('.highlight').forEach((block) => {
         const wrapper = document.createElement('div');
@@ -332,7 +357,7 @@ function initCodeCopyButtons() {
         button.addEventListener('click', () => {
             const code = block.querySelector('code') || block.querySelector('pre');
             const text = code ? code.textContent : block.textContent;
-            navigator.clipboard.writeText(text).then(() => {
+            copyToClipboard(text).then(() => {
                 button.innerHTML = SVG_CHECK + 'Copied!';
                 setTimeout(() => {
                     button.innerHTML = SVG_COPY + 'Copy';

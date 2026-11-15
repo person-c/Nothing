@@ -29,6 +29,13 @@
     opacity: 1;
 }
 
+/* Touch devices have no hover: keep the copy button visible. */
+@media (hover: none) {
+    .copy-button {
+        opacity: 1;
+    }
+}
+
 .copy-button:hover {
     color: var(--primary-color);
 }
