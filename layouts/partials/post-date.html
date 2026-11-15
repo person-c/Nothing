@@ -1,0 +1,6 @@
+{{- /* Renders a <time> element for a date, nothing for a zero date.
+       Usage: {{ partial "post-date.html" (dict "date" $date) }} */ -}}
+{{- $date := .date -}}
+{{- if not $date.IsZero -}}
+<time class="post-date" datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $date.Format "2006-01-02" }}</time>
+{{- end -}}

@@ -34,27 +34,13 @@
                 {{- end }}
               {{- end }}
             {{- end }}
-            {{ if not $date.IsZero }}<time class="post-date" datetime="{{ $date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $date.Format "2006-01-02" }}</time>{{ end }}
+            {{ partial "post-date.html" (dict "date" $date) }}
             <a href="{{ .RelPermalink }}" class="post-link">{{ .Title | default $fallbackName }}</a>
         </li>
         {{ end }}
     </ul>
     {{ end }}
 
-    {{ if gt $paginator.TotalPages 1 }}
-    <nav class="pagination">
-        {{ if $paginator.HasPrev }}
-        <a href="{{ $paginator.Prev.URL }}" rel="prev">← Newer</a>
-        {{ else }}
-        <span></span>
-        {{ end }}
-        <span class="page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-        {{ if $paginator.HasNext }}
-        <a href="{{ $paginator.Next.URL }}" rel="next">Older →</a>
-        {{ else }}
-        <span></span>
-        {{ end }}
-    </nav>
-    {{ end }}
+    {{ partial "pagination.html" $paginator }}
 </section>
 {{ end }}
