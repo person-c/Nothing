@@ -16,6 +16,9 @@ git push origin v3.5.0
 # 预览
 cd exampleSite/
 hugo server --noHTTPCache --disableFastRender --themesDir ../..
+
+# 生产构建（--minify 可再省约 16% 的 HTML 体积）
+hugo --themesDir ../.. --minify --gc
 ```
 
 ## Architecture
