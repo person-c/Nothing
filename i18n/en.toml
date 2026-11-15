@@ -105,3 +105,9 @@ other = "Toggle section"
 
 [backToList]
 other = "← Back to list"
+
+[footnotesLabel]
+other = "Footnotes"
+
+[tocAsideLabel]
+other = "Contents sidebar"

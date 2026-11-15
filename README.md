@@ -241,6 +241,8 @@ empty-taxonomy-free section lists.
 
 ## Development notes
 
+- Embedded iframes in Markdown (HTML widgets) need a `title` attribute for
+  accessibility; the theme cannot add one automatically.
 - LiteDown 0.7 writes display-math row breaks (`\\`) as a single backslash at
   line ends, which makes KaTeX render `aligned` blocks and column vectors on one
   row. `partials/litedown-page.html` repairs those row breaks at build time; the

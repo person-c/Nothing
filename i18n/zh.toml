@@ -105,3 +105,9 @@ other = "展开或收起本章节"
 
 [backToList]
 other = "← 返回列表"
+
+[footnotesLabel]
+other = "脚注"
+
+[tocAsideLabel]
+other = "目录栏"

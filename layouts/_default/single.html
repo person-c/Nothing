@@ -5,14 +5,14 @@
 {{ $contentsLabel := i18n "contents" }}
 {{- if in (slice "en" "zh") $titleLang -}}{{- with index site.Data.lang $titleLang }}{{ $contentsLabel = .contents }}{{ end -}}{{- end -}}
 <div class="layout">
-    <aside class="footnotes"></aside>
+    <aside class="footnotes" aria-label="{{ i18n "footnotesLabel" }}"></aside>
 
     {{/* The TOC is rendered server-side so it works without JavaScript and is
          part of the document outline. It comes before the article in source
          order so the mobile toggle reveals it directly above the text; desktop
          positions are assigned with explicit grid-column rules. */}}
     {{ if $hasToc }}
-    <aside class="toc">
+    <aside class="toc" aria-label="{{ i18n "tocAsideLabel" }}">
         <p class="toc-label">{{ $contentsLabel }}</p>
         <nav id="toc" aria-label="{{ i18n "tocNavLabel" }}">
             {{ partial "toc.html" (dict "headings" $tocHeadings) }}

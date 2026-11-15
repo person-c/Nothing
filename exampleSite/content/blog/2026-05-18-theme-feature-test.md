@@ -61,7 +61,7 @@ This image is 1600px wide — exceeds the layout width, so it keeps its original
 
 This iframe is 1200px wide — wider than the article but fits within the layout, so it auto-expands:
 
-<iframe src="https://placehold.co/1200x500/6f42c1/white?text=Fits+Layout+1200px" width="1200" height="500" frameborder="0"></iframe>
+<iframe src="https://placehold.co/1200x500/6f42c1/white?text=Fits+Layout+1200px" width="1200" height="500" frameborder="0" title="Wide placeholder iframe demonstrating article layout width"></iframe>
 
 ## Code Blocks
 
