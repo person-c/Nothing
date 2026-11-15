@@ -102,9 +102,6 @@ function initFullwidth() {
     function applyAllOffsets() {
         const minGap = 12;
         const layoutRect = layout.getBoundingClientRect();
-        const articleRect = article.getBoundingClientRect();
-        const padLeft = parseFloat(getComputedStyle(article).paddingLeft);
-        const contentLeft = articleRect.left + padLeft;
         const layoutCenterX = layoutRect.left + layoutRect.width / 2;
         const viewportWidth = document.documentElement.clientWidth;
         const vpMinusGap = viewportWidth - 2 * minGap;
@@ -133,6 +130,13 @@ function initFullwidth() {
 
             useWidth = Math.min(useWidth, vpMinusGap);
 
+            // Where the element would sit without our margin adjustment. This
+            // must be the element's own box: elements nested in lists or
+            // blockquotes start indented, not at the article's content edge.
+            // (Subtract the margin we set on a previous pass.)
+            const previousMargin = parseFloat(el.style.marginLeft) || 0;
+            const baseLeft = el.getBoundingClientRect().left - previousMargin;
+
             if (el.tagName === 'IMG') {
                 el.style.setProperty('width', 'auto', 'important');
                 el.style.setProperty('max-width', vpMinusGap + 'px', 'important');
@@ -144,19 +148,20 @@ function initFullwidth() {
                 }
             }
 
-            let marginLeft = layoutCenterX - useWidth / 2 - contentLeft;
+            let marginLeft = layoutCenterX - useWidth / 2 - baseLeft;
 
-            if (marginLeft < -contentLeft + minGap) {
-                marginLeft = -contentLeft + minGap;
+            // Keep the box inside the viewport with a minimum gap on both sides.
+            if (baseLeft + marginLeft < minGap) {
+                marginLeft = minGap - baseLeft;
             }
 
-            const rightEdge = contentLeft + marginLeft + useWidth;
+            const rightEdge = baseLeft + marginLeft + useWidth;
             if (rightEdge > viewportWidth - minGap) {
                 marginLeft -= (rightEdge - (viewportWidth - minGap));
             }
 
-            if (marginLeft < -contentLeft + minGap) {
-                marginLeft = -contentLeft + minGap;
+            if (baseLeft + marginLeft < minGap) {
+                marginLeft = minGap - baseLeft;
             }
 
             el.style.setProperty('margin-left', Math.floor(marginLeft) + 'px', 'important');
