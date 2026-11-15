@@ -2,6 +2,20 @@
        input: the page; output: safe HTML with the theme bundle, theme bootstrap
        and a "back to list" link injected into the original document. */ -}}
 {{- $content := .Content | string -}}
+{{- /* LiteDown 0.7 collapses a display-math row break at the end of a line
+       from \\ to a single backslash, so KaTeX renders aligned environments
+       and column vectors as one run-on row. Restore the second backslash in
+       every display-math block before the document is served. */ -}}
+{{- range findRE `(?s)\$\$.*?\$\$` $content -}}
+  {{- $chunk := . -}}
+  {{- $fixed := replaceRE `([^\\])\\(\r?\n)` `${1}\\${2}` $chunk -}}
+  {{- if ne $fixed $chunk }}{{ $content = replace $content $chunk $fixed }}{{ end -}}
+{{- end -}}
+{{- range findRE `(?s)\\\[.*?\\\]` $content -}}
+  {{- $chunk := . -}}
+  {{- $fixed := replaceRE `([^\\])\\(\r?\n)` `${1}\\${2}` $chunk -}}
+  {{- if ne $fixed $chunk }}{{ $content = replace $content $chunk $fixed }}{{ end -}}
+{{- end -}}
 {{- $css := partial "css-bundle.html" . -}}
 {{- $themeInit := partial "theme-init.html" . -}}
 {{- $backHref := "/" -}}

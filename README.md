@@ -241,6 +241,12 @@ empty-taxonomy-free section lists.
 
 ## Development notes
 
+- LiteDown 0.7 writes display-math row breaks (`\\`) as a single backslash at
+  line ends, which makes KaTeX render `aligned` blocks and column vectors on one
+  row. `partials/litedown-page.html` repairs those row breaks at build time; the
+  demo `note/*.html` files were generated with the buggy writer, so keep the
+  repair (or regenerate the HTML with a fixed LiteDown version).
+
 - Content in `exampleSite/content/ramblings/` is ignored by git and only rendered
   in the development environment (production config excludes it).
 - `.Rmd` files are ignored via `ignoreFiles`.
