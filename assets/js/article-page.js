@@ -247,6 +247,11 @@ function initMobileToc() {
     });
 }
 
+function copyLabel(key) {
+    const strings = window.__I18N || {};
+    return strings[key] || { copy: 'Copy', copied: 'Copied!', copyFailed: 'Failed' }[key] || key;
+}
+
 function copyToClipboard(text) {
     // navigator.clipboard only exists in secure contexts; fall back to
     // execCommand so copy still works on plain-http deployments.
@@ -281,20 +286,20 @@ function initCodeCopyButtons() {
 
         const button = document.createElement('button');
         button.className = 'copy-button';
-        button.innerHTML = SVG_COPY + 'Copy';
+        button.innerHTML = SVG_COPY + copyLabel('copy');
         wrapper.appendChild(button);
 
         button.addEventListener('click', () => {
             const code = block.querySelector('code') || block.querySelector('pre');
             const text = code ? code.textContent : block.textContent;
             copyToClipboard(text).then(() => {
-                button.innerHTML = SVG_CHECK + 'Copied!';
+                button.innerHTML = SVG_CHECK + copyLabel('copied');
                 setTimeout(() => {
-                    button.innerHTML = SVG_COPY + 'Copy';
+                    button.innerHTML = SVG_COPY + copyLabel('copy');
                 }, 2000);
             }).catch(() => {
-                button.textContent = 'Failed';
-                setTimeout(() => { button.innerHTML = SVG_COPY + 'Copy'; }, 2000);
+                button.textContent = copyLabel('copyFailed');
+                setTimeout(() => { button.innerHTML = SVG_COPY + copyLabel('copy'); }, 2000);
             });
         });
     });

@@ -1,9 +1,9 @@
 {{ define "main" }}
 <div class="search-page">
-    <h1 class="search-title">Search</h1>
+    <h1 class="search-title">{{ i18n "searchTitle" }}</h1>
     <div class="search-input-wrapper">
-        <label class="visually-hidden" for="search-input">Search posts</label>
-        <input type="text" id="search-input" class="search-input" placeholder="Type to search..." autofocus>
+        <label class="visually-hidden" for="search-input">{{ i18n "searchLabel" }}</label>
+        <input type="text" id="search-input" class="search-input" placeholder="{{ i18n "searchPlaceholder" }}" autofocus>
     </div>
     <div id="search-results" class="search-results"></div>
     <div id="search-status" class="search-status" role="status" aria-live="polite"></div>

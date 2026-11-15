@@ -20,7 +20,7 @@
         {{ if $hasToc }}
         <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             {{ partial "icons/chevron-right.html" (dict "size" 14) }}
-            Contents
+            {{ i18n "contents" }}
         </button>
         {{ end }}
         <h1>
@@ -36,7 +36,7 @@
         {{ $dateStr := .Date.Format "2006-01-02" }}
         {{ if and .Site.Params.showLastmod (ne $lastmodStr $dateStr) }}
         <div class="last-modified">
-            Last-modified in <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format "2006-01-02" }}</time>
+            {{ i18n "lastModified" (dict "Date" (.Lastmod.Format "2006-01-02")) }} <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format "2006-01-02" }}</time>
         </div>
         {{ end }}
     </article>

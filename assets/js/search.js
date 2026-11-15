@@ -5,6 +5,8 @@
     if (!input || !results) return;
 
     const indexUrl = window.__SEARCH_INDEX_URL || '/index.json';
+    const i18n = window.__I18N || {};
+    const msg = (key, fallback) => i18n[key] || fallback;
     let pages = null;
     let loadingPromise = null;
 
@@ -40,10 +42,10 @@
             return;
         }
         if (!pages) {
-            status.textContent = 'Loading index...';
+            status.textContent = msg('loadingIndex', 'Loading index...');
             // Re-run against the *current* input value once the index arrives.
             loadIndex().then(runSearch).catch(() => {
-                status.textContent = 'Failed to load search index.';
+                status.textContent = msg('loadIndexFailed', 'Failed to load search index.');
             });
             return;
         }
@@ -69,11 +71,16 @@
 
         if (hits.length === 0) {
             results.innerHTML = '';
-            status.textContent = 'No results found.';
+            status.textContent = msg('noResults', 'No results found.');
             return;
         }
 
-        status.textContent = `${hits.length} result${hits.length !== 1 ? 's' : ''}`;
+        if (hits.length === 1) {
+            status.textContent = i18n.resultOne || '1 result';
+        } else {
+            const template = i18n.resultOther || '0 results';
+            status.textContent = template.replace(/\d+/, String(hits.length));
+        }
         let html = '<ul class="search-result-list">';
         for (const h of hits) {
             html += `<li class="search-result-item">

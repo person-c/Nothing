@@ -1,9 +1,9 @@
 {{ define "main" }}
 <section class="article-list">
-    <h1 class="list-title">Nothing here</h1>
+    <h1 class="list-title">{{ i18n "notFoundTitle" }}</h1>
     <div class="content-wrapper" style="text-align: center;">
-        <p>The page you are looking for does not exist — or it has been moved.</p>
-        <p><a href="{{ .Site.Home.RelPermalink }}">← Back to the home page</a></p>
+        <p>{{ i18n "notFoundBody" }}</p>
+        <p><a href="{{ .Site.Home.RelPermalink }}">← {{ i18n "backHome" }}</a></p>
     </div>
 </section>
 {{ end }}

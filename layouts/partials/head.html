@@ -146,5 +146,15 @@
     <script>
         // Site-relative so client-side search also works when baseURL has a path.
         window.__SEARCH_INDEX_URL = {{ "index.json" | relURL | jsonify | safeJS }};
+        window.__I18N = {
+            copy: {{ i18n "copy" | jsonify | safeJS }},
+            copied: {{ i18n "copied" | jsonify | safeJS }},
+            copyFailed: {{ i18n "copyFailed" | jsonify | safeJS }},
+            loadingIndex: {{ i18n "loadingIndex" | jsonify | safeJS }},
+            loadIndexFailed: {{ i18n "loadIndexFailed" | jsonify | safeJS }},
+            noResults: {{ i18n "noResults" | jsonify | safeJS }},
+            resultOne: {{ i18n "resultsCount" 1 | jsonify | safeJS }},
+            resultOther: {{ i18n "resultsCount" 2 | jsonify | safeJS }}
+        };
     </script>
 

@@ -1,0 +1,71 @@
+# 中文界面文案
+[contents]
+other = "目录"
+
+[skipToContent]
+other = "跳到正文"
+
+[searchTitle]
+other = "搜索"
+
+[searchLabel]
+other = "搜索文章"
+
+[searchPlaceholder]
+other = "输入关键词搜索……"
+
+[loadingIndex]
+other = "正在加载索引……"
+
+[loadIndexFailed]
+other = "搜索索引加载失败。"
+
+[noResults]
+other = "没有找到匹配的结果。"
+
+[resultsCount]
+one = "{{ .Count }} 条结果"
+other = "{{ .Count }} 条结果"
+
+[copy]
+other = "复制"
+
+[copied]
+other = "已复制！"
+
+[copyFailed]
+other = "复制失败"
+
+[home]
+other = "首页"
+
+[backToTop]
+other = "回到顶部"
+
+[lastModified]
+other = "最后修改于 {{ .Date }}"
+
+[newer]
+other = "更新"
+
+[older]
+other = "更早"
+
+[pageInfo]
+other = "第 {{ .Page }} / {{ .Total }} 页"
+
+[taxonomyEntries]
+one = "{{ .Count }} 篇"
+other = "{{ .Count }} 篇"
+
+[notFoundTitle]
+other = "这里什么都没有"
+
+[notFoundBody]
+other = "你要找的页面不存在，或者已经被移动了。"
+
+[backHome]
+other = "返回首页"
+
+[themeToggle]
+other = "切换主题"

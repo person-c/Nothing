@@ -3,13 +3,13 @@
 {{- if gt $paginator.TotalPages 1 -}}
 <nav class="pagination">
     {{ if $paginator.HasPrev }}
-    <a href="{{ $paginator.Prev.URL }}" rel="prev">← Newer</a>
+    <a href="{{ $paginator.Prev.URL }}" rel="prev">← {{ i18n "newer" }}</a>
     {{ else }}
     <span></span>
     {{ end }}
-    <span class="page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+    <span class="page-info">{{ i18n "pageInfo" (dict "Page" $paginator.PageNumber "Total" $paginator.TotalPages) }}</span>
     {{ if $paginator.HasNext }}
-    <a href="{{ $paginator.Next.URL }}" rel="next">Older →</a>
+    <a href="{{ $paginator.Next.URL }}" rel="next">{{ i18n "older" }} →</a>
     {{ else }}
     <span></span>
     {{ end }}

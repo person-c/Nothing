@@ -1,0 +1,71 @@
+# English UI strings
+[contents]
+other = "Contents"
+
+[skipToContent]
+other = "Skip to content"
+
+[searchTitle]
+other = "Search"
+
+[searchLabel]
+other = "Search posts"
+
+[searchPlaceholder]
+other = "Type to search..."
+
+[loadingIndex]
+other = "Loading index..."
+
+[loadIndexFailed]
+other = "Failed to load search index."
+
+[noResults]
+other = "No results found."
+
+[resultsCount]
+one = "{{ .Count }} result"
+other = "{{ .Count }} results"
+
+[copy]
+other = "Copy"
+
+[copied]
+other = "Copied!"
+
+[copyFailed]
+other = "Failed"
+
+[home]
+other = "Home"
+
+[backToTop]
+other = "Back to top"
+
+[lastModified]
+other = "Last-modified in {{ .Date }}"
+
+[newer]
+other = "Newer"
+
+[older]
+other = "Older"
+
+[pageInfo]
+other = "Page {{ .Page }} of {{ .Total }}"
+
+[taxonomyEntries]
+one = "{{ .Count }} entry"
+other = "{{ .Count }} entries"
+
+[notFoundTitle]
+other = "Nothing here"
+
+[notFoundBody]
+other = "The page you are looking for does not exist — or it has been moved."
+
+[backHome]
+other = "Back to the home page"
+
+[themeToggle]
+other = "Toggle color theme"
