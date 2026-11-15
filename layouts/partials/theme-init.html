@@ -6,11 +6,18 @@
             // Lets CSS hide JS-only controls before/without scripts.
             document.documentElement.classList.add('js');
             var root = document.documentElement;
+
+            // localStorage can throw (disabled cookies / private modes); never
+            // let that break the theme or the rest of the page scripts.
+            window.__storage = {
+                get: function(key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
+                set: function(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+            };
             var media = window.matchMedia('(prefers-color-scheme: dark)');
 
             function storedTheme() {
                 var t = null;
-                try { t = localStorage.getItem('theme'); } catch (e) {}
+                t = window.__storage.get('theme');
                 return (t === 'dark' || t === 'light') ? t : 'auto';
             }
 
@@ -26,7 +33,7 @@
             }
 
             function persistTheme(pref) {
-                try { localStorage.setItem('theme', pref); } catch (e) {}
+                window.__storage.set('theme', pref);
             }
 
             // Initial paint for the stored preference (auto follows the system).

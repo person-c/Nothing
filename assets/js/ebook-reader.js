@@ -66,7 +66,7 @@ async function initReader() {
         const saved = loadProgress();
         await view.init({ lastLocation: saved, showTextStart: !saved });
 
-        const savedFontSize = localStorage.getItem('ebook-font-size');
+        const savedFontSize = window.__storage.get('ebook-font-size');
         if (savedFontSize) {
             currentFontSize = parseInt(savedFontSize);
         }
@@ -129,7 +129,7 @@ function buildTOC(book) {
 
 function saveProgress(cfi) {
     if (!cfi) return;
-    localStorage.setItem(progressKey, JSON.stringify({
+    window.__storage.set(progressKey, JSON.stringify({
         cfi,
         timestamp: Date.now()
     }));
@@ -137,7 +137,7 @@ function saveProgress(cfi) {
 
 function loadProgress() {
     try {
-        const raw = localStorage.getItem(progressKey);
+        const raw = window.__storage.get(progressKey);
         if (!raw) return null;
         const data = JSON.parse(raw);
         return data.cfi || null;
@@ -154,7 +154,7 @@ function applyFontSizeToRenderer() {
             }
         }
     }
-    localStorage.setItem('ebook-font-size', currentFontSize);
+    window.__storage.set('ebook-font-size', currentFontSize);
 }
 
 function updateProgress() {

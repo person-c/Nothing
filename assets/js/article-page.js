@@ -154,21 +154,21 @@ function initTocControls(tocContainer) {
     function hideToc() {
         layout.classList.add('toc-hidden');
         floatBtn.classList.add('visible');
-        localStorage.setItem('toc-hidden', 'true');
+        window.__storage.set('toc-hidden', 'true');
         recalcFullwidth();
     }
 
     function showToc() {
         layout.classList.remove('toc-hidden');
         floatBtn.classList.remove('visible');
-        localStorage.setItem('toc-hidden', 'false');
+        window.__storage.set('toc-hidden', 'false');
         recalcFullwidth();
     }
 
     collapseBtn.addEventListener('click', hideToc);
     floatBtn.addEventListener('click', showToc);
 
-    if (localStorage.getItem('toc-hidden') === 'true') {
+    if (window.__storage.get('toc-hidden') === 'true') {
         hideToc();
     }
 }

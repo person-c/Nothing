@@ -12,8 +12,7 @@
     // The sun/moon icons are rendered server-side and switched by CSS
     // (:root.dark), so JS only has to keep the accessible name in sync.
     function currentMode() {
-        let stored = null;
-        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        const stored = window.__storage ? window.__storage.get('theme') : null;
         return (stored === 'dark' || stored === 'light') ? stored : 'auto';
     }
 
