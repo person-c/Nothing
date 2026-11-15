@@ -93,3 +93,9 @@ other = "查看全部"
 
 [undated]
 other = "未标注日期"
+
+[recentPosts]
+other = "最近文章"
+
+[allPosts]
+other = "全部文章"

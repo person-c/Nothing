@@ -5,5 +5,24 @@
     <article class="home-content">
         {{ .Content }}
     </article>
+
+    {{/* A book-title-page touch: the latest posts instead of a bare "about". */}}
+    {{ $recent := first 5 (where site.RegularPages "Section" "blog") }}
+    {{ with $recent }}
+    <section class="home-recent">
+        <h2 class="home-recent-title">{{ i18n "recentPosts" }}</h2>
+        <ul class="post-list">
+            {{ range . }}
+            <li class="post-item">
+                {{ partial "post-date.html" (dict "date" .Date) }}
+                <a href="{{ .RelPermalink }}" class="post-link">{{ .Title }}</a>
+            </li>
+            {{ end }}
+        </ul>
+        {{ with site.GetPage "/blog" }}
+        <p class="home-recent-more"><a href="{{ .RelPermalink }}">{{ i18n "allPosts" }} →</a></p>
+        {{ end }}
+    </section>
+    {{ end }}
 </div>
 {{ end }}
