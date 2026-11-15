@@ -6,25 +6,10 @@
     max-width: 800px;
 }
 
-/* Editorial list header: left-aligned title, hairline under the header.
-   The same structure is used by every list page (with or without the
-   title-language filter on the right). */
-.list-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 1.6rem;
-    padding-bottom: 0.65rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
 .list-title {
-    text-align: left;
-    font-size: 1.7rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    margin: 0;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
     color: var(--text-color);
 }
 
@@ -34,44 +19,12 @@
     margin: 0;
 }
 
-/* Group heading for the year-based table of contents. */
-.list-year {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--text-color-light);
-    margin: 2.2rem 0 0.5rem;
-    padding: 0;
-    border: none;
-    line-height: 1.2;
-}
-
-.list-year:first-of-type {
-    margin-top: 0.6rem;
-}
-
-/* Year labels are not article chapter headings: no seal-red rule. */
-.list-year::after {
-    display: none;
-}
-
 .post-item {
     display: flex;
     align-items: baseline;
-    margin-bottom: 0;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.post-item:hover .post-link {
-    color: var(--primary-color);
-}
-
-.post-item:hover .post-link::after {
-    content: ' →';
-    color: var(--primary-color);
-    white-space: nowrap;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed var(--border-color);
 }
 
 .post-date {
@@ -119,7 +72,7 @@
     margin-bottom: 2rem;
 }
 
-/* Underline field instead of a rounded form box (design review 1.9). */
+/* Underline field instead of a rounded form box. */
 .search-input {
     width: 100%;
     padding: 0.6rem 0;
@@ -190,7 +143,20 @@
     line-height: 1.5;
 }
 
-/* --- Title-language filter (inside .list-header) --- */
+/* --- List header with title-language filter --- */
+.list-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.list-header .list-title {
+    text-align: left;
+    margin-bottom: 0;
+}
+
 .list-lang-filter {
     display: flex;
     flex-shrink: 0;

@@ -90,12 +90,3 @@ other = "No posts with English titles yet."
 
 [listViewAll]
 other = "View all posts"
-
-[undated]
-other = "Undated"
-
-[recentPosts]
-other = "Recent posts"
-
-[allPosts]
-other = "All posts"

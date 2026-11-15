@@ -38,19 +38,19 @@
 {{ $listTitle := .Title }}
 {{ if not $listTitle }}{{ $listTitle = humanize .Section }}{{ end }}
 <section class="article-list">
-    {{/* One list-header structure for every list page: editorial left-aligned
-         title with an optional right-hand control (language filter). */}}
+    {{ if $showLangFilter }}
     <div class="list-header">
         <h1 class="list-title">{{ $listTitle }}</h1>
-        {{ if $showLangFilter }}
         {{ partial "list-lang-filter.html" (dict
             "current" $currentLang
             "lists" $langLists
             "listURL" $baseSection.RelPermalink
             "zhURL" $zhURL
             "enURL" $enURL) }}
-        {{ end }}
     </div>
+    {{ else }}
+    <h1 class="list-title">{{ $listTitle }}</h1>
+    {{ end }}
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}
@@ -71,36 +71,26 @@
         {{ end }}
     </ul>
     {{ else }}
-    {{/* Year grouping, like a printed table of contents. Pagination still runs
-         over the flat page list, so a page break can split a year group. */}}
-    {{ $currentYear := "" }}
-    {{ range $paginator.Pages }}
-        {{- $date := .Date -}}
-        {{- $fallbackName := "" -}}
-        {{- with .File }}{{ $fallbackName = .BaseFileName }}{{ end -}}
-        {{- if and (le $date.Year 1) .File }}
-          {{- $fn := .File.ContentBaseName }}
-          {{- if gt (len $fn) 10 }}
-            {{- $dateStr := substr $fn 0 10 }}
-            {{- if findRE `^\d{4}-\d{2}-\d{2}$` $dateStr }}
-              {{- $date = time $dateStr }}
-            {{- end }}
-          {{- end }}
-        {{- end -}}
-        {{- $year := "" -}}
-        {{- if gt $date.Year 1 }}{{ $year = printf "%d" $date.Year }}{{ else }}{{ $year = i18n "undated" }}{{ end -}}
-        {{ if ne $year $currentYear }}
-            {{ if $currentYear }}</ul>{{ end }}
-            <h2 class="list-year">{{ $year }}</h2>
-            <ul class="post-list">
-            {{ $currentYear = $year }}
-        {{ end }}
+    <ul class="post-list">
+        {{ range $paginator.Pages }}
         <li class="post-item">
+            {{- $date := .Date -}}
+            {{- $fallbackName := "" -}}
+            {{- with .File }}{{ $fallbackName = .BaseFileName }}{{ end -}}
+            {{- if and (le $date.Year 1) .File }}
+              {{- $fn := .File.ContentBaseName }}
+              {{- if gt (len $fn) 10 }}
+                {{- $dateStr := substr $fn 0 10 }}
+                {{- if findRE `^\d{4}-\d{2}-\d{2}$` $dateStr }}
+                  {{- $date = time $dateStr }}
+                {{- end }}
+              {{- end }}
+            {{- end }}
             {{ partial "post-date.html" (dict "date" $date) }}
             <a href="{{ .RelPermalink }}" class="post-link">{{ .Title | default $fallbackName }}</a>
         </li>
-    {{ end }}
-    {{ if $currentYear }}</ul>{{ end }}
+        {{ end }}
+    </ul>
     {{ end }}
 
     {{ partial "pagination.html" (dict "paginator" $paginator "lang" $currentLang) }}
