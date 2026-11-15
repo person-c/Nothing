@@ -113,3 +113,22 @@ div.footnotes li p {
     margin: 0;
     display: inline;
 }
+/* Leading sequence number that pairs the margin note with its superscript. */
+#dynamic-footnotes .sidenote-number {
+    float: left;
+    margin: 0 0.5em 0 -0.9em;
+    font-size: 0.72em;
+    line-height: 1.6;
+    color: var(--primary-color);
+    font-variant-numeric: oldstyle-nums;
+}
+
+/* Hover/focus pairing between a reference and its sidenote. */
+#dynamic-footnotes li.is-hovered {
+    background-color: var(--bg-color-light);
+}
+
+a.footnote-ref.is-hovered {
+    color: var(--primary-color);
+    text-decoration: underline;
+}

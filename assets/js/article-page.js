@@ -23,6 +23,7 @@ function initSidenotes() {
     if (refs.length === 0 || !footnotesDiv || !container) return;
 
     const noteMap = new Map();
+    const refMap = new Map();
     const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function render() {
@@ -30,6 +31,7 @@ function initSidenotes() {
             footnotesDiv.classList.remove('is-hidden');
             container.innerHTML = '';
             noteMap.clear();
+            refMap.clear();
             return;
         }
         footnotesDiv.classList.add('is-hidden');
@@ -52,10 +54,18 @@ function initSidenotes() {
             const clone = fn.cloneNode(true);
             const backLink = clone.querySelector('.footnote-backref');
             if (backLink) backLink.remove();
-            li.innerHTML = clone.innerHTML.trim();
+            // Visible sequence number, matching the in-text superscript.
+            const number = document.createElement('span');
+            number.className = 'sidenote-number';
+            number.textContent = String(i + 1);
+            li.appendChild(number);
+            li.appendChild(clone);
             li.style.position = "absolute";
             list.appendChild(li);
             noteMap.set(footnoteId, li);
+            refMap.set(footnoteId, ref);
+            li.addEventListener('mouseenter', () => setPairHighlight(footnoteId, true));
+            li.addEventListener('mouseleave', () => setPairHighlight(footnoteId, false));
 
             const back = document.createElement('a');
             back.href = `#${ref.id}`;
@@ -94,6 +104,23 @@ function initSidenotes() {
             clearTimeout(li._highlightTimer);
             li._highlightTimer = setTimeout(() => li.classList.remove('is-highlighted'), 1600);
         });
+    });
+
+    // Hovering a reference highlights its sidenote and vice versa, so the
+    // numbered margin note is easy to pair with the superscript in the text.
+    function setPairHighlight(footnoteId, on) {
+        const li = noteMap.get(footnoteId);
+        const ref = refMap.get(footnoteId);
+        if (li) li.classList.toggle('is-hovered', on);
+        if (ref) ref.classList.toggle('is-hovered', on);
+    }
+
+    refs.forEach((ref) => {
+        const footnoteId = ref.getAttribute('href').substring(1);
+        ref.addEventListener('mouseenter', () => setPairHighlight(footnoteId, true));
+        ref.addEventListener('mouseleave', () => setPairHighlight(footnoteId, false));
+        ref.addEventListener('focus', () => setPairHighlight(footnoteId, true));
+        ref.addEventListener('blur', () => setPairHighlight(footnoteId, false));
     });
 
     // Positions become stale when anything above a sidenote changes height:
