@@ -47,10 +47,7 @@ A standalone image:
 
 An image wrapped in a `<figure>` with a caption:
 
-<figure>
-  <img src="https://placehold.co/600x300/333/white?text=Figure+Example" alt="Figure example">
-  <figcaption>Figure 1: A captioned image using the figure/figcaption elements. The caption is rendered in italic with a lighter color.</figcaption>
-</figure>
+{{< figure src="https://placehold.co/600x300/333/white?text=Figure+Example" alt="Figure example" caption="Figure 1: A captioned image using the figure shortcode (lazy-loaded, with a figcaption)." >}}
 
 This image is 1200px wide — wider than the article (~800px) but fits within the layout (~1400px), so it auto-expands:
 

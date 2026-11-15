@@ -1,0 +1,50 @@
+{{- /*
+  figure shortcode, overriding Hugo's built-in.
+
+  Raw <img> markup inside markdown bypasses the image render hook and therefore
+  got no lazy loading / decoding hints; this shortcode keeps the same features
+  for captioned figures.
+
+  Usage:
+    {{< figure src="pic.png" alt="Alt text" caption="Caption" >}}
+    {{< figure src="pic.png" alt="Alt" caption="Caption" class="wide" width="1200" >}}
+*/ -}}
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- $alt := .Get "alt" | default (.Get 1) -}}
+{{- $caption := .Get "caption" | default (.Get 2) -}}
+{{- $title := .Get "title" -}}
+{{- $link := .Get "link" -}}
+{{- $class := .Get "class" -}}
+{{- $width := .Get "width" -}}
+{{- $height := .Get "height" -}}
+{{- $img := .Page.Resources.GetMatch (path.Base $src) -}}
+{{- if and $img (ne $img.MediaType.SubType "svg") -}}
+  {{- $small := $img.Resize "480x" -}}
+  {{- $large := $img.Resize "960x" -}}
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
+  {{- with $link }}<a href="{{ . }}">{{ end -}}
+  <img src="{{ $img.RelPermalink }}"
+       srcset="{{ $small.RelPermalink }} 480w, {{ $large.RelPermalink }} 960w"
+       sizes="(max-width: 800px) 100vw, 800px"
+       width="{{ $img.Width }}"
+       height="{{ $img.Height }}"
+       alt="{{ $alt }}"
+       loading="lazy"
+       decoding="async">
+  {{- with $link }}</a>{{ end -}}
+  {{- with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end -}}
+</figure>
+{{- else -}}
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
+  {{- with $link }}<a href="{{ . }}">{{ end -}}
+  <img src="{{ $src | safeURL }}"
+       {{ with $title }}title="{{ . }}"{{ end }}
+       alt="{{ $alt }}"
+       {{ with $width }}width="{{ . }}"{{ end }}
+       {{ with $height }}height="{{ . }}"{{ end }}
+       loading="lazy"
+       decoding="async">
+  {{- with $link }}</a>{{ end -}}
+  {{- with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end -}}
+</figure>
+{{- end -}}
