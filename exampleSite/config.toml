@@ -1,5 +1,6 @@
 baseURL = "http://localhost:1313/"
-languageCode = "en-us"
+languageCode = "zh-cn"
+defaultContentLanguage = "zh-cn"
 title = "Nightingale"
 theme = "Nothing"
 
