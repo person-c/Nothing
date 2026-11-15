@@ -21,6 +21,12 @@
     {{ end }}
 
     <article>
+        {{/* Paper header for printed copies: site, title, canonical URL. */}}
+        <div class="print-header" aria-hidden="true">
+            <span class="print-header-site">{{ .Site.Title }}</span>
+            <span class="print-header-title">{{ .Title }}</span>
+            <span class="print-header-url">{{ .Permalink }}</span>
+        </div>
         {{ if $hasToc }}
         <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             {{ partial "icons/chevron-right.html" (dict "size" 14) }}

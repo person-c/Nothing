@@ -194,3 +194,7 @@ aside.footnotes a:hover {
     background: var(--selection-bg);
     color: var(--selection-fg);
 }
+/* Printed-only article header (hidden on screen). */
+.print-header {
+    display: none;
+}

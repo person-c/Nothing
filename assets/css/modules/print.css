@@ -8,6 +8,37 @@
         margin: 2cm;
     }
 
+    /* Paper header: site, article title and canonical URL. */
+    .print-header {
+        display: block;
+        border-bottom: 0.5pt solid #000;
+        padding-bottom: 6pt;
+        margin-bottom: 14pt;
+        color: #000;
+        font-family: serif;
+        text-align: left;
+    }
+
+    .print-header-site {
+        display: block;
+        font-size: 8pt;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .print-header-title {
+        display: block;
+        font-size: 14pt;
+        margin-top: 4pt;
+    }
+
+    .print-header-url {
+        display: block;
+        font-size: 8pt;
+        margin-top: 2pt;
+        word-break: break-all;
+    }
+
     p {
         widows: 3;
         orphans: 3;
