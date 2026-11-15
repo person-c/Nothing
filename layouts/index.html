@@ -1,5 +1,7 @@
 {{ define "main" }}
 <div class="home-main">
+    {{/* The home page has no visible heading, but every page needs an H1. */}}
+    <h1 class="visually-hidden">{{ .Site.Title }}</h1>
     <article class="home-content">
         {{ .Content }}
     </article>
