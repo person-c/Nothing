@@ -67,6 +67,7 @@ watch = true
     weight = 7
 
 [params]
+  description = "Nightingale — personal notes on R, data and reproducible research."
   github = "https://github.com/person-c/myBlog"
   email = "m2c.w@outlook.com"
   rss = "/index.xml"

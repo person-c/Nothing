@@ -2,9 +2,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 
-    {{ $desc := .Summary | default .Site.Params.description | default "" }}
-    {{ if and (not .IsHome) .Description }}{{ $desc = .Description }}{{ end }}
-    {{ with $desc }}<meta name="description" content="{{ . | plainify | truncate 160 }}">{{ end }}
+    {{/* Description: front matter > page summary > site description >
+           page content > title + site title. */}}
+    {{ $desc := "" }}
+    {{ with .Description }}{{ $desc = . }}{{ end }}
+    {{ if and (not $desc) .IsPage }}{{ with .Summary }}{{ $desc = . }}{{ end }}{{ end }}
+    {{ if not $desc }}{{ with .Site.Params.description }}{{ $desc = . }}{{ end }}{{ end }}
+    {{ if not $desc }}{{ with .Content }}{{ $desc = . | plainify }}{{ end }}{{ end }}
+    {{ if not $desc }}{{ $desc = printf "%s — %s" .Title .Site.Title }}{{ end }}
+    {{ $desc = $desc | plainify }}
+    {{ with $desc }}<meta name="description" content="{{ . | truncate 160 }}">{{ end }}
 
     {{/* Paginated list pages get a self-referencing canonical plus prev/next. */}}
     {{ $canonical := .Permalink }}
