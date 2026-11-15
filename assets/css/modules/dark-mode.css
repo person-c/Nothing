@@ -25,3 +25,8 @@
     --selection-fg: #191817;
     --menu-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
 }
+/* Screenshots and diagrams are usually bright: tone them down so the warm
+   black paper is not interrupted by a white rectangle. */
+:root.dark article img {
+    filter: brightness(0.92);
+}

@@ -92,6 +92,20 @@ body {
     text-wrap: pretty;
 }
 
+/* Theme switch: let the paper/ink surfaces cross-fade instead of hard-cutting.
+   Components keep their own shorter hover transitions. Prefers-reduced-motion
+   below disables this. */
+body,
+header,
+footer,
+aside.toc,
+aside.footnotes,
+.nav-menu,
+.site-wordmark,
+nav.pagination {
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
 
 /* ==========================================================================
    2. Layout
