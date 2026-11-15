@@ -1,0 +1,57 @@
+{{- /* Theme bootstrap: runs before first paint to apply the stored color
+       preference and to expose __cycleTheme. Kept inline (not a deferred file)
+       so it prevents a flash of the wrong theme. */ -}}
+    <script>
+        (function() {
+            var root = document.documentElement;
+            var media = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function storedTheme() {
+                var t = null;
+                try { t = localStorage.getItem('theme'); } catch (e) {}
+                return (t === 'dark' || t === 'light') ? t : 'auto';
+            }
+
+            function applyTheme(pref) {
+                root.classList.remove('dark', 'light');
+                if (pref === 'dark') {
+                    root.classList.add('dark');
+                } else if (pref === 'light') {
+                    root.classList.add('light');
+                } else if (media.matches) {
+                    root.classList.add('dark');
+                }
+            }
+
+            function persistTheme(pref) {
+                try { localStorage.setItem('theme', pref); } catch (e) {}
+            }
+
+            // Initial paint for the stored preference (auto follows the system).
+            applyTheme(storedTheme());
+
+            // Cycle dark -> light -> auto. "auto" must re-evaluate the system
+            // preference instead of just dropping both classes.
+            window.__cycleTheme = function() {
+                var current = root.classList.contains('dark') ? 'dark' : (root.classList.contains('light') ? 'light' : 'auto');
+                var next = current === 'dark' ? 'light' : (current === 'light' ? 'auto' : 'dark');
+                applyTheme(next);
+                persistTheme(next);
+                return next;
+            };
+
+            // Keep auto mode in sync when the OS scheme changes.
+            function onSchemeChange() {
+                if (storedTheme() === 'auto') applyTheme('auto');
+            }
+
+            if (media.addEventListener) {
+                media.addEventListener('change', onSchemeChange);
+            } else if (media.addListener) {
+                media.addListener(onSchemeChange);
+            }
+
+            // Sun/moon icons are rendered server-side and switched by CSS, so
+            // no icon strings (and no first-paint icon flash) are needed here.
+        })();
+    </script>
