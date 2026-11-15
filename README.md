@@ -27,6 +27,9 @@ hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify
 - **Typography first**: EB Garamond + Noto Serif SC, fixed 1.7 line-height,
   `text-autospace` for mixed CJK/Latin, oldstyle figures, metric-compatible
   local font fallbacks (`size-adjust`) to keep CLS at zero while webfonts load.
+- **Paper palette**: warm paper `#fbf9f4`, ink `#24211c` and seal red `#a03a2b`
+  for accents (dark: `#191817` / `#d8d3c8` / `#cf7a63`). Chinese text stays
+  upright (no synthetic italics); chapter headings carry a short vermilion rule.
 - **Sidenotes**: footnotes move into the left margin on wide screens and stay as
   end-of-article notes on narrow screens; positions are re-measured when images,
   fonts or the TOC change the layout.

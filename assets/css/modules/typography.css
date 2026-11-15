@@ -32,8 +32,18 @@ h1 {
 
 h2 {
     font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Chapter marker: the only decorative vermilion in the theme. */
+h2::after {
+    content: '';
+    display: block;
+    width: 2.25rem;
+    height: 2px;
+    margin-top: 0.45em;
+    background-color: var(--primary-color);
 }
 
 h3 {
@@ -49,7 +59,7 @@ blockquote {
     color: var(--text-color-light);
     margin: 0;
     padding: 1px 1em;
-    border-left: .2em solid var(--border-color);
+    border-left: 2px solid var(--primary-color);
 }
 
 /* --- Horizontal Rule --- */
@@ -81,10 +91,10 @@ article ol ul {
 /* --- Last Modified --- */
 .last-modified {
     text-align: right;
-    font-size: 0.8em;
+    font-size: 0.78em;
+    letter-spacing: 0.08em;
     color: var(--text-color-light);
     margin-top: 2em;
-    font-style: italic;
 }
 
 /* Link Styles */

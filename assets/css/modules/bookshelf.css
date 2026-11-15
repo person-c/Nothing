@@ -20,7 +20,6 @@
     text-align: center;
     color: var(--text-color-light);
     margin-bottom: 2rem;
-    font-style: italic;
 }
 
 .book-list {
@@ -57,7 +56,6 @@
 .book-list-author {
     font-size: 0.85rem;
     color: var(--text-color-light);
-    font-style: italic;
     white-space: nowrap;
     margin-left: auto;
 }

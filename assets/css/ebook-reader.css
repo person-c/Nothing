@@ -8,10 +8,6 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-    background: #f5f0e8;
-}
-
-:root.dark .ebook-reader-body {
     background: var(--bg-color);
 }
 
@@ -293,10 +289,6 @@
 }
 
 :root.dark .toc-sidebar {
-    background: var(--bg-color);
-}
-
-:root.dark .ebook-reader-body {
     background: var(--bg-color);
 }
 

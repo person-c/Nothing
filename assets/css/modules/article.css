@@ -19,6 +19,5 @@ article figure img {
 article figcaption {
     font-size: 0.85rem;
     color: var(--text-color-light);
-    font-style: italic;
     margin-top: 0.25rem;
 }

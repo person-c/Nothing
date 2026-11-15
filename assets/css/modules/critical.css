@@ -5,21 +5,25 @@
    ========================================================================== */
 
 :root {
-    --primary-color: #0066cc;
-    --text-color: #3a3a3a;
-    --text-color-light: #444;
-    --bg-color-light: #f8f9fa;
-    --border-color: #ddd;
-    --link-border-color: #ccc;
-    --code-color: #d6336c;
-    --bg-color: #ffffff;
-    --nav-menu-bg: #ffffff;
-    --decor-line: rgba(128, 128, 128, 0.4);
-    --decor-line-strong: rgba(128, 128, 128, 0.7);
-    --table-stripe: rgba(0, 0, 0, 0.02);
-    --table-hover: rgba(0, 123, 255, 0.04);
-    --selection-bg: var(--primary-color);
-    --selection-fg: var(--bg-color);
+    /* Paper / ink / vermilion palette.
+       Light = warm paper with ink text and seal-red accent;
+       dark = warm black with soft paper-colored ink. */
+    --primary-color: #a03a2b;      /* 朱砂 / seal red: active, hover, footnote refs */
+    --text-color: #24211c;         /* ink */
+    --text-color-light: #57534b;   /* ink-2: dates, captions, secondary text */
+    --text-color-muted: #8a8478;   /* ink-3: decorative / non-essential text */
+    --bg-color: #fbf9f4;           /* paper */
+    --bg-color-light: #f3efe6;     /* code & subtle fill */
+    --border-color: #e2ddd2;       /* hairline rule */
+    --link-border-color: #c9c2b4;  /* stronger rule: link underline, control border */
+    --code-color: #a03a2b;         /* inline code */
+    --nav-menu-bg: #fffdf8;
+    --decor-line: #d8d1c3;
+    --decor-line-strong: #c9c2b4;
+    --table-stripe: #f5f1e8;
+    --table-hover: rgba(160, 58, 43, 0.06);
+    --selection-bg: #a03a2b;
+    --selection-fg: #fbf9f4;
     --menu-shadow: none;
     --font-serif: 'EB Garamond', 'EB Garamond Fallback Georgia', 'EB Garamond Fallback Times', 'Noto Serif SC', 'Songti SC', 'SimSun', 'Noto Serif CJK SC', serif;
     --font-mono: Consolas, Courier, 'Lucida Console', 'Courier New', 'Kai SC', 'Kai TC', monospace;

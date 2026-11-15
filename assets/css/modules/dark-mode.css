@@ -3,23 +3,25 @@
    6. Dark Mode
 
    Only the color tokens are overridden here; every component reads them.
+   Warm black + soft paper ink (see the light palette in critical.css).
    ========================================================================== */
 
 :root.dark {
-    --primary-color: #5baeff;
-    --text-color: #c5c5c5;
-    --text-color-light: #a0a0a0;
-    --bg-color-light: #252528;
-    --border-color: #3a3a3e;
-    --link-border-color: #555;
-    --code-color: #e083a8;
-    --bg-color: #1e1e22;
-    --nav-menu-bg: #2c2c30;
-    --decor-line: rgba(180, 180, 180, 0.4);
-    --decor-line-strong: rgba(180, 180, 180, 0.7);
-    --table-stripe: rgba(255, 255, 255, 0.03);
-    --table-hover: rgba(77, 166, 255, 0.08);
-    --selection-bg: #4da6ff;
-    --selection-fg: #1a1a1e;
-    --menu-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --primary-color: #cf7a63;
+    --text-color: #d8d3c8;
+    --text-color-light: #a8a296;
+    --text-color-muted: #767167;
+    --bg-color: #191817;
+    --bg-color-light: #211f1c;
+    --border-color: #2f2c27;
+    --link-border-color: #4a463f;
+    --code-color: #cf7a63;
+    --nav-menu-bg: #211f1c;
+    --decor-line: #312d28;
+    --decor-line-strong: #4a463f;
+    --table-stripe: #201d1a;
+    --table-hover: rgba(207, 122, 99, 0.08);
+    --selection-bg: #cf7a63;
+    --selection-fg: #191817;
+    --menu-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
 }
