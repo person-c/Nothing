@@ -85,8 +85,8 @@ body {
     -webkit-font-smoothing: antialiased;
     font-kerning: normal;
     font-variant-numeric: oldstyle-nums;
-    /* "text-spacing" is not a CSS property; the standard name for automatic
-       CJK/Latin spacing is text-autospace. */
+    /* Automatic spacing between CJK and Latin text (the older, non-standard
+       name for this was "text-spacing"). */
     text-autospace: normal;
     text-wrap: pretty;
 }

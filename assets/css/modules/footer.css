@@ -1,6 +1,6 @@
 @layer components {
 /* header-footer-base */
-/* Base footer styles (header is styled in header-badge.css) */
+/* Base footer styles (the header is styled in header.css) */
 
 footer {
     background: var(--bg-color);
