@@ -23,12 +23,12 @@ function initSidenotes() {
 
     function render() {
         if (window.innerWidth <= 1200) {
-            footnotesDiv.style.display = "";
+            footnotesDiv.classList.remove('is-hidden');
             container.innerHTML = '';
             noteMap.clear();
             return;
         }
-        footnotesDiv.style.display = "none";
+        footnotesDiv.classList.add('is-hidden');
         container.innerHTML = '';
 
         const list = document.createElement("ul");

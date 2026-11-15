@@ -90,6 +90,12 @@ div.footnotes {
     color: var(--text-color-light);
 }
 
+/* Wide screens: the footnotes are rendered as sidenotes instead. A class,
+   not an inline style, so @media print can bring the text back. */
+div.footnotes.is-hidden {
+    display: none;
+}
+
 div.footnotes ol {
     list-style: decimal;
     padding-left: 1.5rem;

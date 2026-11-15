@@ -38,6 +38,13 @@
         display: none !important;
     }
 
+    /* JS hides the end-of-article footnotes on wide screens; printing must
+       still include their text. */
+    div.footnotes,
+    div.footnotes.is-hidden {
+        display: block !important;
+    }
+
     .layout {
         display: block;
         max-width: none;
