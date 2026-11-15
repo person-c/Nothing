@@ -1,0 +1,62 @@
+name: Hugo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  HUGO_VERSION: "0.147.8"
+
+jobs:
+  build-demo:
+    name: Build exampleSite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # enableGitInfo needs full history.
+          fetch-depth: 0
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "${{ env.HUGO_VERSION }}"
+          extended: true
+
+      - name: Build production demo site
+        working-directory: exampleSite
+        run: hugo --themesDir ../.. --minify --gc --destination public
+
+      - name: Assert generated output
+        working-directory: exampleSite
+        run: |
+          set -e
+          test -f public/index.html
+          test -f public/404.html
+          test -f public/robots.txt
+          test -f public/sitemap.xml
+          test -f public/favicon.svg
+          test -f public/search/index.html
+          test -f public/images/og-default.png
+          ls public/css/bundle*.css >/dev/null
+          ls public/js/common*.js >/dev/null
+          grep -q 'application/ld+json' public/index.html
+          grep -q 'name=description' public/index.html
+          grep -q 'og:image' public/index.html
+          grep -q 'Sitemap:' public/robots.txt
+
+      - name: Build subpath baseURL
+        working-directory: exampleSite
+        run: hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify --destination public-subpath
+
+      - name: Assert subpath URLs
+        working-directory: exampleSite
+        run: |
+          set -e
+          grep -q 'https://example.org/blog/' public-subpath/index.html
+          grep -q 'Sitemap: https://example.org/blog/sitemap.xml' public-subpath/robots.txt
