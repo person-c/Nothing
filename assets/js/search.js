@@ -4,35 +4,55 @@
     const status = document.getElementById('search-status');
     if (!input || !results) return;
 
-    let pages = [];
-    let loaded = false;
     const indexUrl = window.__SEARCH_INDEX_URL || '/index.json';
+    let pages = null;
+    let loadingPromise = null;
 
-    input.addEventListener('input', function () {
-        const query = this.value.trim();
-        if (!loaded) {
-            status.textContent = 'Loading index...';
-            fetch(indexUrl)
-                .then(r => r.json())
-                .then(data => {
-                    pages = data;
-                    loaded = true;
-                    doSearch(query);
-                })
-                .catch(() => {
-                    status.textContent = 'Failed to load search index.';
-                });
-            return;
-        }
-        doSearch(query);
-    });
+    // Fetch the index at most once, no matter how many keystrokes happen while
+    // it is still loading. Reuse the cached array afterwards.
+    function loadIndex() {
+        if (pages) return Promise.resolve(pages);
+        if (loadingPromise) return loadingPromise;
+        loadingPromise = fetch(indexUrl, { cache: 'force-cache' })
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
+            })
+            .then(data => {
+                pages = Array.isArray(data) ? data : [];
+                return pages;
+            })
+            .catch(err => {
+                pages = null;
+                throw err;
+            })
+            .finally(() => {
+                loadingPromise = null;
+            });
+        return loadingPromise;
+    }
 
-    function doSearch(query) {
+    function runSearch() {
+        const query = input.value.trim();
         if (!query) {
             results.innerHTML = '';
             status.textContent = '';
             return;
         }
+        if (!pages) {
+            status.textContent = 'Loading index...';
+            // Re-run against the *current* input value once the index arrives.
+            loadIndex().then(runSearch).catch(() => {
+                status.textContent = 'Failed to load search index.';
+            });
+            return;
+        }
+        doSearch(query);
+    }
+
+    input.addEventListener('input', runSearch);
+
+    function doSearch(query) {
         const q = query.toLowerCase();
         const hits = [];
         for (const p of pages) {
