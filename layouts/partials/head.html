@@ -1,6 +1,14 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    {{/* Sections/taxonomies can have an empty front-matter title; never emit an
+           empty or leading-pipe document title. */}}
+    {{ $pageTitle := .Title }}
+    {{ if or (not $pageTitle) (eq .Kind "404") }}
+      {{ if eq .Kind "404" }}{{ $pageTitle = "Page not found" }}
+      {{ else if .Section }}{{ $pageTitle = humanize .Section }}
+      {{ else }}{{ $pageTitle = .Site.Title }}{{ end }}
+    {{ end }}
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }} | {{ .Site.Title }}{{ end }}</title>
 
     {{/* Description: front matter > page summary > site description >
            page content > title + site title. */}}
@@ -29,7 +37,7 @@
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1e1e22" media="(prefers-color-scheme: dark)">
 
-    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }} | {{ .Site.Title }}{{ end }}">
     <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
     <meta property="og:url" content="{{ .Permalink }}">
     {{ with $desc }}<meta property="og:description" content="{{ . | plainify | truncate 200 }}">{{ end }}
@@ -51,7 +59,7 @@
     <meta property="og:image" content="{{ . }}">
     {{ end }}
     <meta name="twitter:card" content="{{ if $socialImage }}summary_large_image{{ else }}summary{{ end }}">
-    <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+    <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }} | {{ .Site.Title }}{{ end }}">
     {{ with $desc }}<meta name="twitter:description" content="{{ . | plainify | truncate 200 }}">{{ end }}
     {{ with $socialImageURL }}<meta name="twitter:image" content="{{ . }}">{{ end }}
 

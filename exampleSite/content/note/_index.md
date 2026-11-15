@@ -1,3 +1,4 @@
 ---
+title: Notes
 layout: note
 ---

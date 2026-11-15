@@ -1,7 +1,9 @@
 {{ define "main" }}
 {{ $paginator := .Paginate .Pages }}
+{{ $listTitle := .Title }}
+{{ if not $listTitle }}{{ $listTitle = humanize .Section }}{{ end }}
 <section class="article-list">
-    <h1 class="list-title">{{ .Title }}</h1>
+    <h1 class="list-title">{{ $listTitle }}</h1>
     {{ with .Content }}
     <article>{{ . }}</article>
     {{ end }}
