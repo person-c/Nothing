@@ -4,28 +4,43 @@
     const navMenu = document.querySelector('.nav-menu');
     if (!navBar || !navMenu) return;
 
-    function openMenu() {
-        navMenu.classList.add('is-open');
-        navContainer.classList.add('is-open');
+    const links = () => Array.from(navMenu.querySelectorAll('a'));
+    const isOpen = () => navMenu.classList.contains('is-open');
+
+    function setOpen(open, focusTarget) {
+        navMenu.classList.toggle('is-open', open);
+        navContainer.classList.toggle('is-open', open);
+        navBar.setAttribute('aria-expanded', String(open));
+        // While closed the menu is visibility:hidden (and that property is
+        // transitioned), so it only becomes focusable once the transition has
+        // started. Focus on the next tick instead of synchronously.
+        if (focusTarget) setTimeout(() => focusTarget.focus(), 20);
     }
 
-    function closeMenu() {
-        navMenu.classList.remove('is-open');
-        navContainer.classList.remove('is-open');
+    function openMenu() {
+        setOpen(true, links()[0]);
+    }
+
+    function closeMenu(returnFocus) {
+        setOpen(false, returnFocus ? navBar : null);
     }
 
     navBar.addEventListener('click', (e) => {
         e.stopPropagation();
-        navMenu.classList.contains('is-open') ? closeMenu() : openMenu();
+        isOpen() ? closeMenu(false) : openMenu();
     });
 
     document.addEventListener('click', (e) => {
+        if (!isOpen()) return;
         if (!navMenu.contains(e.target) && e.target !== navBar) {
-            closeMenu();
+            closeMenu(false);
         }
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape' && isOpen()) {
+            e.preventDefault();
+            closeMenu(true);
+        }
     });
 })();

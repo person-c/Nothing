@@ -42,11 +42,13 @@ header {
     padding: 8px 8px 0 0;
 }
 
-/* Horizontal bar trigger */
+/* Horizontal bar trigger (a real <button>) */
 .nav-bar {
     width: 80px;
     height: 28px;
     background-color: transparent;
+    border: 0;
+    padding: 0;
     cursor: pointer;
     position: relative;
     border-radius: 4px;
