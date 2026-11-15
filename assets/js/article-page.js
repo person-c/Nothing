@@ -204,7 +204,8 @@ function initTocControls(tocContainer) {
     const floatBtn = document.createElement('button');
     floatBtn.className = 'toc-float-toggle';
     floatBtn.title = 'Show table of contents';
-    floatBtn.innerHTML = '☰';
+    // The visible affordance is the 2px bar drawn by CSS (::after). No text:
+    // a glyph would overflow the 8px-wide button and sit on top of the bar.
     floatBtn.setAttribute('aria-label', 'Show table of contents');
     document.body.appendChild(floatBtn);
 
