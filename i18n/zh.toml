@@ -90,3 +90,15 @@ other = "暂无英文标题的文章。"
 
 [listViewAll]
 other = "查看全部"
+
+[navMainLabel]
+other = "主导航"
+
+[navMenuToggle]
+other = "打开导航菜单"
+
+[tocNavLabel]
+other = "目录"
+
+[tocToggleSection]
+other = "展开或收起本章节"

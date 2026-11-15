@@ -90,3 +90,15 @@ other = "No posts with English titles yet."
 
 [listViewAll]
 other = "View all posts"
+
+[navMainLabel]
+other = "Main navigation"
+
+[navMenuToggle]
+other = "Toggle navigation menu"
+
+[tocNavLabel]
+other = "Table of contents"
+
+[tocToggleSection]
+other = "Toggle section"

@@ -14,7 +14,7 @@
     {{ if $hasToc }}
     <aside class="toc">
         <p class="toc-label">{{ $contentsLabel }}</p>
-        <nav id="toc" aria-label="Table of contents">
+        <nav id="toc" aria-label="{{ i18n "tocNavLabel" }}">
             {{ partial "toc.html" (dict "headings" $tocHeadings) }}
         </nav>
     </aside>
