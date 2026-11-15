@@ -49,8 +49,11 @@ hugo --themesDir ../.. --baseURL https://example.org/blog/ --minify
 - **Accessibility**: skip link, labelled nav/theme/TOC controls, live regions for
   theme and search state, `prefers-reduced-motion` support, aria-expanded
   toggles, focus management for the nav menu.
-- **i18n**: all UI strings come from `i18n/{en,zh,zh-cn}.toml`; JS strings are
-  injected from the same catalog.
+- **i18n**: site UI strings come from `i18n/{en,zh,zh-cn}.toml` (also injected for
+  JS). Elements that must follow a filtered list or a post title language (pager,
+  `All/全部` label, `Last modified`, `Contents` toggle, copy button) read the
+  bilingual `data/lang.toml`, so an English list/post gets English chrome even on
+  a Chinese site (and vice versa).
 - **Title-language lists**: any list section can publish filtered, paginated
   views (e.g. `/blog/` = all, `/blog/chinese/`, `/blog/english/`) with a
   paper-style `全部 / 中文 / EN` toggle. Classification happens at build time;
@@ -130,6 +133,13 @@ posts, so `/blog/chinese/`, `/blog/chinese/page/2/`, … are real URLs with thei
 own canonical/prev/next and work without JavaScript. The parent list shows the
 same `全部 / 中文 / EN` toggle with per-language counts. Works for any section;
 only `blog` is configured in the demo site.
+
+The list chrome follows the list language: the pager reads `Page 1 of 2` /
+`Newer` / `Older` on `/blog/english/` and `第 1 / 2 页` / `更新` / `更早` on
+`/blog/chinese/`, and the `All` label becomes `全部` on Chinese lists. Article
+chrome follows the post title language: `Contents` / `Last modified` /
+`Copy` / `Copied!` for English titles, `目录` / `最后修改于` / `复制` / `已复制！`
+for Chinese ones. Mixed titles can be pinned with `titleLang`.
 ## File structure
 
 ```
@@ -143,6 +153,7 @@ Nothing/
 │   │   └── ebook-reader.css
 │   └── js/                nav, theme, back-to-top, article-page,
 │                          fullwidth, search, ebook-reader (ES module)
+├── data/lang.toml         bilingual UI strings for list/post language
 ├── i18n/                  en.toml, zh.toml, zh-cn.toml
 ├── layouts/
 │   ├── _default/          baseof, single, list, search, index.json,

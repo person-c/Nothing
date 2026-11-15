@@ -57,6 +57,11 @@ jobs:
           grep -q 'is-active' public/blog/chinese/index.html
           grep -q 'Theme Feature Test' public/blog/english/index.html
           grep -q 'R 中的函数式编程' public/blog/chinese/index.html
+          # list chrome follows the list language (data/lang.toml)
+          grep -q '>All<' public/blog/english/index.html
+          grep -q '>全部<' public/blog/chinese/index.html
+          # article chrome follows the post title language
+          grep -q 'Last modified' public/blog/2026-05-18-theme-feature-test/index.html
 
       - name: Build subpath baseURL
         working-directory: exampleSite
