@@ -52,7 +52,25 @@ h3 {
 
 article>h1 {
     text-align: center;
-    margin: 20px 0;
+    margin: 20px 0 0.35rem;
+}
+
+/* Chapter-title meta line: small caps date + reading time, centered. */
+.post-meta {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.9rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-color-light);
+    margin: 0 0 2.4rem;
+    font-variant-numeric: lining-nums;
+}
+
+.post-meta-sep {
+    color: var(--border-color);
 }
 
 blockquote {

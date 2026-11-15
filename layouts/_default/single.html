@@ -26,12 +26,16 @@
             {{ $contentsLabel }}
         </button>
         {{ end }}
-        <h1>
-            {{ .Title }}
-            {{ with .Date }}
-            <span class="post-date">/<time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ .Format "2006-01-02" }}</time></span>
-            {{ end }}
-        </h1>
+        <h1>{{ .Title }}</h1>
+        {{ $minRead := "" }}
+        {{- with index site.Data.lang $titleLang }}{{ with .min_read }}{{ $minRead = replace . "{n}" (printf "%d" $.ReadingTime) }}{{ end }}{{ end -}}
+        {{ if or .Date $minRead }}
+        <div class="post-meta">
+            {{ with .Date }}<time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ .Format "2006-01-02" }}</time>{{ end }}
+            {{ if and .Date $minRead }}<span class="post-meta-sep" aria-hidden="true">·</span>{{ end }}
+            {{ with $minRead }}<span>{{ . }}</span>{{ end }}
+        </div>
+        {{ end }}
         <div class="content-wrapper">
             {{ .Content }}
         </div>
