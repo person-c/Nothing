@@ -90,3 +90,6 @@ other = "暂无英文标题的文章。"
 
 [listViewAll]
 other = "查看全部"
+
+[undated]
+other = "未标注日期"
