@@ -2,6 +2,8 @@
 {{ $titleLang := partial "title-lang.html" . }}
 {{ $tocHeadings := partial "toc-headings.html" . }}
 {{ $hasToc := gt (len $tocHeadings) 0 }}
+{{ $contentsLabel := i18n "contents" }}
+{{- if in (slice "en" "zh") $titleLang -}}{{- with index site.Data.lang $titleLang }}{{ $contentsLabel = .contents }}{{ end -}}{{- end -}}
 <div class="layout">
     <aside class="footnotes"></aside>
 
@@ -11,6 +13,7 @@
          positions are assigned with explicit grid-column rules. */}}
     {{ if $hasToc }}
     <aside class="toc">
+        <p class="toc-label">{{ $contentsLabel }}</p>
         <nav id="toc" aria-label="Table of contents">
             {{ partial "toc.html" (dict "headings" $tocHeadings) }}
         </nav>
@@ -21,8 +24,6 @@
         {{ if $hasToc }}
         <button class="toc-mobile-toggle" aria-expanded="false" aria-controls="toc">
             {{ partial "icons/chevron-right.html" (dict "size" 14) }}
-            {{- $contentsLabel := i18n "contents" -}}
-            {{- if in (slice "en" "zh") $titleLang -}}{{- with index site.Data.lang $titleLang }}{{ $contentsLabel = .contents }}{{ end -}}{{- end -}}
             {{ $contentsLabel }}
         </button>
         {{ end }}

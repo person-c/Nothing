@@ -2,9 +2,9 @@
 <ul class="toc-sublist">
     {{- range . -}}
     {{- if ge .Level 2 -}}
-    <li class="toc-level-{{ .Level }}{{ if .Headings }} collapsible is-open{{ end }}">
+    <li class="toc-level-{{ .Level }}{{ if .Headings }} collapsible{{ end }}">
         {{- if .Headings }}
-        <button type="button" class="toc-toggle" aria-expanded="true" aria-label="Toggle section">{{ partial "icons/chevron-right.html" (dict "size" 12) }}</button>
+        <button type="button" class="toc-toggle" aria-expanded="false" aria-label="Toggle section">{{ partial "icons/chevron-right.html" (dict "size" 12) }}</button>
         {{- end }}
         <a href="#{{ .ID }}">{{ .Title }}</a>
         {{- if .Headings }}

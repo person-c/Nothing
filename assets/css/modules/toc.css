@@ -55,7 +55,8 @@ aside.toc {
     top: 50%;
     transform: translateY(-50%);
     z-index: 999;
-    width: 8px;
+    /* 24px touch target; the visible 2px rule is drawn by ::after. */
+    width: 24px;
     height: 56px;
     background: transparent;
     border: none;
@@ -100,7 +101,10 @@ aside.toc nav li {
 
 aside.toc nav li a.active {
     color: var(--primary-color);
-    font-weight: bold;
+    box-shadow: inset 2px 0 0 var(--primary-color);
+    padding-left: 0.55rem;
+    margin-left: -0.55rem;
+    font-weight: 500;
 }
 
 /* TOC Collapsible Styles */
@@ -171,4 +175,19 @@ aside.toc nav li.is-open>.toc-sublist {
     font-size: 0.85em;
     margin-left: 15px;
     color: var(--text-color-light);
+}
+/* Label above the TOC list (follows the post title language). */
+.toc-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-color-light);
+    margin: 0 0 0.9rem;
+    padding: 0;
+}
+
+/* Without JS the collapse buttons are hidden, so keep every level expanded. */
+html:not(.js) aside.toc nav .toc-sublist {
+    max-height: none;
+    opacity: 1;
 }
