@@ -102,3 +102,6 @@ other = "Table of contents"
 
 [tocToggleSection]
 other = "Toggle section"
+
+[backToList]
+other = "← Back to list"

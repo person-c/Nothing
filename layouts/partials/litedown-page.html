@@ -1,0 +1,13 @@
+{{- /* Theme a pre-rendered LiteDown (or similar) document.
+       input: the page; output: safe HTML with the theme bundle, theme bootstrap
+       and a "back to list" link injected into the original document. */ -}}
+{{- $content := .Content | string -}}
+{{- $css := partial "css-bundle.html" . -}}
+{{- $themeInit := partial "theme-init.html" . -}}
+{{- $backHref := "/" -}}
+{{- with site.GetPage (printf "/%s" .Section) }}{{ $backHref = .RelPermalink }}{{ end -}}
+{{- $backLabel := i18n "backToList" -}}
+{{- $headInject := printf "%s\n<link rel=\"stylesheet\" href=\"%s\">\n<style>body{display:block;max-width:800px;margin:0 auto;padding:2rem 1.5rem;background-color:var(--bg-color);color:var(--text-color)}.litedown-back{display:inline-block;margin:0 0 1.75rem;font-family:var(--font-serif);font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-color-light);text-decoration:none}.litedown-back:hover{color:var(--primary-color)}</style>\n" $themeInit $css.RelPermalink -}}
+{{- $content = replace $content "</head>" (printf "%s</head>" $headInject) -}}
+{{- $content = replaceRE `(?s)(<body[^>]*>)` (printf "%s<a class=\"litedown-back\" href=\"%s\">%s</a>" "$1" $backHref $backLabel) $content -}}
+{{- return ($content | safeHTML) -}}

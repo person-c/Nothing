@@ -102,3 +102,6 @@ other = "目录"
 
 [tocToggleSection]
 other = "展开或收起本章节"
+
+[backToList]
+other = "← 返回列表"

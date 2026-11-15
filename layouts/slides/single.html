@@ -1,6 +1,6 @@
 {{- /*
   LiteDown (and similar pre-rendering tools) emit a complete HTML document.
-  Do not wrap .Content in another <html>/<head>/<body>: output the document
-  as-is so the page has a single, valid document structure.
+  litedown-page.html injects the theme CSS bundle, the theme bootstrap and a
+  back link into that document (instead of nesting a second document).
 */ -}}
-{{ .Content }}
+{{ partial "litedown-page.html" . }}

@@ -1,0 +1,20 @@
+{{- /* Builds the main CSS bundle (all modules, minified + fingerprinted).
+       Returned resource is shared by the regular page head and by the
+       LiteDown note/slides pages so both use the same paper/ink design. */ -}}
+{{- $critical := resources.Get "css/modules/critical.css" -}}
+{{- $footerCss := resources.Get "css/modules/footer.css" -}}
+{{- $headerCss := resources.Get "css/modules/header.css" -}}
+{{- $articleList := resources.Get "css/modules/article-list.css" -}}
+{{- $toc := resources.Get "css/modules/toc.css" -}}
+{{- $footnotes := resources.Get "css/modules/footnotes.css" -}}
+{{- $article := resources.Get "css/modules/article.css" -}}
+{{- $typography := resources.Get "css/modules/typography.css" -}}
+{{- $codeTables := resources.Get "css/modules/code-tables.css" -}}
+{{- $syntaxLight := resources.Get "css/syntax-light.css" -}}
+{{- $syntaxDark := resources.Get "css/syntax-dark.css" -}}
+{{- $copyFooter := resources.Get "css/modules/copy-footer.css" -}}
+{{- $darkMode := resources.Get "css/modules/dark-mode.css" -}}
+{{- $responsive := resources.Get "css/modules/responsive.css" -}}
+{{- $print := resources.Get "css/modules/print.css" -}}
+{{- $css := slice $critical $footerCss $headerCss $articleList $toc $footnotes $article $typography $codeTables $syntaxLight $copyFooter $darkMode $syntaxDark $responsive $print | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint -}}
+{{- return $css -}}
