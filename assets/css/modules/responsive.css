@@ -49,11 +49,13 @@
 
     .layout>article {
         grid-column: 1;
+        grid-row: 1;
         max-width: 100%;
     }
 
     .layout>aside.toc {
         grid-column: 2;
+        grid-row: 1;
     }
 
     aside.footnotes {

@@ -112,17 +112,23 @@ main {
 }
 
 /* The TOC precedes the article in source order (mobile toggle), so assign the
-   desktop columns explicitly: sidenotes | article | TOC. */
+   desktop columns explicitly: sidenotes | article | TOC.
+   Rows must be explicit too: with column-only placement the grid auto-placement
+   cursor moves from column 3 (toc) back to column 2 (article) and bumps the
+   article into the next row, leaving a TOC-height gap above it. */
 .layout>aside.footnotes {
     grid-column: 1;
+    grid-row: 1;
 }
 
 .layout>article {
     grid-column: 2;
+    grid-row: 1;
 }
 
 .layout>aside.toc {
     grid-column: 3;
+    grid-row: 1;
 }
 
 article {
