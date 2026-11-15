@@ -65,7 +65,7 @@ This iframe is 1200px wide — wider than the article but fits within the layout
 
 ## Code Blocks
 
-Code blocks use Hugo's Chroma highlighting (GitHub theme in light mode, Monokai in dark mode) with inline line numbers. Here is an R example:
+Code blocks use Hugo's Chroma highlighting with a paper/ink/vermilion syntax palette (light and dark) and inline line numbers. Here is an R example:
 
 ```r
 # A simple linear model

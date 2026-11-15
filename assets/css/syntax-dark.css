@@ -93,3 +93,142 @@
     margin-right: 0.8em;
     border-right: 1px solid var(--border-color);
 }
+
+/* ==========================================================================
+   Paper / ink / vermilion syntax palette — dark counterpart.
+   Same token groups as the light overrides in syntax-light.css, warmed for the
+   dark paper background (no neon Monokai greens/magentas).
+   ========================================================================== */
+:root.dark .chroma .c,
+:root.dark .chroma .c1,
+:root.dark .chroma .ch,
+:root.dark .chroma .cl,
+:root.dark .chroma .cm,
+:root.dark .chroma .cp,
+:root.dark .chroma .cpf,
+:root.dark .chroma .cs {
+    color: #948e82;
+    font-style: italic;
+}
+
+:root.dark .chroma .k,
+:root.dark .chroma .kc,
+:root.dark .chroma .kd,
+:root.dark .chroma .kn,
+:root.dark .chroma .kp,
+:root.dark .chroma .kr {
+    color: #d98b73;
+}
+
+:root.dark .chroma .kt,
+:root.dark .chroma .nc,
+:root.dark .chroma .nn {
+    color: #9db4cf;
+}
+
+:root.dark .chroma .s,
+:root.dark .chroma .s1,
+:root.dark .chroma .s2,
+:root.dark .chroma .sa,
+:root.dark .chroma .sb,
+:root.dark .chroma .sc,
+:root.dark .chroma .sd,
+:root.dark .chroma .se,
+:root.dark .chroma .sh,
+:root.dark .chroma .si,
+:root.dark .chroma .sr,
+:root.dark .chroma .sx,
+:root.dark .chroma .dl {
+    color: #a3ad7f;
+}
+
+:root.dark .chroma .ss {
+    color: #b8c197;
+}
+
+:root.dark .chroma .m,
+:root.dark .chroma .mb,
+:root.dark .chroma .mf,
+:root.dark .chroma .mh,
+:root.dark .chroma .mi,
+:root.dark .chroma .mo,
+:root.dark .chroma .il,
+:root.dark .chroma .no {
+    color: #d8b56b;
+}
+
+:root.dark .chroma .nf,
+:root.dark .chroma .fm,
+:root.dark .chroma .nb,
+:root.dark .chroma .bp,
+:root.dark .chroma .ni {
+    color: #9db4cf;
+}
+
+:root.dark .chroma .nv,
+:root.dark .chroma .vc,
+:root.dark .chroma .vg,
+:root.dark .chroma .vi,
+:root.dark .chroma .vm {
+    color: #c5bfb2;
+}
+
+:root.dark .chroma .na {
+    color: #d8b56b;
+}
+
+:root.dark .chroma .nt {
+    color: #d98b73;
+}
+
+:root.dark .chroma .o,
+:root.dark .chroma .ow {
+    color: #a8a296;
+}
+
+:root.dark .chroma .p {
+    color: #948e82;
+}
+
+:root.dark .chroma .gh {
+    color: #d8d3c8;
+    font-weight: 600;
+}
+
+:root.dark .chroma .ge {
+    font-style: italic;
+}
+
+:root.dark .chroma .gl {
+    text-decoration: underline;
+}
+
+:root.dark .chroma .gp,
+:root.dark .chroma .gu,
+:root.dark .chroma .gt,
+:root.dark .chroma .go {
+    color: #948e82;
+}
+
+:root.dark .chroma .gd {
+    color: #d98b73;
+    background-color: rgba(217, 139, 115, 0.12);
+}
+
+:root.dark .chroma .gi {
+    color: #b8c197;
+    background-color: rgba(163, 173, 127, 0.12);
+}
+
+:root.dark .chroma .err {
+    color: #d98b73;
+    background-color: rgba(217, 139, 115, 0.14);
+}
+
+:root.dark .chroma .hl {
+    background-color: rgba(207, 122, 99, 0.10);
+}
+
+:root.dark .chroma .w {
+    color: inherit;
+}

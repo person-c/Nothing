@@ -98,3 +98,144 @@
     color: var(--text-color-light);
     opacity: 0.5;
 }
+
+/* ==========================================================================
+   Paper / ink / vermilion syntax palette (Nothing theme)
+   Overrides the generated GitHub colors so code shares the site's paper/ink
+   language. Only four colored groups: keyword (seal red), string (olive),
+   number/constant (ochre) and function/type/class (ink blue); everything else
+   steps through the ink levels. Comments stay muted but keep WCAG AA contrast.
+   ========================================================================== */
+.chroma .c,
+.chroma .c1,
+.chroma .ch,
+.chroma .cl,
+.chroma .cm,
+.chroma .cp,
+.chroma .cpf,
+.chroma .cs {
+    color: #6f6a5e;
+    font-style: italic;
+}
+
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr {
+    color: #a03a2b;
+}
+
+.chroma .kt,
+.chroma .nc,
+.chroma .nn {
+    color: #3d5a73;
+}
+
+.chroma .s,
+.chroma .s1,
+.chroma .s2,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .sd,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sr,
+.chroma .sx,
+.chroma .dl {
+    color: #5c6b3a;
+}
+
+.chroma .ss {
+    color: #4a5830;
+}
+
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .mo,
+.chroma .il,
+.chroma .no {
+    color: #8a5a1f;
+}
+
+.chroma .nf,
+.chroma .fm,
+.chroma .nb,
+.chroma .bp,
+.chroma .ni {
+    color: #3d5a73;
+}
+
+.chroma .nv,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi,
+.chroma .vm {
+    color: #3f3a33;
+}
+
+.chroma .na {
+    color: #8a5a1f;
+}
+
+.chroma .nt {
+    color: #a03a2b;
+}
+
+.chroma .o,
+.chroma .ow {
+    color: #57534b;
+}
+
+.chroma .p {
+    color: #6b665c;
+}
+
+.chroma .gh {
+    color: #24211c;
+    font-weight: 600;
+}
+
+.chroma .ge {
+    font-style: italic;
+}
+
+.chroma .gl {
+    text-decoration: underline;
+}
+
+.chroma .gp,
+.chroma .gu,
+.chroma .gt,
+.chroma .go {
+    color: #6f6a5e;
+}
+
+.chroma .gd {
+    color: #a03a2b;
+    background-color: rgba(160, 58, 43, 0.07);
+}
+
+.chroma .gi {
+    color: #4a5830;
+    background-color: rgba(92, 107, 58, 0.10);
+}
+
+.chroma .err {
+    color: #a03a2b;
+    background-color: rgba(160, 58, 43, 0.08);
+}
+
+.chroma .hl {
+    background-color: rgba(160, 58, 43, 0.06);
+}
+
+.chroma .w {
+    color: inherit;
+}

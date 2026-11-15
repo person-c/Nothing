@@ -25,7 +25,7 @@ enableRobotsTXT = true
       footnote = true
   [markup.highlight]
     noClasses = false       # 使用 CSS 类名；亮/暗两套语法配色见 assets/css/syntax-*.css
-    style = "github"        # 亮色语法主题（暗色由 syntax-dark.css 覆盖；noClasses=false 时不参与构建）
+    style = "github"        # 生成用；实际亮/暗配色由 syntax-*.css 的纸感覆盖层决定
     lineNos = true          # 显示行号（Hugo 的键名是 lineNos，不是 lineNumbers）
     lineNumbersInTable = false # 行号内联输出，避免行号表格被 article table 样式污染
     guessSyntax = true      # 自动猜测代码语言
