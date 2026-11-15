@@ -47,7 +47,9 @@ aside.toc {
     border-color: var(--primary-color);
 }
 
-/* TOC floating toggle — vertical bar (visible only when TOC is hidden) */
+/* TOC restore tab — a paper tab on the right edge, shown only while the TOC is
+   hidden. It carries the "Contents" / "目录" label so the way back is visible;
+   the old 2px hairline was easy to mistake for a decorative rule. */
 .toc-float-toggle {
     display: none;
     position: fixed;
@@ -55,29 +57,25 @@ aside.toc {
     top: 50%;
     transform: translateY(-50%);
     z-index: 999;
-    /* 24px touch target; the visible 2px rule is drawn by ::after. */
-    width: 24px;
-    height: 56px;
-    background: transparent;
-    border: none;
+    padding: 0.75rem 0.45rem;
+    background: var(--bg-color);
+    color: var(--text-color-light);
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
+    font-family: var(--font-serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    line-height: 1;
     cursor: pointer;
-    padding: 0;
-    /* the visible line is drawn by ::after */
+    writing-mode: vertical-rl;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.toc-float-toggle::after {
-    content: '';
-    position: absolute;
-    right: 3px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: var(--decor-line);
-    transition: background-color 0.3s ease;
-}
-
-.toc-float-toggle:hover::after {
-    background-color: var(--decor-line-strong);
+.toc-float-toggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .toc-float-toggle.visible {

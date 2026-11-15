@@ -171,8 +171,10 @@ function initTocControls(tocContainer) {
     const floatBtn = document.createElement('button');
     floatBtn.className = 'toc-float-toggle';
     floatBtn.title = 'Show table of contents';
-    // The visible affordance is the 2px bar drawn by CSS (::after). No text:
-    // a glyph would overflow the 8px-wide button and sit on top of the bar.
+    // Visible label: the same "Contents" / "目录" wording as the TOC heading,
+    // so the way back is obvious once the sidebar has been collapsed.
+    const tocLabel = document.querySelector('.toc-label');
+    floatBtn.textContent = tocLabel ? tocLabel.textContent.trim() : 'Contents';
     floatBtn.setAttribute('aria-label', 'Show table of contents');
     document.body.appendChild(floatBtn);
 
@@ -180,26 +182,24 @@ function initTocControls(tocContainer) {
         if (layout._fullwidthRecalc) layout._fullwidthRecalc();
     }
 
+    // Collapsing the TOC is a per-page decision: it is deliberately not
+    // persisted, because a remembered collapse (from a stray click earlier)
+    // used to leave later pages with no TOC at all. The restore tab is the
+    // only state left on screen.
     function hideToc() {
         layout.classList.add('toc-hidden');
         floatBtn.classList.add('visible');
-        window.__storage.set('toc-hidden', 'true');
         recalcFullwidth();
     }
 
     function showToc() {
         layout.classList.remove('toc-hidden');
         floatBtn.classList.remove('visible');
-        window.__storage.set('toc-hidden', 'false');
         recalcFullwidth();
     }
 
     collapseBtn.addEventListener('click', hideToc);
     floatBtn.addEventListener('click', showToc);
-
-    if (window.__storage.get('toc-hidden') === 'true') {
-        hideToc();
-    }
 }
 
 

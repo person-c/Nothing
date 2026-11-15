@@ -38,9 +38,10 @@
 }
 
 /* Two columns: article + TOC. The TOC is before the article in the DOM, so
-   both items get an explicit grid column. The article must be allowed to
-   shrink to its column: with max-width:800px and auto margins it used to stay
-   800px wide and overlap the TOC by 89-107px between 801 and 1024px. */
+   both items get an explicit grid column. The article keeps the base 800px
+   measure (and its auto margins, so it centres inside its column) and the
+   layout gets side padding: without either, 801-1200px kept the text flush
+   against the window edge and let it grow past the desktop measure. */
 @media (max-width: 1200px) {
     .layout {
         grid-template-columns: minmax(0, 1fr) minmax(180px, 28%);
@@ -49,7 +50,12 @@
     .layout>article {
         grid-column: 1;
         grid-row: 1;
-        max-width: 100%;
+        /* Fill the column, but never past the reading measure. `width: 100%`
+           is needed because the base rule's `margin: 0 auto` otherwise makes
+           the grid item size to its content, which pushed an 800px article
+           over both the column and the TOC. Auto margins from the base rule
+           then centre it whenever the column is wider than 800px. */
+        width: 100%;
     }
 
     .layout>aside.toc {
@@ -59,6 +65,31 @@
 
     aside.footnotes {
         display: none;
+    }
+
+    /* A page without a TOC must not reserve the TOC column: otherwise the
+       article sits in a 72%-wide left column with an empty gutter on the
+       right. (Wide screens centre the article anyway, so this only matters
+       in the two-column range.) */
+    .layout:not(:has(> aside.toc)) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Two-column range: keep the pair off the window edges (the article itself is
+   capped at the 800px measure, but the TOC would otherwise sit on the very
+   right edge and the text on the very left one). */
+@media (min-width: 801px) and (max-width: 1200px) {
+    .layout {
+        padding: 0 1.5rem;
+    }
+}
+
+/* Large phones and portrait tablets: the single column should not run edge to
+   edge just because it is under the two-column breakpoint. */
+@media (min-width: 601px) and (max-width: 800px) {
+    .layout {
+        padding: 0 1rem;
     }
 }
 
@@ -79,8 +110,10 @@
         grid-row: auto;
     }
 
+    /* Keep the 800px measure from the base rule: the single column never has
+       to fill a tablet screen edge to edge. */
     article {
-        max-width: 100%;
+        max-width: 800px;
     }
 
     .highlight,
@@ -98,6 +131,13 @@
 
     .toc-mobile-toggle {
         display: inline-flex;
+    }
+
+    /* The TOC is opened by the inline "Contents" button in this range, so the
+       right-edge restore tab would be a dead control: hide it if the TOC was
+       collapsed on a wider screen and the window was then narrowed. */
+    .toc-float-toggle.visible {
+        display: none;
     }
 
     aside.toc.mobile-visible {

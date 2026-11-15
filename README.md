@@ -228,15 +228,18 @@ version minifies layered CSS.
 .layout { grid-template-columns: 1fr minmax(0, 800px) 1fr; }
 ```
 
-The article column is always centered; footnote sidenotes fill the left column,
-the TOC the right one. Hiding the TOC only hides its content, so the article
-never shifts.
+The article column keeps an 800px measure at every width; footnote sidenotes
+fill the left column on wide screens, the TOC the right one. Hiding the TOC
+removes only the sidebar column (the collapsed state is per page, not
+persisted); the right-edge "Contents"/"目录" tab brings it back, so a long note
+can be read full width without losing the way back.
 
 | Viewport | Columns | Behavior |
 |----------|---------|----------|
 | > 1200px | `1fr 800px 1fr` | article centered, sidenotes + TOC |
-| 801–1200px | `auto 180px` | sidenotes → end footnotes, TOC in sidebar |
-| ≤ 800px | single column | mobile TOC toggle above the text |
+| 801–1200px | `minmax(0, 1fr) minmax(180px, 28%)` + side padding | article ≤800px in its column, sidenotes → end footnotes, TOC in sidebar |
+| 601–800px | single column + side padding | mobile TOC toggle above the text |
+| ≤ 600px | single column | mobile TOC toggle above the text |
 | print | block layout | sidebars/nav hidden, footnotes expanded |
 
 All breakpoints live in `responsive.css`; the one JS breakpoint uses
@@ -268,6 +271,11 @@ empty-taxonomy-free section lists.
   demo `note/*.html` files were generated with the buggy writer, so keep the
   repair (or regenerate the HTML with a fixed LiteDown version).
 
+- Note pages follow the site palette in dark mode instead of LiteDown's own
+  `@media (prefers-color-scheme: dark) { html { filter: invert(1) } }`. A
+  full-document filter flattens a long note into a single composited layer,
+  which is enough to crash mobile renderers and in-app WebViews; the theme
+  drops that filter and inverts only the figures, images and widgets.
 - Content in `exampleSite/content/ramblings/` is ignored by git and only rendered
   in the development environment (production config excludes it).
 - `.Rmd` files are ignored via `ignoreFiles`.

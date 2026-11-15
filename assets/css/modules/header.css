@@ -11,26 +11,6 @@ header {
     padding: 0;
 }
 
-/* Site wordmark — fixed at the top-left, replacing the bare theme icon. */
-.site-wordmark {
-    position: fixed;
-    top: 12px;
-    left: 14px;
-    z-index: 1001;
-    font-family: var(--font-serif);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.site-wordmark:hover {
-    color: var(--primary-color);
-}
-
 /* Theme toggle — right side, next to the nav trigger */
 .theme-toggle {
     position: fixed;
@@ -169,12 +149,4 @@ header {
 .nav-bar:focus-visible {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
-}
-@media (max-width: 600px) {
-    .site-wordmark {
-        top: 11px;
-        left: 12px;
-        font-size: 0.7rem;
-        letter-spacing: 0.18em;
-    }
 }
