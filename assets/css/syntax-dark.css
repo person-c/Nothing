@@ -86,4 +86,10 @@
 :root.dark .chroma .gl {  }
 :root.dark .chroma .w {  }
 :root.dark .highlight .chroma { background-color: transparent; }
-:root.dark .highlight .ln { color: var(--text-color-light); opacity: 0.5; }
+:root.dark .highlight .ln {
+    color: var(--text-color-light);
+    opacity: 0.55;
+    padding-right: 0.8em;
+    margin-right: 0.8em;
+    border-right: 1px solid var(--border-color);
+}

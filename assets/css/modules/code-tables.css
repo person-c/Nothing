@@ -2,7 +2,8 @@
 /* --- Code & Tables --- */
 code {
     font-family: var(--font-mono);
-    font-size: 14px;
+    /* 0.88em: readable at an 18px body size without dwarfing the prose. */
+    font-size: 0.88em;
 }
 
 h code {
@@ -20,8 +21,9 @@ h code {
 
 .highlight {
     background: var(--bg-color-light);
-    padding: 2px 20px;
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.85rem 1.2rem;
     overflow-x: auto;
     margin: 1.2rem 0;
 }

@@ -91,8 +91,10 @@
 .highlight .chroma { background-color: transparent; }
 .highlight .ln {
     min-width: 1.6em;
-    margin-right: 1em;
+    margin-right: 0.8em;
+    padding-right: 0.8em;
+    border-right: 1px solid var(--border-color);
     text-align: right;
     color: var(--text-color-light);
-    opacity: 0.55;
+    opacity: 0.5;
 }
