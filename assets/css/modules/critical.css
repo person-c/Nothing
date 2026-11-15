@@ -15,12 +15,27 @@
     --white-color: #ffffff;
     --nav-menu-bg: #ffffff;
     --shadow-color-light: rgba(0, 0, 0, 0.05);
-    --font-serif: 'EB Garamond', 'Noto Serif SC', serif;
+    --font-serif: 'EB Garamond', 'EB Garamond Fallback Georgia', 'EB Garamond Fallback Times', 'Noto Serif SC', 'Songti SC', 'SimSun', 'Noto Serif CJK SC', serif;
     --font-mono: Consolas, Courier, 'Lucida Console', 'Courier New', 'Kai SC', 'Kai TC', monospace;
     --font-size-base: 17px;
 
     /* Let native UI (form controls, scrollbars) follow the active theme. */
     color-scheme: light;
+}
+
+/* Metric-compatible local fallbacks for the webfonts. size-adjust is measured
+   as webFontWidth / fallbackWidth for the same string, so the swap from local
+   fallback to EB Garamond does not reflow the page (CLS). */
+@font-face {
+    font-family: 'EB Garamond Fallback Georgia';
+    src: local('Georgia');
+    size-adjust: 87.2%;
+}
+
+@font-face {
+    font-family: 'EB Garamond Fallback Times';
+    src: local('Times New Roman'), local('Times');
+    size-adjust: 94.2%;
 }
 
 :root.dark {
