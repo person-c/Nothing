@@ -96,11 +96,33 @@ function initSidenotes() {
         });
     });
 
-    let timer;
-    window.addEventListener('resize', () => {
-        clearTimeout(timer);
-        timer = setTimeout(render, 200);
-    });
+    // Positions become stale when anything above a sidenote changes height:
+    // lazy images loading, webfonts swapping, TOC toggles, or a resize. Re-run
+    // the measurement (coalesced into one animation frame) on all of them.
+    const articleEl = document.querySelector('article');
+    let rafId = null;
+    function scheduleRender() {
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+            rafId = null;
+            render();
+        });
+    }
+
+    window.addEventListener('resize', scheduleRender);
+
+    if (articleEl) {
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(scheduleRender).observe(articleEl);
+        }
+        articleEl.querySelectorAll('img').forEach((img) => {
+            if (!img.complete) img.addEventListener('load', scheduleRender, { once: true });
+        });
+    }
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(scheduleRender);
+    }
+
     render();
 }
 
